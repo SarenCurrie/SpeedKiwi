@@ -32,3 +32,5 @@
 
 # ROS
 catkin_ws/build/
+catkin_ws/devel/_setup_util.py
+catkin_ws/devel/share/test/cmake/testConfig.cmake
