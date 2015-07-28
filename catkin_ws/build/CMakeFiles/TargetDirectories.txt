@@ -1,6 +1,0 @@
-/Users/Saren/Documents/Uni/306/SpeedKiwi/catkin_ws/build/CMakeFiles/download_extra_data.dir
-/Users/Saren/Documents/Uni/306/SpeedKiwi/catkin_ws/build/test/CMakeFiles/_catkin_empty_exported_target.dir
-/Users/Saren/Documents/Uni/306/SpeedKiwi/catkin_ws/build/CMakeFiles/tests.dir
-/Users/Saren/Documents/Uni/306/SpeedKiwi/catkin_ws/build/CMakeFiles/doxygen.dir
-/Users/Saren/Documents/Uni/306/SpeedKiwi/catkin_ws/build/CMakeFiles/clean_test_results.dir
-/Users/Saren/Documents/Uni/306/SpeedKiwi/catkin_ws/build/CMakeFiles/run_tests.dir

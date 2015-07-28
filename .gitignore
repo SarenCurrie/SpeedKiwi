@@ -31,4 +31,4 @@
 *.pyc
 
 # ROS
-catkin-ws/build
+catkin_ws/build/
