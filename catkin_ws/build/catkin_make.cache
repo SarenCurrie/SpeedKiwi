@@ -1,0 +1,2 @@
+test
+-DCATKIN_DEVEL_PREFIX=/Users/Saren/Documents/Uni/306/SpeedKiwi/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/Users/Saren/Documents/Uni/306/SpeedKiwi/catkin_ws/install -G Unix Makefiles

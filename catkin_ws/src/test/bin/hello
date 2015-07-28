@@ -1,0 +1,7 @@
+#! /usr/bin/env python
+
+import tutorial.hello
+
+
+if __name__ == '__main__':
+    tutorial.hello.say('my friend!')
