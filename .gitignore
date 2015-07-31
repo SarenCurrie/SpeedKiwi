@@ -36,6 +36,10 @@ catkin_ws/devel/_setup_util.py
 catkin_ws/devel/share/test/cmake/testConfig.cmake
 catkin_ws/devel/.catkin
 catkin_ws/devel/.rosinstall
-catkin_ws/devel/lib/pkgconfig/test.pc
-catkin_ws/devel/lib/python2.7/site-packages/tutorial/__init__.py
+catkin_ws/devel/lib/pkgconfig/
+catkin_ws/devel/lib/python2.7/site-packages/tutorial/
 catkin_ws/devel/setup.sh
+catkin_ws/devel/setup.bash
+catkin_ws/devel/setup.zsh
+catkin_ws/build
+catkin_ws/build/*
