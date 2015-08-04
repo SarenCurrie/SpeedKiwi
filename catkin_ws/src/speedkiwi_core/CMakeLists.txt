@@ -1,15 +1,16 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(py_demo)
+project(speedkiwi_core)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
+find_package(catkin REQUIRED
   roscpp
   rospy
   std_msgs
   message_generation
 )
+
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -29,10 +30,10 @@ catkin_python_setup()
 ## * Let MSG_DEP_SET be the set of packages whose message types you use in
 ##   your messages/services/actions (e.g. std_msgs, actionlib_msgs, ...).
 ## * In the file package.xml:
+##   * add a build_depend tag for "message_generation"
 ##   * add a build_depend and a run_depend tag for each package in MSG_DEP_SET
-##   * If MSG_DEP_SET isn't empty the following dependencies might have been
-##     pulled in transitively but can be declared for certainty nonetheless:
-##     * add a build_depend tag for "message_generation"
+##   * If MSG_DEP_SET isn't empty the following dependency has been pulled in
+##     but can be declared for certainty nonetheless:
 ##     * add a run_depend tag for "message_runtime"
 ## * In this file (CMakeLists.txt):
 ##   * add "message_generation" and every package in MSG_DEP_SET to
@@ -45,10 +46,10 @@ catkin_python_setup()
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
- add_message_files(
-   FILES
-	my_msg.msg
- )
+add_message_files(
+  FILES
+  move.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -65,10 +66,30 @@ catkin_python_setup()
 # )
 
 ## Generate added messages and services with any dependencies listed here
- generate_messages(
-   DEPENDENCIES
-   std_msgs
- )
+generate_messages(
+  DEPENDENCIES
+  std_msgs  # Or other packages containing msgs
+)
+
+################################################
+## Declare ROS dynamic reconfigure parameters ##
+################################################
+
+## To declare and build dynamic reconfigure parameters within this
+## package, follow these steps:
+## * In the file package.xml:
+##   * add a build_depend and a run_depend tag for "dynamic_reconfigure"
+## * In this file (CMakeLists.txt):
+##   * add "dynamic_reconfigure" to
+##     find_package(catkin REQUIRED COMPONENTS ...)
+##   * uncomment the "generate_dynamic_reconfigure_options" section below
+##     and list every .cfg file to be processed
+
+## Generate dynamic reconfigure parameters in the 'cfg' folder
+# generate_dynamic_reconfigure_options(
+#   cfg/DynReconf1.cfg
+#   cfg/DynReconf2.cfg
+# )
 
 ###################################
 ## catkin specific configuration ##
@@ -81,10 +102,9 @@ catkin_python_setup()
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES liveDemo
-   CATKIN_DEPENDS roscpp rospy std_msgs message_runtime geometry_msgs
+#  LIBRARIES speedkiwi_core
+  CATKIN_DEPENDS roscpp rospy std_msgs message_runtime geometry_msgs
 #  DEPENDS system_lib
-
 )
 
 ###########
@@ -93,40 +113,28 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-# include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
 )
-
-
-
-
-## Declare a cpp library
-# add_library(liveDemo
-#   src/${PROJECT_NAME}/liveDemo.cpp
+## Declare a C++ library
+# add_library(speedkiwi_core
+#   src/${PROJECT_NAME}/speedkiwi_core.cpp
 # )
 
-install(PROGRAMS src/mypub.py
-        DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+## Add cmake target dependencies of the library
+## as an example, code may need to be generated before libraries
+## either from message generation or dynamic reconfigure
+# add_dependencies(speedkiwi_core ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-# add_executable(mypub_node src/mypub.py)
-# target_link_libraries(mypub_node ${catkin_LIBRARIES})
-# add_dependencies(mypub_node ${catkin_EXPORTED_TARGETS})
+## Declare a C++ executable
+# add_executable(speedkiwi_core_node src/speedkiwi_core_node.cpp)
 
-add_executable(mysub_node src/mysub.cpp)
-target_link_libraries(mysub_node ${catkin_LIBRARIES})
-add_dependencies(mysub_node ${catkin_EXPORTED_TARGETS})
-
-
-## Declare a cpp executable
-# add_executable(liveDemo_node src/liveDemo_node.cpp)
-
-## Add cmake target dependencies of the executable/library
-## as an example, message headers may need to be generated before nodes
-# add_dependencies(liveDemo_node liveDemo_generate_messages_cpp)
+## Add cmake target dependencies of the executable
+## same as for the library above
+# add_dependencies(speedkiwi_core_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(liveDemo_node
+# target_link_libraries(speedkiwi_core_node
 #   ${catkin_LIBRARIES}
 # )
 
@@ -139,13 +147,13 @@ add_dependencies(mysub_node ${catkin_EXPORTED_TARGETS})
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-# install(PROGRAMS
-#   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
+install(PROGRAMS
+  src/test.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS liveDemo liveDemo_node
+# install(TARGETS speedkiwi_core speedkiwi_core_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -170,17 +178,10 @@ add_dependencies(mysub_node ${catkin_EXPORTED_TARGETS})
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_liveDemo.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_speedkiwi_core.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-
-
-
-
-
-
-
