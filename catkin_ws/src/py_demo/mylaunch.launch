@@ -1,0 +1,10 @@
+<launch>
+
+  <group ns="robot_0">
+    <node pkg="py_demo" name="pubnode" type="mypub.py"/>
+  </group>
+
+  <group ns="robot_1">
+    <node pkg="py_demo" name="pubnode" type="mypub.py"/>
+  </group>
+</launch>
