@@ -7,14 +7,15 @@ import rospy
 
 class Robot(object):
     """docstring for Robot"""
-    def __init__(self, robot_id, velocity, angular_velocity, x_offset, y_offset, theta_offset):
+    def __init__(self, robot_id, top_speed, angular_velocity, x_offset, y_offset, theta_offset):
         super(Robot, self).__init__()
         self.robot_id = robot_id
-        self.velocity = velocity
+        self.top_speed = top_speed
         self.x_offset = x_offset
         self.y_offset = y_offset
         self.theta_offset = theta_offset
         self.odometry = ""
+        self.velocity = Twist()
         self.is_moving = False
         
         def odometry_handler(data):
@@ -23,28 +24,32 @@ class Robot(object):
 
         rospy.Subscriber("/" + self.robot_id + "/odom", Odometry, odometry_handler)
 
+        # Wait for odometry data
+        while self.odometry == "":
+            # wait
+            print("waiting")
+
     def forward(self, distance):
         """docstring for handle_position"""
         if not self.odometry == "":
             
             if not self.is_blocked() and not self.is_moving:
-                publisher = rospy.Publisher("/" + self.robot_id + "/move", move, queue_size=10)
+                # publisher = rospy.Publisher("/move", move, queue_size=10)
                 p = self.get_position()
                 x = distance * sin(p['theta'])
                 y = distance * cos(p['theta'])
-                x_normal = x * self.velocity / distance
-                y_normal = y * self.velocity / distance
+                x_normal = x * self.top_speed / distance
+                y_normal = y * self.top_speed / distance
 
-                msg = move()
-                msg.x = x_normal
-                msg.y = y_normal
+                msg = Twist()
+                msg.linear.x = self.top_speed
+                # msg.y = y_normal
+                self.velocity = msg
 
-                publisher.publish(msg)
+                # publisher.publish(msg)
 
-        else:
-            rate = rospy.Rate(10)
-            rate.sleep()
-            self.forward(distance)
+                print("set velocity " + str(x_normal))
+
     # def rotate(self, angle):
     #     """docstring for rotate"""
     #     if not self.odometry == "":
@@ -65,3 +70,7 @@ class Robot(object):
         # TODO
         return False
 
+    def execute(self):
+        """docstring for execute"""
+        publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
+        publisher.publish(self.velocity)

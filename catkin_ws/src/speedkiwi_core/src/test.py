@@ -11,4 +11,5 @@ robot.forward(1)
 rate = rospy.Rate(10)
 
 while not rospy.is_shutdown():
+    robot.execute()
     rate.sleep()
