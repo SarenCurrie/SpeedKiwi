@@ -12,6 +12,7 @@ source devel/setup.bash
 ## Running Basic Demo
 ```
 roslaunch liveDemo mylaunch.launch
-\#new terminal
-rosrun stage_ros stageros liveDemo/world/myworld.world
+#new terminal
+source devel/setup.bash
+rosrun stage_ros stageros src/liveDemo/world/myworld.world
 ```
