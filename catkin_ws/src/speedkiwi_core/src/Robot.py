@@ -2,7 +2,6 @@ from geometry_msgs.msg import Twist, Pose
 from nav_msgs.msg import Odometry
 from std_msgs.msg import String
 from math import sin, cos
-from speedkiwi_core.msg import move
 import rospy
 
 class Robot(object):
@@ -14,7 +13,7 @@ class Robot(object):
         self.x_offset = x_offset
         self.y_offset = y_offset
         self.theta_offset = theta_offset
-        self.odometry = ""
+        self.odometry = None
         self.velocity = Twist()
         self.is_moving = False
         
@@ -24,31 +23,29 @@ class Robot(object):
 
         rospy.Subscriber("/" + self.robot_id + "/odom", Odometry, odometry_handler)
 
-        # Wait for odometry data
-        while self.odometry == "":
-            # wait
+        # Wait for odometry datax`
+        while self.odometry is None:
             print("waiting")
 
-    def forward(self, distance):
-        """docstring for handle_position"""
-        if not self.odometry == "":
-            
-            if not self.is_blocked() and not self.is_moving:
-                # publisher = rospy.Publisher("/move", move, queue_size=10)
-                p = self.get_position()
-                x = distance * sin(p['theta'])
-                y = distance * cos(p['theta'])
-                x_normal = x * self.top_speed / distance
-                y_normal = y * self.top_speed / distance
+    def forward(self):
+        """starts the robot moving at it's top speed"""
+        self.set_velocity(self.top_speed)
 
+    def stop(self):
+        """Stops the robot from moving"""
+        self.set_velocity(0)
+
+    def set_velocity(self, linear):
+        """docstring for set_velocity"""
+        if not self.odometry is None:
+            if not self.is_blocked() and not self.is_moving:
                 msg = Twist()
-                msg.linear.x = self.top_speed
-                # msg.y = y_normal
+                msg.linear.x = linear
                 self.velocity = msg
 
-                # publisher.publish(msg)
-
-                print("set velocity " + str(x_normal))
+    def set_angular_velocity(self):
+        """docstring for set_angular_velocity"""
+        # TODO
 
     # def rotate(self, angle):
     #     """docstring for rotate"""
@@ -72,5 +69,10 @@ class Robot(object):
 
     def execute(self):
         """docstring for execute"""
+        self.execute_callback()
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
+
+    def execute_callback(self):
+        """To be overridden in extending classes"""
+        pass
