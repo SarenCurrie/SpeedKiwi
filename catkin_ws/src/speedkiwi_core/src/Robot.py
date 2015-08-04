@@ -6,10 +6,11 @@ import rospy
 
 class Robot(object):
     """docstring for Robot"""
-    def __init__(self, robot_id, top_speed, angular_velocity, x_offset, y_offset, theta_offset):
+    def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
         super(Robot, self).__init__()
         self.robot_id = robot_id
         self.top_speed = top_speed
+        self.angular_top_speed = angular_top_speed
         self.x_offset = x_offset
         self.y_offset = y_offset
         self.theta_offset = theta_offset
@@ -38,12 +39,12 @@ class Robot(object):
     def set_velocity(self, linear):
         """docstring for set_velocity"""
         if not self.odometry is None:
-            if not self.is_blocked() and not self.is_moving:
+            if not self.is_blocked():
                 msg = Twist()
                 msg.linear.x = linear
                 self.velocity = msg
 
-    def set_angular_velocity(self):
+    def set_angular_velocity(self, angular):
         """docstring for set_angular_velocity"""
         # TODO
 
