@@ -9,10 +9,9 @@ catkin_make
 source devel/setup.bash
 ```
 
-## Running Basic Demo
+## Running through launch
 ```
-roslaunch liveDemo mylaunch.launch
-#new terminal
+catkin_make
 source devel/setup.bash
-rosrun stage_ros stageros src/liveDemo/world/myworld.world
+roslaunch speedkiwi_core mylaunch.launch
 ```
