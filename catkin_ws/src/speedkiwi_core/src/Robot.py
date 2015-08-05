@@ -47,10 +47,34 @@ class Robot(object):
         """docstring for set_angular_velocity"""
         # TODO
 
-    # def rotate(self, angle):
-    #     """docstring for rotate"""
-    #     if not self.odometry == "":
-    #
+
+    def rotate(self, angle):
+        """docstring for rotate"""
+        if not self.odometry == "":
+            msg = Twist()
+            msg.angular.z = angle
+            self.velocity = msg
+
+    def start_rotate(self):
+        self.rotate(self.angular_velocity)
+
+    def start_rotate_opposite(self):
+        self.rotate(-self.angular_velocity)
+
+    def stop_rotate(self):
+        self.rotate(0)
+
+    # TODO 
+    def rotate_to_north(self):
+        stuff = self.get_position()
+        stuff2 = stuff['theta']
+        if stuff2 < .5 or (stuff2 > -.5 and stuff2 < 0):
+            self.start_rotate_opposite()
+            print("Stuck")
+        else:
+            self.stop_rotate()
+        
+        print(str(stuff['theta']) + 'word')
 
     def get_position(self):
         """gets this robot's position relative to where it started"""
@@ -75,4 +99,6 @@ class Robot(object):
 
     def execute_callback(self):
         """To be overridden in extending classes"""
+        stuff = self.get_position()
+        print (stuff['theta'])
         pass
