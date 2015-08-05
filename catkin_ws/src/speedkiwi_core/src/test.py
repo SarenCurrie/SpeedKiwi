@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
-import Robot
+from Robot import Robot
 from DifferentRobot import DifferentRobot
 import rospy
 
 rospy.init_node('test')
-robot = Robot.Robot('robot_0', 0.5, 0.5, 0, 0, 0)
+robot = Robot('robot_0', 0.5, 0.5, 0, 0, 0)
 robot1 = DifferentRobot('robot_1', 2, 2, 0, 0, 0)
 
 robot.forward()
