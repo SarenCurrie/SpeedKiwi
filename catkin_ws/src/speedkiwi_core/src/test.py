@@ -5,7 +5,7 @@ import Animal
 import rospy
 
 rospy.init_node('test')
-robot = Robot.Robot('robot_0', 0.5, 0.5, 0 , 0, 0)
+robot = Robot.Robot('robot_0', 0.5, 0.5, 1 , 1, 0)
 robot2 = Animal.Animal('robot_1')
 
 robot.forward()

@@ -9,8 +9,8 @@ from Robot import Robot
 
 class Animal(Robot):
 	def __init__(self, name):
-		Robot.__init__(self,name, 1, 3, 1, 1, 0)
+		Robot.__init__(self,name, 100, 3, 1, 1, 0)
 
 	def forward(self):
-		self.set_velocity(random.random()*10)
+		self.set_velocity(10)
 	

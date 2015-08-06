@@ -18,4 +18,4 @@ define myRobot position
 
 # throw in a robot 
 myRobot( pose [ 0 0 0 45 ] name "bob" color "random" ) #commanded by robot_0/cmd_vel
-myRobot( pose [ 0 0 0 0 ] name "lucy" color "random")
+myRobot( pose [ 1 1 0 0 ] name "lucy" color "random")
