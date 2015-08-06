@@ -91,14 +91,32 @@ class Robot(object):
         # TODO
         return False
 
+    
+
+    count = 0
+    spinning = False
+
     def execute(self):
         """docstring for execute"""
         self.execute_callback()
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
+        count+=1
 
     def execute_callback(self):
         """To be overridden in extending classes"""
         stuff = self.get_position()
+
+        if counter % 100 == 0 and not counter % 200 == 0:
+            spinning = True
+
+        if counter % 200 == 0:
+            spinning = False
+            start_rotate_opposite
+
+        if spinning:
+            rotate_to_north
+
+
         print (stuff['theta'])
         pass
