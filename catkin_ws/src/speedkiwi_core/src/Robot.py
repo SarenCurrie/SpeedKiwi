@@ -10,6 +10,7 @@ class Robot(object):
         super(Robot, self).__init__()
         self.robot_id = robot_id
         self.top_speed = top_speed
+        self.angular_velocity = angular_velocity
         self.x_offset = x_offset
         self.y_offset = y_offset
         self.theta_offset = theta_offset
@@ -43,38 +44,56 @@ class Robot(object):
                 msg.linear.x = linear
                 self.velocity = msg
 
-    def set_angular_velocity(self):
-        """docstring for set_angular_velocity"""
-        # TODO
-
-
-    def rotate(self, angle):
-        """docstring for rotate"""
+    def set_angular_velocity(self, speed):
+        """Sets the twist message to include rotation at the given speed"""
         if not self.odometry == "":
             msg = Twist()
-            msg.angular.z = angle
+            msg.angular.z = speed
             self.velocity = msg
+ 
 
     def start_rotate(self):
-        self.rotate(self.angular_velocity)
+        self.set_angular_velocity(self.angular_velocity)
 
     def start_rotate_opposite(self):
-        self.rotate(-self.angular_velocity)
+        self.set_angular_velocity(-self.angular_velocity)
 
     def stop_rotate(self):
-        self.rotate(0)
+        self.set_angular_velocity(0)
 
-    # TODO 
+    # TODO change these to require one call and exit when done (also more accuracy)
     def rotate_to_north(self):
-        stuff = self.get_position()
-        stuff2 = stuff['theta']
-        if stuff2 < .5 or (stuff2 > -.5 and stuff2 < 0):
-            self.start_rotate_opposite()
-            print("Stuck")
+        theta = self.position['theta']
+        if not (theta < .05 and theta > -.05):
+            self.start_rotate()
+            print("Spin to north")
         else:
             self.stop_rotate()
         
-        print(str(stuff['theta']) + 'word')
+
+    def rotate_to_south(self):
+        theta = self.position['theta']
+        if not (theta > .95 or theta < -.95):
+            self.start_rotate()
+            print("Spin to south")
+        else:
+            self.stop_rotate()
+
+    def rotate_to_east(self):
+        theta = self.position['theta']
+        if not (theta > .45 and theta < .55):
+            self.start_rotate()
+            print("Spin to east")
+        else:
+            self.stop_rotate()
+
+    def rotate_to_west(self):
+        theta = self.position['theta']
+        if not (theta < -.45 and theta > -.55):
+            self.start_rotate()
+            print("Spin to east")
+        else:
+            self.stop_rotate()
 
     def get_position(self):
         """gets this robot's position relative to where it started"""
@@ -93,30 +112,33 @@ class Robot(object):
 
     
 
-    count = 0
+    counter = 0
     spinning = False
+    position = 0
 
     def execute(self):
         """docstring for execute"""
+        self.position = self.get_position()
         self.execute_callback()
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
-        count+=1
+        
+        
+        self.counter+=1
 
     def execute_callback(self):
         """To be overridden in extending classes"""
-        stuff = self.get_position()
 
-        if counter % 100 == 0 and not counter % 200 == 0:
-            spinning = True
+        if self.counter % 100 == 0 and not self.counter % 200 == 0:
+            self.spinning = True
 
-        if counter % 200 == 0:
-            spinning = False
-            start_rotate_opposite
+        if self.counter % 200 == 0:
+            self.spinning = False
+            self.start_rotate_opposite()
 
-        if spinning:
-            rotate_to_north
+        if self.spinning == True:
+            self.rotate_to_west()
 
 
-        print (stuff['theta'])
+        print (str(self.position['theta']) + " " + str(self.spinning))
         pass

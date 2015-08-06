@@ -24,7 +24,7 @@ while not rospy.is_shutdown():
     #     #robot.forward()
     #     #robot.rotate_to_north()
 
-    # if counter % 200 == 0:
+    # if counter % 200 == 0: 
     #     robot.forward()
     #     #robot.stop_rotate()
 
