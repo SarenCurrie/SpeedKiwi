@@ -23,7 +23,6 @@ class Robot(object):
             self.odometry = data
 
         rospy.Subscriber("/" + self.robot_id + "/odom", Odometry, odometry_handler)
-
         # Wait for odometry datax`
         while self.odometry is None:
             print("waiting")
@@ -77,3 +76,8 @@ class Robot(object):
     def execute_callback(self):
         """To be overridden in extending classes"""
         pass
+
+         
+                 
+                
+
