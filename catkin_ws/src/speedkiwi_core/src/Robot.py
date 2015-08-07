@@ -58,6 +58,9 @@ class Robot(object):
     def start_rotate_opposite(self):
         self.set_angular_velocity(-self.angular_velocity)
 
+    def rotate_at_speed(self, angular_speed):
+        self.set_angular_velocity(angular_speed)
+
     def stop_rotate(self):
         self.set_angular_velocity(0)
 
@@ -67,8 +70,10 @@ class Robot(object):
         if not (theta < .05 and theta > -.05):
             self.start_rotate()
             print("Spin to north")
+            return False
         else:
             self.stop_rotate()
+            return True
         
 
     def rotate_to_south(self):
@@ -76,24 +81,31 @@ class Robot(object):
         if not (theta > .95 or theta < -.95):
             self.start_rotate()
             print("Spin to south")
+            return False
         else:
             self.stop_rotate()
+            return True
 
     def rotate_to_east(self):
         theta = self.position['theta']
         if not (theta > .45 and theta < .55):
             self.start_rotate()
             print("Spin to east")
+            return False
         else:
             self.stop_rotate()
+            return True
 
     def rotate_to_west(self):
-        theta = self.position['theta']
+        theta = self.get_position()['theta']
+
         if not (theta < -.45 and theta > -.55):
             self.start_rotate()
-            print("Spin to east")
+            print("Spin to west")
+            return False
         else:
             self.stop_rotate()
+            return True
 
     def get_position(self):
         """gets this robot's position relative to where it started"""
@@ -115,30 +127,50 @@ class Robot(object):
     counter = 0
     spinning = False
     position = 0
+    task_executing = False
+    current_task = None
 
     def execute(self):
         """docstring for execute"""
         self.position = self.get_position()
-        self.execute_callback()
+        if not self.task_executing:
+            self.execute_callback()
+        self.execute_task()
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
         
-        
+        print (str(self.position['theta']) + " " + str(self.spinning))
         self.counter+=1
 
     def execute_callback(self):
         """To be overridden in extending classes"""
-
+        #if not self.task_executing:
         if self.counter % 100 == 0 and not self.counter % 200 == 0:
-            self.spinning = True
+            #self.spinning = True
+            self.current_task = "rotate_to_west"
+            self.task_executing = True
 
         if self.counter % 200 == 0:
-            self.spinning = False
-            self.start_rotate_opposite()
+            #self.spinning = False
+            #self.start_rotate_opposite()
+            self.current_task = "rotate_to_east"
+            self.task_executing = True
 
-        if self.spinning == True:
-            self.rotate_to_west()
+        #self.execute_task()
+
+        #if self.spinning == True:
+        #    self.rotate_to_west()
 
 
-        print (str(self.position['theta']) + " " + str(self.spinning))
+        
         pass
+
+    def execute_task(self):
+        if self.current_task == "rotate_to_west":
+            finished = self.rotate_to_west()
+
+        elif self.current_task == "rotate_to_east":
+            finished = self.rotate_to_east()
+
+        if finished:
+            self.task_executing = False
