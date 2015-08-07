@@ -1,5 +1,8 @@
 include "orchardWalls.inc"
 include "Arch.inc"
+include "TreePost.inc"
+include "PickerRobot.inc"
+#include "CarrierRobot.inc"
 
 name "SpeedKiwiOrchard"
 
@@ -15,8 +18,14 @@ size [100 100]
 orchardWalls( 
   name "orchardWalls"
   bitmap "testmap.png"
-  size [50.000 50.000 5.500]
+  size [85.000 85.000 5.500]
   pose [0.000 0.000 0.000 0.000]
+)
+
+
+TreePost(
+  name "Post1"
+  pose [5.000 5.000 0.000 0.000]
 )
 
 
@@ -25,21 +34,8 @@ Arch(
   pose [5.000 16.000 0.000 0.000]
 )
 
-# define newentity oldentity ()
-define myRobot position 
-( 
-  #properties as name value pairs
-  size [0.35 0.35 0.25] 
-  drive "diff" 
-  block(
-  	points 3 
-  	point[0] [0 0] 
-  	point[1] [1 0] 
-  	point[2] [1 1] 
-  	z [0 1]
-    )
-) 
+
 
 # throw in a robot 
-myRobot( pose [ 0 0 0 45 ] name "bob" color "random" ) #commanded by robot_0/cmd_vel
-myRobot( pose [ 0 0 0 0 ] name "lucy" color "random") 
+PickerRobot( pose [ -5 -5 0 45 ] name "pickerRobot" color "pink" ) #commanded by robot_0/cmd_vel
+PickerRobot( pose [ 0 0 0 0 ] name "carrierRobot" color "cyan") 
