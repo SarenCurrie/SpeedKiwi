@@ -1,5 +1,0 @@
-<launch>
-  <group ns="robot_0">
-    <node pkg="py_demo" name="pubnode" type="mover.py"/>
-  </group>
-</launch>
