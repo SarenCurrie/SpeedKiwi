@@ -5,8 +5,19 @@ from math import sin, cos
 import rospy
 
 class Robot(object):
-    """docstring for Robot"""
+    """
+    Provides a generic class to represent robots and other objects in stage.
+    Stage only allows robots initialised in the world file to be manipulated by ROS,
+    therefore we have to initialise the robots in the world file as well as this class.
+    """
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
+        """
+        robot_id: The robot's name in stage
+        top_speedL The robot's maximum speed
+        x_offset: The x coordinate the robot starts at in stage
+        y_offset: The y coordinate the robot starts at in stage
+        theta_offset: The direction this robot starts facing in stage
+        """
         super(Robot, self).__init__()
         self.robot_id = robot_id
         self.top_speed = top_speed
@@ -19,7 +30,9 @@ class Robot(object):
         self.is_moving = False
         
         def odometry_handler(data):
-            """docstring for fname"""
+            """
+            Handles odometry messages from stage
+            """
             self.odometry = data
 
         rospy.Subscriber("/" + self.robot_id + "/odom", Odometry, odometry_handler)
@@ -37,7 +50,7 @@ class Robot(object):
         self.set_velocity(0)
 
     def set_velocity(self, linear):
-        """docstring for set_velocity"""
+        """Sets the robot's velocity in m/s"""
         if not self.odometry is None:
             if not self.is_blocked():
                 msg = Twist()
@@ -54,7 +67,7 @@ class Robot(object):
     #
 
     def get_position(self):
-        """gets this robot's position relative to where it started"""
+        """gets this robot's position"""
         position = self.odometry.pose.pose.position
         rotation = self.odometry.pose.pose.orientation
         return {
@@ -69,11 +82,14 @@ class Robot(object):
         return False
 
     def execute(self):
-        """docstring for execute"""
+        """
+        To be called by the ros loop. This method sends the Twist message to stage.
+        This method should not be overridden instead use execute_callback()
+        """
         self.execute_callback()
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
 
     def execute_callback(self):
-        """To be overridden in extending classes"""
+        """To be overridden in extending classes to define behaviours for each robot."""
         pass
