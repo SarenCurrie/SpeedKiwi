@@ -1,5 +1,29 @@
-# simulation property milliseconds per update step 
-interval_sim 100 
+include "orchardWalls.inc"
+include "Arch.inc"
+
+name "SpeedKiwiOrchard"
+
+# Simulation Property: Number of milliseconds per update step 
+interval_sim 100
+
+# Size (in meters) of a pixel in Stage
+resolution 0.02
+
+# Size of the world in meters
+size [100 100] 
+
+orchardWalls( 
+  name "orchardWalls"
+  bitmap "testmap.png"
+  size [50.000 50.000 5.500]
+  pose [0.000 0.000 0.000 0.000]
+)
+
+
+Arch(
+  name "arcTest"
+  pose [5.000 16.000 0.000 0.000]
+)
 
 # define newentity oldentity ()
 define myRobot position 
@@ -18,4 +42,4 @@ define myRobot position
 
 # throw in a robot 
 myRobot( pose [ 0 0 0 45 ] name "bob" color "random" ) #commanded by robot_0/cmd_vel
-myRobot( pose [ 0 0 0 0 ] name "lucy" color "random")
+myRobot( pose [ 0 0 0 0 ] name "lucy" color "random") 
