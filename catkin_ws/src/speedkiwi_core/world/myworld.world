@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # simulation property milliseconds per update step 
 interval_sim 100 
 
@@ -19,3 +20,39 @@ define myRobot position
 # throw in a robot 
 myRobot( pose [ 0 0 0 0 ] name "bob" color "random" ) #commanded by robot_0/cmd_vel
 myRobot( pose [ 0 0 0 45 ] name "lucy" color "random")
+=======
+include "orchardWalls.inc"
+include "PergolaArch.inc"
+include "PergolaPost.inc"
+include "PergolaBrace.inc"
+include "PickerRobot.inc"
+
+# Positions of the orchard objects
+include "PergolaPostPositions.inc"
+include "PergolaArchPositions.inc"
+include "PergolaBracePositions.inc"
+
+#include "CarrierRobot.inc"
+
+name "SpeedKiwiOrchard"
+
+# Simulation Property: Number of milliseconds per update step 
+interval_sim 100
+
+# Size (in meters) of a pixel in Stage
+resolution 0.02
+
+# Size of the world in meters
+size [150 150] 
+
+orchardWalls( 
+  name "orchardWalls"
+  bitmap "testmap.png"
+  size [95.000 95.000 5.500]
+  pose [1.750 35.000 0.000 0.000]
+)
+
+# throw in a robot
+PickerRobot( pose [ -20 -5.000 0.000 45.000 ] name "pickerRobot" color "pink" ) #commanded by robot_0/cmd_vel
+PickerRobot( pose [ 1.750 -5.000 0.000 90.000 ] name "carrierRobot" color "cyan") 
+>>>>>>> Stashed changes
