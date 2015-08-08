@@ -9,7 +9,7 @@ rospy.init_node('test')
 robot = Robot('robot_0', 0.5, 0.5, 0, 0, 0)
 robot1 = DifferentRobot('robot_1', 2, 2, 0, 0, 0)
 
-robot.add_action(MoveAction(5))
+robot.add_action(MoveAction(100))
 robot1.forward()
 
 rate = rospy.Rate(10)

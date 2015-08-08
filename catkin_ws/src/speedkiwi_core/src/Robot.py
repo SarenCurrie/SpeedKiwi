@@ -44,7 +44,7 @@ class Robot(object):
 
         # Wait for odometry datax`
         while self.odometry is None:
-            print("waiting")
+            rospy.loginfo("Waiting for odometry information")
 
     def forward(self):
         """starts the robot moving at it's top speed"""
