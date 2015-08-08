@@ -2,12 +2,12 @@ from geometry_msgs.msg import Twist, Pose
 from nav_msgs.msg import Odometry
 from std_msgs.msg import String
 from math import sin, cos
+from Action import Action
 import rospy
 import tf 
 from tf.transformations import euler_from_quaternion
 
 class Robot(object):
-
     """
     Provides a generic class to represent robots and other objects in stage.
     Stage only allows robots initialised in the world file to be manipulated by ROS,
@@ -15,7 +15,6 @@ class Robot(object):
     """
 
     NO_ACTION = Action()
-    counter = 0
     pi = 3.14159265359
 
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
@@ -29,7 +28,7 @@ class Robot(object):
         super(Robot, self).__init__()
         self.robot_id = robot_id
         self.top_speed = top_speed
-        self.angular_velocity = angular_velocity
+        self.angular_top_speed = angular_top_speed
         self.x_offset = x_offset
         self.y_offset = y_offset
         self.theta_offset = theta_offset
@@ -41,14 +40,16 @@ class Robot(object):
         self.current_rotation = None
         
         def odometry_handler(data):
-            """docstring for fname"""
+            """
+            Handles odometry messages from stage
+            """
             self.odometry = data
 
         rospy.Subscriber("/" + self.robot_id + "/odom", Odometry, odometry_handler)
 
         # Wait for odometry datax`
         while self.odometry is None:
-            print("waiting")
+            rospy.loginfo("Waiting for odometry information")
 
         self.position = self.get_position()
 
@@ -137,7 +138,7 @@ class Robot(object):
             return True
 
     def get_position(self):
-        """gets this robot's position relative to where it started"""
+        """gets this robot's position"""
         position = self.odometry.pose.pose.position
         rotation = self.odometry.pose.pose.orientation
         euler = euler_from_quaternion(quaternion=(rotation.x, rotation.y, rotation.z, rotation.w)) # Convert to usable angle
@@ -152,9 +153,9 @@ class Robot(object):
         # TODO
         return False
 
-    
-
-
+    def add_action(self, action):
+        """Adds an action to this robot's action queue"""
+        self._action_queue.append(action)
 
     def execute(self):
         """
@@ -176,9 +177,6 @@ class Robot(object):
         action.during(self)
 
         self.position = self.get_position()
-        # if not self.rotation_executing: # If already doing something just continue doing it
-        #     self.execute_callback()
-        # self.execute_rotation()
 
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
@@ -190,28 +188,4 @@ class Robot(object):
 
     def execute_callback(self):
         """To be overridden in extending classes to define behaviours for each robot."""
-
-        # if self.counter % 100 == 0 and not self.counter % 200 == 0:
-        #     self.current_rotation = "rotate_to_north"
-        #     self.rotation_executing = True
-        #
-        # if self.counter % 200 == 0:
-        #     self.current_rotation = "rotate_to_south"
-        #     self.rotation_executing = True
-        #
         pass
-
-    def perform_rotation(self):
-        """If a rotation has been started but not finished it will be executed each 'tick'"""
-        # finished = False
-        # if self.current_rotation == "rotate_to_west":
-        #     finished = self.rotate_to_west()
-        # elif self.current_rotation == "rotate_to_east":
-        #     finished = self.rotate_to_east()
-        # elif self.current_rotation == "rotate_to_north":
-        #     finished = self.rotate_to_north()
-        # elif self.current_rotation == "rotate_to_south":
-        #     finished = self.rotate_to_south()
-        # if finished:
-        #     self.is_rotating = False
-
