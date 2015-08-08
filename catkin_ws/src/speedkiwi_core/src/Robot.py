@@ -2,6 +2,7 @@ from geometry_msgs.msg import Twist, Pose
 from nav_msgs.msg import Odometry
 from std_msgs.msg import String
 from math import sin, cos
+from Action import Action
 import rospy
 
 class Robot(object):
@@ -10,6 +11,10 @@ class Robot(object):
     Stage only allows robots initialised in the world file to be manipulated by ROS,
     therefore we have to initialise the robots in the world file as well as this class.
     """
+
+    NO_ACTION = Action()
+    _action_queue = []
+
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
         """
         robot_id: The robot's name in stage
@@ -81,12 +86,28 @@ class Robot(object):
         # TODO
         return False
 
+    def add_action(self, action):
+        """Adds an action to this robot's action queue"""
+        self._action_queue.append(action)
+
     def execute(self):
         """
         To be called by the ros loop. This method sends the Twist message to stage.
         This method should not be overridden instead use execute_callback()
         """
         self.execute_callback()
+        action = self.NO_ACTION
+        if self._action_queue:
+            action = self._action_queue[0]
+            if action.is_finished(self):
+                action.finish(self)
+                self._action_queue.remove(action)
+                if self._action_queue:
+                    action = self._action_queue[0]
+                    action.start(self)
+                else:
+                    action = self.NO_ACTION
+        action.during(self)
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
 
