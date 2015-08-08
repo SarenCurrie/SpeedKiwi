@@ -10,8 +10,7 @@ class Robot(object):
     """docstring for Robot"""
 
     counter = 0
-    spinning = False
-    position = 0
+    position = None
     task_executing = False
     current_task = None
     pi = 3.14159265359
@@ -43,13 +42,13 @@ class Robot(object):
 
     def forward(self):
         """starts the robot moving at it's top speed"""
-        self.set_velocity(self.top_speed)
+        self.set_linear_velocity(self.top_speed)
 
     def stop(self):
         """Stops the robot from moving"""
-        self.set_velocity(0)
+        self.set_linear_velocity(0)
 
-    def set_velocity(self, linear):
+    def set_linear_velocity(self, linear):
         """docstring for set_velocity"""
         if not self.odometry is None:
             if not self.is_blocked() and not self.is_moving:
@@ -66,19 +65,20 @@ class Robot(object):
  
 
     def start_rotate(self):
+        """Sets rotation to speed definied in constructor (anti clockwise) """
         self.set_angular_velocity(self.angular_velocity)
 
     def start_rotate_opposite(self):
+        """Sets rotation to speed definied in constructor (clockwise) """
         self.set_angular_velocity(-self.angular_velocity)
 
-    def rotate_at_speed(self, angular_speed):
-        self.set_angular_velocity(angular_speed)
-
     def stop_rotate(self):
+        """Stops the robot from rotating"""
         self.set_angular_velocity(0)
 
-    # TODO change these to require one call and exit when done (also more accuracy)
-    def rotate_to_north(self):
+    def rotate_to_north(self): # NOTE: north is defined in the direction of the positive x axis
+        """Sets the rotation until the robot is facing north
+        Returns true if facing north (false otherwise)"""
         theta = self.position['theta']
         if not (theta < .1 and theta > -.1):
             self.start_rotate()
@@ -90,6 +90,8 @@ class Robot(object):
         
 
     def rotate_to_south(self):
+        """Sets the rotation until the robot is facing south
+        Returns true if facing south (false otherwise)"""
         theta = self.position['theta']
         if not (theta > (self.pi-.1) or theta < (-self.pi+.1)):
             self.start_rotate()
@@ -100,6 +102,8 @@ class Robot(object):
             return True
 
     def rotate_to_west(self):
+        """Sets the rotation until the robot is facing west
+        Returns true if facing west (false otherwise)"""
         theta = self.position['theta']
         if not (theta > ((self.pi/2)-.1) and theta < ((self.pi/2)+.1)):
             self.start_rotate()
@@ -110,6 +114,8 @@ class Robot(object):
             return True
 
     def rotate_to_east(self):
+        """Sets the rotation until the robot is facing east
+        Returns true if facing east (false otherwise)"""
         theta = self.get_position()['theta']
 
         if not (theta < (-(self.pi/2)+.1) and theta > (-(self.pi/2)-.1)):
@@ -124,7 +130,7 @@ class Robot(object):
         """gets this robot's position relative to where it started"""
         position = self.odometry.pose.pose.position
         rotation = self.odometry.pose.pose.orientation
-        euler = euler_from_quaternion(quaternion=(rotation.x, rotation.y, rotation.z, rotation.w))
+        euler = euler_from_quaternion(quaternion=(rotation.x, rotation.y, rotation.z, rotation.w)) # Convert to usable angle
         return {
             'x': position.x + self.x_offset,
             'y': position.y + self.y_offset,
@@ -143,39 +149,30 @@ class Robot(object):
     def execute(self):
         """docstring for execute"""
         self.position = self.get_position()
-        if not self.task_executing:
+        if not self.task_executing: # If already doing something just continue doing it
             self.execute_callback()
         self.execute_task()
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
         
-        print (str(self.position['theta']) + " " + str(self.spinning))
+        print (str(self.position['theta']))
         self.counter+=1
 
     def execute_callback(self):
         """To be overridden in extending classes"""
 
-        #self.forward()
-
-        #if not self.task_executing:
         if self.counter % 100 == 0 and not self.counter % 200 == 0:
-            #self.spinning = True
             self.current_task = "rotate_to_north"
             self.task_executing = True
 
         if self.counter % 200 == 0:
-            #self.spinning = False
-            #self.start_rotate_opposite()
             self.current_task = "rotate_to_south"
             self.task_executing = True
 
-        #self.execute_task()
-
-        if self.spinning == True:
-           self.rotate_to_west()
         pass
 
     def execute_task(self):
+        """If a task has been started but not finished it will be executed each 'tick'"""
         finished = False
         if self.current_task == "rotate_to_west":
             finished = self.rotate_to_west()
