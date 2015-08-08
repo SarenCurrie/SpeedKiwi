@@ -67,7 +67,7 @@ PergolaPost(
 )
 
 ## --------------------------------------------------
-# Row 2 (right side)
+# Row 2 (middle side)
 PergolaPost(
   pose [3.500 0.000 0.000 0.000]
 )
@@ -126,4 +126,66 @@ PergolaPost(
 
 PergolaPost(
   pose [3.500 70.000 0.000 0.000]
+)
+
+## --------------------------------------------------
+# Row 3 (right side)
+PergolaPost(
+  pose [7.000 0.000 0.000 0.000]
+)
+
+PergolaPost(
+  pose [7.000 5.000 0.000 0.000]
+)
+
+PergolaPost(
+  pose [7.000 10.000 0.000 0.000]
+)
+
+PergolaPost(
+  pose [7.000 15.000 0.000 0.000]
+)
+
+PergolaPost(
+  pose [7.000 20.000 0.000 0.000]
+)
+
+PergolaPost(
+  pose [7.000 25.000 0.000 0.000]
+)
+
+PergolaPost(
+  pose [7.000 30.000 0.000 0.000]
+)
+
+PergolaPost(
+  pose [7.000 35.000 0.000 0.000]
+)
+
+PergolaPost(
+  pose [7.000 40.000 0.000 0.000]
+)
+
+PergolaPost(
+  pose [7.000 45.000 0.000 0.000]
+)
+
+PergolaPost(
+  pose [7.000 50.000 0.000 0.000]
+)
+
+PergolaPost(
+  pose [7.000 55.000 0.000 0.000]
+)
+
+PergolaPost(
+  pose [7.000 60.000 0.000 0.000]
+)
+
+PergolaPost(
+  pose [7.000 65.000 0.000 0.000]
+)
+
+PergolaPost(
+  pose [7.000 70.000 0.000 0.000]
 )
