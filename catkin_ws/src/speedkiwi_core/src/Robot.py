@@ -70,11 +70,10 @@ class Robot(object):
 
     def set_angular_velocity(self, speed):
         """Sets the twist message to include rotation at the given speed"""
-        if not self.odometry == "":
+        if not self.odometry is None:
             msg = Twist()
             msg.angular.z = speed
             self.velocity = msg
- 
 
     def start_rotate(self):
         """Sets rotation to speed definied in constructor (anti clockwise) """
