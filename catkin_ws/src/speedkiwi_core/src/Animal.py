@@ -15,6 +15,11 @@ class Animal(Robot):
 		Robot.__init__(self,name, 100, 3, 1, 1, 0)
 
 	def execute_callback(self):
-		#self.set_velocity(random.random())
-		# TODO: Change direction randomly.
-		self.add_action(MoveAction(75))
+		"""Behaviour: run around in circles."""
+		randint = random.randint(1,5)
+
+		if 1 <= randint <= 4:
+			self.forward()
+		else:
+			self.start_rotate()
+

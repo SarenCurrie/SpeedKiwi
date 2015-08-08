@@ -22,11 +22,11 @@ robot.add_action(MoveAction(10))
 robot1.forward()
 animal.forward()
 
-#rate = rospy.Rate(10)
+rate = rospy.Rate(10)
 
 while not rospy.is_shutdown():
     robot.execute()
     robot1.execute()
-    robot.execute()
+    animal.execute()
 
     rate.sleep()
