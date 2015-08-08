@@ -3,9 +3,22 @@ from nav_msgs.msg import Odometry
 from std_msgs.msg import String
 from math import sin, cos
 import rospy
+import tf 
+from tf.transformations import euler_from_quaternion
 
 class Robot(object):
     """docstring for Robot"""
+
+    counter = 0
+    spinning = False
+    position = 0
+    task_executing = False
+    current_task = None
+    pi = 3.14159265359
+
+
+
+
     def __init__(self, robot_id, top_speed, angular_velocity, x_offset, y_offset, theta_offset):
         super(Robot, self).__init__()
         self.robot_id = robot_id
@@ -67,7 +80,7 @@ class Robot(object):
     # TODO change these to require one call and exit when done (also more accuracy)
     def rotate_to_north(self):
         theta = self.position['theta']
-        if not (theta < .05 and theta > -.05):
+        if not (theta < .1 and theta > -.1):
             self.start_rotate()
             print("Spin to north")
             return False
@@ -78,7 +91,7 @@ class Robot(object):
 
     def rotate_to_south(self):
         theta = self.position['theta']
-        if not (theta > .95 or theta < -.95):
+        if not (theta > (self.pi-.1) or theta < (-self.pi+.1)):
             self.start_rotate()
             print("Spin to south")
             return False
@@ -86,22 +99,22 @@ class Robot(object):
             self.stop_rotate()
             return True
 
-    def rotate_to_east(self):
+    def rotate_to_west(self):
         theta = self.position['theta']
-        if not (theta > .45 and theta < .55):
+        if not (theta > ((self.pi/2)-.1) and theta < ((self.pi/2)+.1)):
             self.start_rotate()
-            print("Spin to east")
+            print("Spin to west")
             return False
         else:
             self.stop_rotate()
             return True
 
-    def rotate_to_west(self):
+    def rotate_to_east(self):
         theta = self.get_position()['theta']
 
-        if not (theta < -.45 and theta > -.55):
+        if not (theta < (-(self.pi/2)+.1) and theta > (-(self.pi/2)-.1)):
             self.start_rotate()
-            print("Spin to west")
+            print("Spin to east")
             return False
         else:
             self.stop_rotate()
@@ -111,10 +124,11 @@ class Robot(object):
         """gets this robot's position relative to where it started"""
         position = self.odometry.pose.pose.position
         rotation = self.odometry.pose.pose.orientation
+        euler = euler_from_quaternion(quaternion=(rotation.x, rotation.y, rotation.z, rotation.w))
         return {
             'x': position.x + self.x_offset,
             'y': position.y + self.y_offset,
-            'theta': rotation.z + self.theta_offset
+            'theta': euler[2] + self.theta_offset
         }
 
     def is_blocked(self):
@@ -124,11 +138,7 @@ class Robot(object):
 
     
 
-    counter = 0
-    spinning = False
-    position = 0
-    task_executing = False
-    current_task = None
+
 
     def execute(self):
         """docstring for execute"""
@@ -144,33 +154,36 @@ class Robot(object):
 
     def execute_callback(self):
         """To be overridden in extending classes"""
+
+        #self.forward()
+
         #if not self.task_executing:
         if self.counter % 100 == 0 and not self.counter % 200 == 0:
             #self.spinning = True
-            self.current_task = "rotate_to_west"
+            self.current_task = "rotate_to_north"
             self.task_executing = True
 
         if self.counter % 200 == 0:
             #self.spinning = False
             #self.start_rotate_opposite()
-            self.current_task = "rotate_to_east"
+            self.current_task = "rotate_to_south"
             self.task_executing = True
 
         #self.execute_task()
 
-        #if self.spinning == True:
-        #    self.rotate_to_west()
-
-
-        
+        if self.spinning == True:
+           self.rotate_to_west()
         pass
 
     def execute_task(self):
+        finished = False
         if self.current_task == "rotate_to_west":
             finished = self.rotate_to_west()
-
         elif self.current_task == "rotate_to_east":
             finished = self.rotate_to_east()
-
+        elif self.current_task == "rotate_to_north":
+            finished = self.rotate_to_north()
+        elif self.current_task == "rotate_to_south":
+            finished = self.rotate_to_south()
         if finished:
             self.task_executing = False
