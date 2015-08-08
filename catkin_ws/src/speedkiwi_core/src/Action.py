@@ -19,7 +19,7 @@ class Action(object):
         """
         robot: The robot that is performing the action.
 
-        Called during the robot's execute loop.
+        Called during the robot's execute loop as long as the robot is not blocked.
         This should be overridden to define the Action's behaviour.
         """
         pass
