@@ -29,23 +29,6 @@ orchardWalls(
   pose [1.750 35.000 0.000 0.000]
 )
 
-
-<<<<<<< HEAD
-TreePost(
-  name "Post1"
-  pose [5.000 5.000 0.000 0.000]
-)
-
-
-Arch(
-  name "arcTest"
-  pose [5.000 16.000 0.000 0.000]
-)
-
-=======
-
-
->>>>>>> ca651f35979c1515c023e0b92e74d4ab1da0f34e
 # throw in a robot 
 PickerRobot( pose [ -20 -5.000 0.000 45.000 ] name "pickerRobot" color "pink" ) #commanded by robot_0/cmd_vel
 PickerRobot( pose [ 1.750 -5.000 0.000 90.000 ] name "carrierRobot" color "cyan") 
