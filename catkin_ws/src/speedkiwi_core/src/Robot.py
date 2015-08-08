@@ -2,8 +2,12 @@ from geometry_msgs.msg import Twist, Pose
 from nav_msgs.msg import Odometry
 from std_msgs.msg import String
 from math import sin, cos
+<<<<<<< HEAD
 from sensor_msgs.msg import LaserScan
 from rosgraph_msgs.msg import Log 
+=======
+from Action import Action
+>>>>>>> ca651f35979c1515c023e0b92e74d4ab1da0f34e
 import rospy
 
 class Robot(object):
@@ -12,6 +16,10 @@ class Robot(object):
     Stage only allows robots initialised in the world file to be manipulated by ROS,
     therefore we have to initialise the robots in the world file as well as this class.
     """
+
+    NO_ACTION = Action()
+    _action_queue = []
+
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
         """
         robot_id: The robot's name in stage
@@ -49,8 +57,13 @@ class Robot(object):
 
         rospy.Subscriber("/" + self.robot_id + "/base_scan", LaserScan, scan_handler)
         # Wait for odometry datax`
+<<<<<<< HEAD
         while self.odometry is None :
             rospy.loginfo("waiting")
+=======
+        while self.odometry is None:
+            rospy.loginfo("Waiting for odometry information")
+>>>>>>> ca651f35979c1515c023e0b92e74d4ab1da0f34e
 
     def forward(self):
         """starts the robot moving at it's top speed"""
@@ -97,15 +110,34 @@ class Robot(object):
                     r = True
         return r
 
+    def add_action(self, action):
+        """Adds an action to this robot's action queue"""
+        self._action_queue.append(action)
+
     def execute(self):
         """
         To be called by the ros loop. This method sends the Twist message to stage.
         This method should not be overridden instead use execute_callback()
         """
         self.execute_callback()
+<<<<<<< HEAD
         if self.is_blocked():
             self.set_velocity(0)
 
+=======
+        action = self.NO_ACTION
+        if self._action_queue:
+            action = self._action_queue[0]
+            if action.is_finished(self):
+                action.finish(self)
+                self._action_queue.remove(action)
+                if self._action_queue:
+                    action = self._action_queue[0]
+                    action.start(self)
+                else:
+                    action = self.NO_ACTION
+        action.during(self)
+>>>>>>> ca651f35979c1515c023e0b92e74d4ab1da0f34e
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
 

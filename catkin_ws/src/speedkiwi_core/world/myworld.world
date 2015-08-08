@@ -1,7 +1,14 @@
 include "orchardWalls.inc"
-include "Arch.inc"
-include "TreePost.inc"
+include "PergolaArch.inc"
+include "PergolaPost.inc"
+include "PergolaBrace.inc"
 include "PickerRobot.inc"
+
+# Positions of the orchard objects
+include "PergolaPostPositions.inc"
+include "PergolaArchPositions.inc"
+include "PergolaBracePositions.inc"
+
 #include "CarrierRobot.inc"
 
 name "SpeedKiwiOrchard"
@@ -13,16 +20,17 @@ interval_sim 100
 resolution 0.02
 
 # Size of the world in meters
-size [100 100] 
+size [150 150] 
 
 orchardWalls( 
   name "orchardWalls"
   bitmap "testmap.png"
-  size [85.000 85.000 5.500]
-  pose [0.000 0.000 0.000 0.000]
+  size [95.000 95.000 5.500]
+  pose [1.750 35.000 0.000 0.000]
 )
 
 
+<<<<<<< HEAD
 TreePost(
   name "Post1"
   pose [5.000 5.000 0.000 0.000]
@@ -34,6 +42,10 @@ Arch(
   pose [5.000 16.000 0.000 0.000]
 )
 
+=======
+
+
+>>>>>>> ca651f35979c1515c023e0b92e74d4ab1da0f34e
 # throw in a robot 
-PickerRobot( pose [ -5 -5 0 45 ] name "pickerRobot" color "pink" ) #commanded by robot_0/cmd_vel
-PickerRobot( pose [ 0 0 0 0 ] name "carrierRobot" color "cyan") 
+PickerRobot( pose [ -20 -5.000 0.000 45.000 ] name "pickerRobot" color "pink" ) #commanded by robot_0/cmd_vel
+PickerRobot( pose [ 1.750 -5.000 0.000 90.000 ] name "carrierRobot" color "cyan") 
