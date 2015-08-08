@@ -181,7 +181,7 @@ class Robot(object):
         publisher.publish(self.velocity)
         
         print (str(self.position['theta']))
-        self.counter+=1
+        #self.counter+=1
 
         # print (str(self.position['theta']))
 

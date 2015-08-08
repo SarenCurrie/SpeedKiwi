@@ -6,6 +6,8 @@ import random
 import rospy
 
 from Robot import Robot
+from MoveAction import MoveAction
+from RotateAction import RotateAction
 
 class Animal(Robot):
 	"""Subclass of Robot which implements random movement"""
@@ -13,6 +15,6 @@ class Animal(Robot):
 		Robot.__init__(self,name, 100, 3, 1, 1, 0)
 
 	def execute_callback(self):
-		self.set_velocity(random.random())
+		#self.set_velocity(random.random())
 		# TODO: Change direction randomly.
-	
+		self.add_action(MoveAction(75))
