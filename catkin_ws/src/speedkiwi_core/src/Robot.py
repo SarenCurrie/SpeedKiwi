@@ -2,12 +2,9 @@ from geometry_msgs.msg import Twist, Pose
 from nav_msgs.msg import Odometry
 from std_msgs.msg import String
 from math import sin, cos
-<<<<<<< HEAD
 from sensor_msgs.msg import LaserScan
 from rosgraph_msgs.msg import Log 
-=======
 from Action import Action
->>>>>>> ca651f35979c1515c023e0b92e74d4ab1da0f34e
 import rospy
 
 class Robot(object):
@@ -57,13 +54,8 @@ class Robot(object):
 
         rospy.Subscriber("/" + self.robot_id + "/base_scan", LaserScan, scan_handler)
         # Wait for odometry datax`
-<<<<<<< HEAD
-        while self.odometry is None :
-            rospy.loginfo("waiting")
-=======
         while self.odometry is None:
             rospy.loginfo("Waiting for odometry information")
->>>>>>> ca651f35979c1515c023e0b92e74d4ab1da0f34e
 
     def forward(self):
         """starts the robot moving at it's top speed"""
@@ -120,11 +112,8 @@ class Robot(object):
         This method should not be overridden instead use execute_callback()
         """
         self.execute_callback()
-<<<<<<< HEAD
         if self.is_blocked():
             self.set_velocity(0)
-
-=======
         action = self.NO_ACTION
         if self._action_queue:
             action = self._action_queue[0]
@@ -137,7 +126,6 @@ class Robot(object):
                 else:
                     action = self.NO_ACTION
         action.during(self)
->>>>>>> ca651f35979c1515c023e0b92e74d4ab1da0f34e
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
 
