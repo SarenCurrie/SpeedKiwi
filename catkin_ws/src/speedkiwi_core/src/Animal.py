@@ -12,5 +12,8 @@ class Animal(Robot):
 		Robot.__init__(self,name, 100, 3, 1, 1, 0)
 
 	def forward(self):
-		self.set_velocity(10)
+		self.set_velocity(random.random()*10)
+
+	def execute_callback(self):
+		self.set_velocity(random.random()*10)
 	
