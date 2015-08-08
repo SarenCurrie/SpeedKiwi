@@ -2,6 +2,8 @@ from geometry_msgs.msg import Twist, Pose
 from nav_msgs.msg import Odometry
 from std_msgs.msg import String
 from math import sin, cos
+from sensor_msgs.msg import LaserScan
+from rosgraph_msgs.msg import Log 
 import rospy
 
 class Robot(object):
@@ -28,6 +30,7 @@ class Robot(object):
         self.odometry = None
         self.velocity = Twist()
         self.is_moving = False
+        self.laser = None
         
         def odometry_handler(data):
             """
@@ -36,9 +39,18 @@ class Robot(object):
             self.odometry = data
 
         rospy.Subscriber("/" + self.robot_id + "/odom", Odometry, odometry_handler)
+
+        def scan_handler(data):
+            """
+            Handles LaserScan messages from stage
+            """
+            self.laser = data
+            #rospy.loginfo("scan handler")
+
+        rospy.Subscriber("/" + self.robot_id + "/base_scan", LaserScan, scan_handler)
         # Wait for odometry datax`
-        while self.odometry is None:
-            print("waiting")
+        while self.odometry is None :
+            rospy.loginfo("waiting")
 
     def forward(self):
         """starts the robot moving at it's top speed"""
@@ -77,8 +89,13 @@ class Robot(object):
 
     def is_blocked(self):
         """is this robot able to move forward"""
-        # TODO
-        return False
+        r = False
+        if self.laser:
+            for range in self.laser.ranges:
+                if range < 2:
+                    rospy.loginfo(str(range))
+                    r = True
+        return r
 
     def execute(self):
         """
@@ -86,8 +103,13 @@ class Robot(object):
         This method should not be overridden instead use execute_callback()
         """
         self.execute_callback()
+        if self.is_blocked():
+            self.set_velocity(0)
+
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
+
+        
 
     def execute_callback(self):
         """To be overridden in extending classes to define behaviours for each robot."""
