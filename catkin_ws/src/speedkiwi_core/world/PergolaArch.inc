@@ -1,4 +1,4 @@
-define Arch model
+define PergolaArch model
 (
   size [0.3 3.5 0.4]
   obstacle_return 0
