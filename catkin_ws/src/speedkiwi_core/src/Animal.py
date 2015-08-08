@@ -8,6 +8,7 @@ import rospy
 from Robot import Robot
 
 class Animal(Robot):
+	"""Subclass of robot which implements random movement."""
 	def __init__(self, name):
 		Robot.__init__(self,name, 100, 3, 1, 1, 0)
 
