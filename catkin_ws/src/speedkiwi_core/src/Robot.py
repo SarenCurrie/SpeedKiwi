@@ -6,6 +6,7 @@ from Action import Action
 import rospy
 import tf 
 from tf.transformations import euler_from_quaternion
+from math import pi
 
 class Robot(object):
     """
@@ -15,7 +16,6 @@ class Robot(object):
     """
 
     NO_ACTION = Action()
-    pi = 3.14159265359
 
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
         """
@@ -103,7 +103,7 @@ class Robot(object):
         """Sets the rotation until the robot is facing south
         Returns true if facing south (false otherwise)"""
         theta = self.position['theta']
-        if not (theta > (self.pi-.1) or theta < (-self.pi+.1)):
+        if not (theta > (pi-.1) or theta < (-pi+.1)):
             self.start_rotate()
             print("Spin to south")
             return False
@@ -115,7 +115,7 @@ class Robot(object):
         """Sets the rotation until the robot is facing west
         Returns true if facing west (false otherwise)"""
         theta = self.position['theta']
-        if not (theta > ((self.pi/2)-.1) and theta < ((self.pi/2)+.1)):
+        if not (theta > ((pi/2)-.1) and theta < ((pi/2)+.1)):
             self.start_rotate()
             print("Spin to west")
             return False
@@ -128,7 +128,7 @@ class Robot(object):
         Returns true if facing east (false otherwise)"""
         theta = self.get_position()['theta']
 
-        if not (theta < (-(self.pi/2)+.1) and theta > (-(self.pi/2)-.1)):
+        if not (theta < (-(pi/2)+.1) and theta > (-(pi/2)-.1)):
             self.start_rotate()
             print("Spin to east")
             return False
@@ -141,10 +141,13 @@ class Robot(object):
         position = self.odometry.pose.pose.position
         rotation = self.odometry.pose.pose.orientation
         euler = euler_from_quaternion(quaternion=(rotation.x, rotation.y, rotation.z, rotation.w)) # Convert to usable angle
+        theta = euler[2] + self.theta_offset
+        if theta > pi or theta < -pi:
+            theta = -euler[2]
         return {
             'x': position.x + self.x_offset,
             'y': position.y + self.y_offset,
-            'theta': euler[2] + self.theta_offset
+            'theta': theta
         }
 
     def is_blocked(self):
@@ -181,9 +184,7 @@ class Robot(object):
         publisher.publish(self.velocity)
         
         print (str(self.position['theta']))
-        self.counter+=1
 
-        # print (str(self.position['theta']))
 
     def execute_callback(self):
         """To be overridden in extending classes to define behaviours for each robot."""
