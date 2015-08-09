@@ -141,10 +141,13 @@ class Robot(object):
         position = self.odometry.pose.pose.position
         rotation = self.odometry.pose.pose.orientation
         euler = euler_from_quaternion(quaternion=(rotation.x, rotation.y, rotation.z, rotation.w)) # Convert to usable angle
+        theta = euler[2] + self.theta_offset
+        if theta > self.pi or theta < -self.pi:
+            theta = -euler[2]
         return {
             'x': position.x + self.x_offset,
             'y': position.y + self.y_offset,
-            'theta': euler[2] + self.theta_offset
+            'theta': theta
         }
 
     def is_blocked(self):
@@ -181,9 +184,7 @@ class Robot(object):
         publisher.publish(self.velocity)
         
         print (str(self.position['theta']))
-        self.counter+=1
 
-        # print (str(self.position['theta']))
 
     def execute_callback(self):
         """To be overridden in extending classes to define behaviours for each robot."""

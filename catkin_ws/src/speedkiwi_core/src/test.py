@@ -7,8 +7,8 @@ from RotateAction import RotateAction
 import rospy
 
 rospy.init_node('test')
-robot = Robot('robot_0', 0.5, 0.5, 0, 0, 0)
-robot1 = DifferentRobot('robot_1', 2, 2, 0, 0, 0)
+robot = Robot('robot_0', 0.5, 0.5, 0, 0, 3.14159/4)
+robot1 = DifferentRobot('robot_1', 2, 2, 0, 0, 3.14159/2)
 
 robot.add_action(RotateAction("rotate_to_south"))
 robot.add_action(RotateAction("rotate_to_north"))
