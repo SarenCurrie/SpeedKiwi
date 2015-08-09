@@ -9,7 +9,7 @@
 		<node pkg="beginner_tutorials" name="listener" type="listener.py"/>
 -->
 
-<node name="test" pkg="speedkiwi_core" type="test.py"/>
+<node name="main" pkg="speedkiwi_core" type="main.py"/>
 
 <!-- UNCOMMENT IF WANT TO USE CONSOLE TO DEBUG
 <node name="console" pkg="rqt_console" type="rqt_console"/>

@@ -47,7 +47,7 @@ class Robot(object):
 
         rospy.Subscriber("/" + self.robot_id + "/odom", Odometry, odometry_handler)
 
-        # Wait for odometry datax`
+        # Wait for odometry data
         while self.odometry is None:
             rospy.loginfo("Waiting for odometry information")
 
