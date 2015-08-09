@@ -2,7 +2,7 @@ from geometry_msgs.msg import Twist, Pose
 from nav_msgs.msg import Odometry
 from std_msgs.msg import String
 from math import sin, cos
-from Action import Action
+from action import Action
 import rospy
 import tf
 from tf.transformations import euler_from_quaternion
@@ -10,8 +10,8 @@ from math import pi
 
 
 class Robot(object):
-    """
-    Provides a generic class to represent robots and other objects in stage.
+    """Provides a generic class to represent robots and other objects in stage.
+
     Stage only allows robots initialised in the world file to be manipulated by ROS,
     therefore we have to initialise the robots in the world file as well as this class.
     """
