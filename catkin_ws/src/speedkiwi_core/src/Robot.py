@@ -4,9 +4,10 @@ from std_msgs.msg import String
 from math import sin, cos
 from Action import Action
 import rospy
-import tf 
+import tf
 from tf.transformations import euler_from_quaternion
 from math import pi
+
 
 class Robot(object):
     """
@@ -38,7 +39,7 @@ class Robot(object):
         self._action_queue = []
         self.rotation_executing = False
         self.current_rotation = None
-        
+
         def odometry_handler(data):
             """
             Handles odometry messages from stage
@@ -63,14 +64,14 @@ class Robot(object):
 
     def set_linear_velocity(self, linear):
         """docstring for set_velocity"""
-        if not self.odometry is None:
+        if self.odometry is not None:
             msg = Twist()
             msg.linear.x = linear
             self.velocity = msg
 
     def set_angular_velocity(self, speed):
         """Sets the twist message to include rotation at the given speed"""
-        if not self.odometry is None:
+        if self.odometry is not None:
             msg = Twist()
             msg.angular.z = speed
             self.velocity = msg
@@ -87,9 +88,12 @@ class Robot(object):
         """Stops the robot from rotating"""
         self.set_angular_velocity(0)
 
-    def rotate_to_north(self): # NOTE: north is defined in the direction of the positive x axis
-        """Sets the rotation until the robot is facing north
-        Returns true if facing north (false otherwise)"""
+    def rotate_to_north(self):
+        """
+        Sets the rotation until the robot is facing north
+        Returns true if facing north (false otherwise)
+        NOTE: north is defined in the direction of the positive x axis
+        """
         theta = self.position['theta']
         if not (theta < .1 and theta > -.1):
             self.start_rotate()
@@ -140,7 +144,8 @@ class Robot(object):
         """gets this robot's position"""
         position = self.odometry.pose.pose.position
         rotation = self.odometry.pose.pose.orientation
-        euler = euler_from_quaternion(quaternion=(rotation.x, rotation.y, rotation.z, rotation.w)) # Convert to usable angle
+        # Convert to usable angle
+        euler = euler_from_quaternion(quaternion=(rotation.x, rotation.y, rotation.z, rotation.w))
         theta = euler[2] + self.theta_offset
         if theta > pi or theta < -pi:
             theta = -euler[2]
@@ -182,9 +187,6 @@ class Robot(object):
 
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
-        
-        print (str(self.position['theta']))
-
 
     def execute_callback(self):
         """To be overridden in extending classes to define behaviours for each robot."""

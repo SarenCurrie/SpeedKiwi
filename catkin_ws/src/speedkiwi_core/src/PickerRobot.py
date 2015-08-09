@@ -1,5 +1,6 @@
 from Robot import Robot
 
+
 class PickerRobot(Robot):
     """Robot that picks kiwifruit and puts it in queue"""
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
