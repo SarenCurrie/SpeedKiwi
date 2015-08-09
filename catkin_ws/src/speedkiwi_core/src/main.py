@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 import rospy
-from Robot import Robot
-from DifferentRobot import DifferentRobot
-from MoveAction import MoveAction
-from RotateAction import RotateAction
+from robot import Robot
+from different_robot import DifferentRobot
+from move_action import MoveAction
+from rotate_action import RotateAction
 from math import pi
 
 rospy.init_node('main')

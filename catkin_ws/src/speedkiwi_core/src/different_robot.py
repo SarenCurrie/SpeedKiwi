@@ -1,4 +1,4 @@
-from Robot import Robot
+from robot import Robot
 
 
 class DifferentRobot(Robot):
