@@ -2,6 +2,8 @@ from geometry_msgs.msg import Twist, Pose
 from nav_msgs.msg import Odometry
 from std_msgs.msg import String
 from math import sin, cos
+from sensor_msgs.msg import LaserScan
+from rosgraph_msgs.msg import Log
 from Action import Action
 import rospy
 import tf 
@@ -35,6 +37,7 @@ class Robot(object):
         self.odometry = None
         self.velocity = Twist()
         self.is_moving = False
+        self.laser = None
         self._action_queue = []
         self.rotation_executing = False
         self.current_rotation = None
@@ -47,6 +50,14 @@ class Robot(object):
 
         rospy.Subscriber("/" + self.robot_id + "/odom", Odometry, odometry_handler)
 
+        def scan_handler(data):
+            """
+            Handles LaserScan messages from stage
+            """
+            self.laser = data
+            #rospy.loginfo("scan handler")
+
+        rospy.Subscriber("/" + self.robot_id + "/base_scan", LaserScan, scan_handler)
         # Wait for odometry datax`
         while self.odometry is None:
             rospy.loginfo("Waiting for odometry information")
@@ -152,7 +163,11 @@ class Robot(object):
 
     def is_blocked(self):
         """is this robot able to move forward"""
-        # TODO
+        if self.laser:
+            for range in self.laser.ranges:
+                if range < 2:
+                    rospy.loginfo(str(range))
+                    return True
         return False
 
     def add_action(self, action):
@@ -165,26 +180,27 @@ class Robot(object):
         This method should not be overridden instead use execute_callback()
         """
         self.execute_callback()
-        action = self.NO_ACTION
-        if self._action_queue:
-            action = self._action_queue[0]
-            if action.is_finished(self):
-                action.finish(self)
-                self._action_queue.remove(action)
-                if self._action_queue:
-                    action = self._action_queue[0]
-                    action.start(self)
-                else:
-                    action = self.NO_ACTION
-        action.during(self)
+
+        if self.is_blocked():
+            self.stop()
+        else:
+            action = self.NO_ACTION
+            if self._action_queue:
+                action = self._action_queue[0]
+                if action.is_finished(self):
+                    action.finish(self)
+                    self._action_queue.remove(action)
+                    if self._action_queue:
+                        action = self._action_queue[0]
+                        action.start(self)
+                    else:
+                        action = self.NO_ACTION
+            action.during(self)
 
         self.position = self.get_position()
 
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
-        
-        print (str(self.position['theta']))
-
 
     def execute_callback(self):
         """To be overridden in extending classes to define behaviours for each robot."""
