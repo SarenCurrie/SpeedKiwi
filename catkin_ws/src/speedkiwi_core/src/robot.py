@@ -1,10 +1,12 @@
+import rospy
+import tf
 from geometry_msgs.msg import Twist, Pose
 from nav_msgs.msg import Odometry
 from std_msgs.msg import String
+from sensor_msgs.msg import LaserScan
+from rosgraph_msgs.msg import Log
 from math import sin, cos
 from action import Action
-import rospy
-import tf
 from tf.transformations import euler_from_quaternion
 from math import pi
 
@@ -36,6 +38,7 @@ class Robot(object):
         self.odometry = None
         self.velocity = Twist()
         self.is_moving = False
+        self.laser = None
         self._action_queue = []
         self.rotation_executing = False
         self.current_rotation = None
@@ -47,6 +50,14 @@ class Robot(object):
             self.odometry = data
 
         rospy.Subscriber("/" + self.robot_id + "/odom", Odometry, odometry_handler)
+
+        def scan_handler(data):
+            """
+            Handles LaserScan messages from stage
+            """
+            self.laser = data
+
+        rospy.Subscriber("/" + self.robot_id + "/base_scan", LaserScan, scan_handler)
 
         # Wait for odometry data
         while self.odometry is None:
@@ -63,7 +74,7 @@ class Robot(object):
         self.set_linear_velocity(0)
 
     def set_linear_velocity(self, linear):
-        """docstring for set_velocity"""
+        """Sets this robot's velocity in m/s"""
         if self.odometry is not None:
             msg = Twist()
             msg.linear.x = linear
@@ -97,7 +108,6 @@ class Robot(object):
         theta = self.position['theta']
         if not (theta < .1 and theta > -.1):
             self.start_rotate()
-            print("Spin to north")
             return False
         else:
             self.stop_rotate()
@@ -109,7 +119,6 @@ class Robot(object):
         theta = self.position['theta']
         if not (theta > (pi-.1) or theta < (-pi+.1)):
             self.start_rotate()
-            print("Spin to south")
             return False
         else:
             self.stop_rotate()
@@ -121,7 +130,6 @@ class Robot(object):
         theta = self.position['theta']
         if not (theta > ((pi/2)-.1) and theta < ((pi/2)+.1)):
             self.start_rotate()
-            print("Spin to west")
             return False
         else:
             self.stop_rotate()
@@ -157,7 +165,11 @@ class Robot(object):
 
     def is_blocked(self):
         """is this robot able to move forward"""
-        # TODO
+        if self.laser:
+            for range in self.laser.ranges:
+                if range < 2:
+                    rospy.loginfo(str(range))
+                    return True
         return False
 
     def add_action(self, action):
@@ -170,18 +182,22 @@ class Robot(object):
         This method should not be overridden instead use execute_callback()
         """
         self.execute_callback()
-        action = self.NO_ACTION
-        if self._action_queue:
-            action = self._action_queue[0]
-            if action.is_finished(self):
-                action.finish(self)
-                self._action_queue.remove(action)
-                if self._action_queue:
-                    action = self._action_queue[0]
-                    action.start(self)
-                else:
-                    action = self.NO_ACTION
-        action.during(self)
+
+        if self.is_blocked():
+            self.stop()
+        else:
+            action = self.NO_ACTION
+            if self._action_queue:
+                action = self._action_queue[0]
+                if action.is_finished(self):
+                    action.finish(self)
+                    self._action_queue.remove(action)
+                    if self._action_queue:
+                        action = self._action_queue[0]
+                        action.start(self)
+                    else:
+                        action = self.NO_ACTION
+            action.during(self)
 
         self.position = self.get_position()
 

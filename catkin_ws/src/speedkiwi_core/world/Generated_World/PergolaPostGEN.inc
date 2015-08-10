@@ -1,7 +1,6 @@
 define PergolaPost model
 (
-  size [0.3 0.3 1.8]
-  obstacle_return 0
+  size [ 0.3 0.3 1.8 ]
   gui_move 0
   block
   (

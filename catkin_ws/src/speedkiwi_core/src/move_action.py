@@ -18,7 +18,10 @@ class MoveAction(Action):
         self.y_start = robot.get_position()['y']
 
     def during(self, robot):
-        robot.forward()
+        if robot.is_blocked():
+            robot.stop()
+        else:
+            robot.forward()
 
     def is_finished(self, robot):
         delta_x = robot.get_position()['x'] - self.x_start
