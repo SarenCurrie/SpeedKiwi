@@ -1,5 +1,6 @@
 from Action import Action
 import math
+import rospy
 
 class MoveAction(Action):
     """
@@ -15,6 +16,7 @@ class MoveAction(Action):
     def start(self, robot):
         self.x_start = robot.get_position()['x']
         self.y_start = robot.get_position()['y']
+        rospy.loginfo("forward " + str(self.distance))
 
     def during(self, robot):
         if robot.is_blocked():

@@ -101,72 +101,36 @@ class Robot(object):
     def rotate_to_east(self): 
         """Sets the rotation until the robot is facing east
         Returns true if facing east (false otherwise)"""
-        theta = self.position['theta']
-        if not (theta < .1 and theta > -.1):
-            self.start_rotate()
-            rospy.loginfo("Spin to east")
-            return False
-        else:
-            self.stop_rotate()
-            return True
+        return self.rotate_to_angle(0)
 
     def rotate_to_west(self):
         """Sets the rotation until the robot is facing west
         Returns true if facing west (false otherwise)"""
-        theta = self.position['theta']
-        if not (theta > (pi-.1) or theta < (-pi+.1)):
-            self.start_rotate()
-            rospy.loginfo("Spin to west")
-            return False
-        else:
-            self.stop_rotate()
-            return True
+        return self.rotate_to_angle(pi)
 
     def rotate_to_north(self): # NOTE: north is defined in the direction of the positive y axis
         """Sets the rotation until the robot is facing north
         Returns true if facing north (false otherwise)"""
-        theta = self.position['theta']
-        if not (theta > ((pi/2)-.1) and theta < ((pi/2)+.1)):
-            self.start_rotate()
-            rospy.loginfo("Spin to north")
-            return False
-        else:
-            self.stop_rotate()
-            return True
+        return self.rotate_to_angle(pi/2)
 
     def rotate_to_south(self):
         """Sets the rotation until the robot is facing south
         Returns true if facing south (false otherwise)"""
-        theta = self.position['theta']
 
-        if not (theta < (-(pi/2)+.1) and theta > (-(pi/2)-.1)):
-            self.start_rotate()
-            rospy.loginfo("Spin to south")
-            return False
-        else:
-            self.stop_rotate()
-            return True
+        return self.rotate_to_angle(-pi/2)
 
 
     def rotate_to_angle(self, target):
         """Rotates to the desired target angle. Returns true when facing that direction"""
         theta = self.position['theta']
-        if target > 0:
-            if not (theta < (target+.1) and theta > (target-.1)):
-                self.start_rotate()
-                rospy.loginfo("Spin to target")
-                return False
-            else:
-                self.stop_rotate()
-                return True
-        else: # target is less then 0 (which corresponds to down)
-            if not (theta > (target+.1) and theta < (target-.1)):
-                self.start_rotate()
-                rospy.loginfo("Spin to target")
-                return False
-            else:
-                self.stop_rotate()
-                return True
+        if (theta < (target+.1) and theta > (target-.1)):
+            self.stop_rotate()
+            return True
+        elif ((theta > (target-pi)) and (target > 0) and (theta < target)) or (not (theta < (target+pi)) and (target < angle) and (theta > angle)):
+            self.start_rotate()
+        else:
+            self.start_rotate_opposite()
+            return False
 
     def get_position(self):
         """gets this robot's position"""
