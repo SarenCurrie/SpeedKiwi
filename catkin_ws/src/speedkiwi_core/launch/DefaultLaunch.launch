@@ -11,9 +11,9 @@
 
 <node name="test" pkg="speedkiwi_core" type="test.py"/>
 
-<!-- UNCOMMENT IF WANT TO USE CONSOLE TO DEBUG
+
 <node name="console" pkg="rqt_console" type="rqt_console"/>
--->
+
 
 </launch>
 
