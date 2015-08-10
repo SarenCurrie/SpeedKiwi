@@ -12,12 +12,14 @@ class NavigateAction(Action):
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        self.x_start = 0
+        self.y_start = 0
+        self.x_correct = False
+        self.y_correct = False
 
     def start(self, robot):
         self.x_start = robot.get_position()['x']
         self.y_start = robot.get_position()['y']
-        self.x_correct = False
-        self.y_correct = False
 
     def during(self, robot):
         current_x = robot.get_position()['x']
@@ -26,23 +28,24 @@ class NavigateAction(Action):
         self.x_correct = current_x < (self.x + 0.5) and current_x > (self.x - 0.5)
         self.y_correct = current_y < (self.y + 0.5) and current_y > (self.y - 0.5)
 
-        if robot.is_blocked():
-            robot.stop()
-            direction = robot.get_position()['theta']
-            if direction > -math.pi/4 and direction < math.pi/4:
-                # North
-                pass
-            elif direction > -3 * math.pi/4 and direction < -math.pi/4:
-                # East
-                pass
-            elif direction > math.pi/4 and direction < 3 * math.pi/4:
-                # West
-                pass
+        if not robot.rotation_excuting:
+            if robot.is_blocked():
+                robot.stop()
+                direction = robot.get_position()['theta']
+                if direction > -math.pi/4 and direction < math.pi/4:
+                    robot.rotate_to_east()
+                    pass
+                elif direction > -3 * math.pi/4 and direction < -math.pi/4:
+                    robot.rotate_to_south()
+                    pass
+                elif direction > math.pi/4 and direction < 3 * math.pi/4:
+                    robot.rotate_to_north()
+                    pass
+                else:
+                    robot.rotate_to_west()
+                    pass
             else:
-                # South
-                pass
-        else:
-            robot.forward()
+                robot.forward()
 
     def is_finished(self, robot):
         if self.x_correct and self.y_correct:

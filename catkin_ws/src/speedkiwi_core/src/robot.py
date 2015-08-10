@@ -72,6 +72,7 @@ class Robot(object):
     def stop(self):
         """Stops the robot from moving"""
         self.set_linear_velocity(0)
+        self.rotation_executing = False
 
     def set_linear_velocity(self, linear):
         """Sets this robot's velocity in m/s"""
@@ -90,14 +91,17 @@ class Robot(object):
     def start_rotate(self):
         """Sets rotation to speed definied in constructor (anti clockwise) """
         self.set_angular_velocity(self.angular_top_speed)
+        self.rotation_executing = True
 
     def start_rotate_opposite(self):
         """Sets rotation to speed definied in constructor (clockwise) """
         self.set_angular_velocity(-self.angular_top_speed)
+        self.rotation_executing = True
 
     def stop_rotate(self):
         """Stops the robot from rotating"""
         self.set_angular_velocity(0)
+        self.rotation_executing = False
 
     def rotate_to_north(self):
         """
