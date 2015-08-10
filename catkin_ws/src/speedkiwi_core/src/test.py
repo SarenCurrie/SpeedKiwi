@@ -13,7 +13,7 @@ robot1 = DifferentRobot('robot_1', 2, 2, 0, 0, 0)
 robot.add_action(MoveAction(100))
 robot1.forward()
 
-rate = rospy.Rate(1000)
+rate = rospy.Rate(10)
 
 while not rospy.is_shutdown():
     robot.execute()

@@ -3,7 +3,7 @@ from nav_msgs.msg import Odometry
 from std_msgs.msg import String
 from math import sin, cos
 from sensor_msgs.msg import LaserScan
-from rosgraph_msgs.msg import Log 
+from rosgraph_msgs.msg import Log
 from Action import Action
 import rospy
 
@@ -68,10 +68,9 @@ class Robot(object):
     def set_velocity(self, linear):
         """Sets the robot's velocity in m/s"""
         if not self.odometry is None:
-            if not self.is_blocked():
-                msg = Twist()
-                msg.linear.x = linear
-                self.velocity = msg
+            msg = Twist()
+            msg.linear.x = linear
+            self.velocity = msg
 
     def set_angular_velocity(self, angular):
         """docstring for set_angular_velocity"""
@@ -94,13 +93,12 @@ class Robot(object):
 
     def is_blocked(self):
         """is this robot able to move forward"""
-        r = False
         if self.laser:
             for range in self.laser.ranges:
                 if range < 2:
                     rospy.loginfo(str(range))
-                    r = True
-        return r
+                    return True
+        return False
 
     def add_action(self, action):
         """Adds an action to this robot's action queue"""
@@ -112,20 +110,23 @@ class Robot(object):
         This method should not be overridden instead use execute_callback()
         """
         self.execute_callback()
+
         if self.is_blocked():
-            self.set_velocity(0)
-        action = self.NO_ACTION
-        if self._action_queue:
-            action = self._action_queue[0]
-            if action.is_finished(self):
-                action.finish(self)
-                self._action_queue.remove(action)
-                if self._action_queue:
-                    action = self._action_queue[0]
-                    action.start(self)
-                else:
-                    action = self.NO_ACTION
-        action.during(self)
+            self.stop()
+        else:
+            action = self.NO_ACTION
+            if self._action_queue:
+                action = self._action_queue[0]
+                if action.is_finished(self):
+                    action.finish(self)
+                    self._action_queue.remove(action)
+                    if self._action_queue:
+                        action = self._action_queue[0]
+                        action.start(self)
+                    else:
+                        action = self.NO_ACTION
+            action.during(self)
+
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
 
