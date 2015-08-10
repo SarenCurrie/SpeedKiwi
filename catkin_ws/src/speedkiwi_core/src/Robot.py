@@ -180,6 +180,8 @@ class Robot(object):
         This method should not be overridden instead use execute_callback()
         """
         self.execute_callback()
+        
+        rospy.loginfo(str(self.is_blocked()))
 
         if self.is_blocked():
             self.stop()
