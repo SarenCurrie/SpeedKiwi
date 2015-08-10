@@ -10,16 +10,15 @@ from rotate_action import RotateAction
 
 
 class Animal(Robot):
-	"""Subclass of Robot which implements random movement"""
-	def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
-		Robot.__init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset)
+    """Subclass of Robot which implements random movement"""
+    def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
+        Robot.__init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset)
 
-	def execute_callback(self):
-		"""Behaviour: run around in circles."""
-		randint = random.randint(1,5)
+    def execute_callback(self):
+        """Behaviour: run around in circles."""
+        randint = random.randint(1, 5)
 
-		if 1 <= randint <= 4:
-			self.forward()
-		else:
-			self.start_rotate()
-
+        if 1 <= randint <= 4:
+            self.forward()
+        else:
+            self.start_rotate()
