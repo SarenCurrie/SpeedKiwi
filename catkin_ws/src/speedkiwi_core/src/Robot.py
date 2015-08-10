@@ -2,10 +2,13 @@ from geometry_msgs.msg import Twist, Pose
 from nav_msgs.msg import Odometry
 from std_msgs.msg import String
 from math import sin, cos
+from sensor_msgs.msg import LaserScan
+from rosgraph_msgs.msg import Log
 from Action import Action
 import rospy
 import tf 
 from tf.transformations import euler_from_quaternion
+from math import pi
 
 class Robot(object):
     """
@@ -15,7 +18,6 @@ class Robot(object):
     """
 
     NO_ACTION = Action()
-    pi = 3.14159265359
 
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
         """
@@ -35,6 +37,7 @@ class Robot(object):
         self.odometry = None
         self.velocity = Twist()
         self.is_moving = False
+        self.laser = None
         self._action_queue = []
         self.rotation_executing = False
         self.current_rotation = None
@@ -47,6 +50,14 @@ class Robot(object):
 
         rospy.Subscriber("/" + self.robot_id + "/odom", Odometry, odometry_handler)
 
+        def scan_handler(data):
+            """
+            Handles LaserScan messages from stage
+            """
+            self.laser = data
+            #rospy.loginfo("scan handler")
+
+        rospy.Subscriber("/" + self.robot_id + "/base_scan", LaserScan, scan_handler)
         # Wait for odometry datax`
         while self.odometry is None:
             rospy.loginfo("Waiting for odometry information")
@@ -103,7 +114,7 @@ class Robot(object):
         """Sets the rotation until the robot is facing south
         Returns true if facing south (false otherwise)"""
         theta = self.position['theta']
-        if not (theta > (self.pi-.1) or theta < (-self.pi+.1)):
+        if not (theta > (pi-.1) or theta < (-pi+.1)):
             self.start_rotate()
             print("Spin to south")
             return False
@@ -115,7 +126,7 @@ class Robot(object):
         """Sets the rotation until the robot is facing west
         Returns true if facing west (false otherwise)"""
         theta = self.position['theta']
-        if not (theta > ((self.pi/2)-.1) and theta < ((self.pi/2)+.1)):
+        if not (theta > ((pi/2)-.1) and theta < ((pi/2)+.1)):
             self.start_rotate()
             print("Spin to west")
             return False
@@ -128,7 +139,7 @@ class Robot(object):
         Returns true if facing east (false otherwise)"""
         theta = self.get_position()['theta']
 
-        if not (theta < (-(self.pi/2)+.1) and theta > (-(self.pi/2)-.1)):
+        if not (theta < (-(pi/2)+.1) and theta > (-(pi/2)-.1)):
             self.start_rotate()
             print("Spin to east")
             return False
@@ -141,15 +152,22 @@ class Robot(object):
         position = self.odometry.pose.pose.position
         rotation = self.odometry.pose.pose.orientation
         euler = euler_from_quaternion(quaternion=(rotation.x, rotation.y, rotation.z, rotation.w)) # Convert to usable angle
+        theta = euler[2] + self.theta_offset
+        if theta > pi or theta < -pi:
+            theta = -euler[2]
         return {
             'x': position.x + self.x_offset,
             'y': position.y + self.y_offset,
-            'theta': euler[2] + self.theta_offset
+            'theta': theta
         }
 
     def is_blocked(self):
         """is this robot able to move forward"""
-        # TODO
+        if self.laser:
+            for range in self.laser.ranges:
+                if range < 2:
+                    rospy.loginfo(str(range))
+                    return True
         return False
 
     def add_action(self, action):
@@ -162,28 +180,27 @@ class Robot(object):
         This method should not be overridden instead use execute_callback()
         """
         self.execute_callback()
-        action = self.NO_ACTION
-        if self._action_queue:
-            action = self._action_queue[0]
-            if action.is_finished(self):
-                action.finish(self)
-                self._action_queue.remove(action)
-                if self._action_queue:
-                    action = self._action_queue[0]
-                    action.start(self)
-                else:
-                    action = self.NO_ACTION
-        action.during(self)
+
+        if self.is_blocked():
+            self.stop()
+        else:
+            action = self.NO_ACTION
+            if self._action_queue:
+                action = self._action_queue[0]
+                if action.is_finished(self):
+                    action.finish(self)
+                    self._action_queue.remove(action)
+                    if self._action_queue:
+                        action = self._action_queue[0]
+                        action.start(self)
+                    else:
+                        action = self.NO_ACTION
+            action.during(self)
 
         self.position = self.get_position()
 
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
-        
-        print (str(self.position['theta']))
-        #self.counter+=1
-
-        # print (str(self.position['theta']))
 
     def execute_callback(self):
         """To be overridden in extending classes to define behaviours for each robot."""
