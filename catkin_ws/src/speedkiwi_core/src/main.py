@@ -14,15 +14,19 @@ robot = Robot('robot_0', 0.5, 0.5, 0, 0, pi/4)
 robot1 = DifferentRobot('robot_1', 2, 2, 0, 0, pi/2)
 animal = Animal('robot_2', 2, 2, 0, 0, pi/2)
 
-robot.add_action(RotateAction("rotate_to_south"))
-robot.add_action(RotateAction("rotate_to_north"))
-robot.add_action(RotateAction("rotate_to_east"))
-robot.add_action(MoveAction(5))
-robot.add_action(RotateAction("rotate_to_west"))
-robot.add_action(MoveAction(10))
+# robot.add_action(RotateAction("rotate_to_south"))
+# robot.add_action(RotateAction("rotate_to_north"))
+# robot.add_action(RotateAction("rotate_to_east"))
+# robot.add_action(MoveAction(5))
+# robot.add_action(RotateAction("rotate_to_west"))
+# robot.add_action(MoveAction(10))
 
-robot1.forward()
-animal.forward()
+# robot1.forward()
+# animal.forward()
+
+robot.add_action(MoveAction(5000))
+robot1.add_action(MoveAction(5000))
+animal.add_action(MoveAction(5000))
 
 rate = rospy.Rate(10)
 

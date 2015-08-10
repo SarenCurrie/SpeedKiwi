@@ -1,4 +1,4 @@
-from Action import Action
+from action import Action
 import math
 
 class NavigateAction(Action):
@@ -9,14 +9,23 @@ class NavigateAction(Action):
     x_start = 0
     y_start = 0
     
-    def __init__(self, d):
-        self.distance = d
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
 
     def start(self, robot):
         self.x_start = robot.get_position()['x']
         self.y_start = robot.get_position()['y']
+        self.x_correct = False
+        self.y_correct = False
 
     def during(self, robot):
+        current_x = robot.get_position()['x']
+        current_y = robot.get_position()['y']
+
+        self.x_correct = current_x < (self.x + 0.5) and current_x > (self.x - 0.5)
+        self.y_correct = current_y < (self.y + 0.5) and current_y > (self.y - 0.5)
+
         if robot.is_blocked():
             robot.stop()
             direction = robot.get_position()['theta']
@@ -36,8 +45,7 @@ class NavigateAction(Action):
             robot.forward()
 
     def is_finished(self, robot):
-        delta = math.sqrt((robot.get_position()['x'] - self.x_start) ** 2 + (robot.get_position()['y'] - self.y_start) ** 2)
-        if delta > self.distance:
+        if self.x_correct and self.y_correct:
             return True
         else:
             return False

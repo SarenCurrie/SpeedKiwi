@@ -8,8 +8,8 @@ class DifferentRobot(Robot):
 
     def execute_callback(self):
         """docstring for execute_callback"""
-        position = self.get_position()
-        if position['x'] > 20 or position['y'] > 20:
-            self.set_linear_velocity(-self.top_speed)
-        elif position['x'] < -20 or position['y'] < -20:
-            self.set_linear_velocity(self.top_speed)
+        # position = self.get_position()
+        # if position['x'] > 20 or position['y'] > 20:
+        #     self.set_linear_velocity(-self.top_speed)
+        # elif position['x'] < -20 or position['y'] < -20:
+        #     self.set_linear_velocity(self.top_speed)
