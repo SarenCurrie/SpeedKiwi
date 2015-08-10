@@ -1,7 +1,8 @@
-from Robot import Robot
+from robot import Robot
 
-class DifferentRobot(Robot):
-    """docstring for DifferentRobot"""
+
+class PickerRobot(Robot):
+    """Robot that picks kiwifruit and puts it in queue"""
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
         Robot.__init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset)
 

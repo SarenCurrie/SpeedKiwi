@@ -1,14 +1,14 @@
-from Action import Action
+from action import Action
 import math
+
 
 class RotateAction(Action):
     """
     Example Action
     """
-    
-    is_rotating = False
-    
+
     def __init__(self, rotation):
+        self.is_rotating = False
         self.current_rotation = rotation
 
     def start(self, robot):

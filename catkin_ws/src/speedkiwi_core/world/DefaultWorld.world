@@ -1,0 +1,43 @@
+# Default world specifics include:
+
+#
+
+
+#
+
+
+
+#
+
+
+
+include "Default_World/OrchardWallsDEF.inc"
+include "Default_World/PergolaArchDEF.inc"
+include "Default_World/PergolaPostDEF.inc"
+include "Default_World/PergolaBraceDEF.inc"
+include "Default_World/DrivewayDEF.inc"
+
+# Positions of the orchard objects
+include "Default_World/PergolaPostPositionsDEF.inc"
+include "Default_World/PergolaArchPositionsDEF.inc"
+include "Default_World/PergolaBracePositionsDEF.inc"
+include "Default_World/DrivewayPositionDEF.inc"
+
+
+# RobotList must be the last thing to include
+include "PickerRobot.inc"
+#include "CarrierRobot.inc"
+include "RobotList.inc"
+
+
+# Simulation Property: Number of milliseconds per update step 
+interval_sim 100
+
+# Size (in meters) of a pixel in Stage
+resolution 0.02
+
+# Size of the world in meters
+size [150 150] 
+
+
+
