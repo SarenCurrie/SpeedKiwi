@@ -183,21 +183,18 @@ class Robot(object):
         """
         self.execute_callback()
 
-        if self.is_blocked():
-            self.stop()
-        else:
-            action = self.NO_ACTION
-            if self._action_queue:
-                action = self._action_queue[0]
-                if action.is_finished(self):
-                    action.finish(self)
-                    self._action_queue.remove(action)
-                    if self._action_queue:
-                        action = self._action_queue[0]
-                        action.start(self)
-                    else:
-                        action = self.NO_ACTION
-            action.during(self)
+        action = self.NO_ACTION
+        if self._action_queue:
+            action = self._action_queue[0]
+            if action.is_finished(self):
+                action.finish(self)
+                self._action_queue.remove(action)
+                if self._action_queue:
+                    action = self._action_queue[0]
+                    action.start(self)
+                else:
+                    action = self.NO_ACTION
+        action.during(self)
 
         self.position = self.get_position()
 
