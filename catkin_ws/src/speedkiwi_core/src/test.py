@@ -1,17 +1,19 @@
 #!/usr/bin/env python
 
+import rospy
 from Robot import Robot
 from Animal import Animal
 from DifferentRobot import DifferentRobot
 from Animal import Animal
 from MoveAction import MoveAction
 from RotateAction import RotateAction
-import rospy
+from math import pi
 
 
 rospy.init_node('test')
-robot = Robot('robot_0', 0.5, 0.5, 0, 0, 0)
-robot1 = DifferentRobot('robot_1', 2, 2, 0, 0, 0)
+<<<<<<< HEAD
+robot = Robot('robot_0', 0.5, 0.5, 0, 0, pi/4)
+robot1 = DifferentRobot('robot_1', 2, 2, 0, 0, pi/2)
 animal = Animal('robot_2')
 
 robot.add_action(RotateAction("rotate_to_south"))
