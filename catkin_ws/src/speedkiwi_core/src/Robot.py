@@ -79,11 +79,11 @@ class Robot(object):
             msg.linear.x = linear
             self.velocity = msg
 
-    def set_angular_velocity(self, speed):
+    def set_angular_velocity(self, angular):
         """Sets the twist message to include rotation at the given speed"""
         if not self.odometry is None:
             msg = Twist()
-            msg.angular.z = speed
+            msg.angular.z = angular
             self.velocity = msg
 
     def start_rotate(self):
@@ -98,25 +98,13 @@ class Robot(object):
         """Stops the robot from rotating"""
         self.set_angular_velocity(0)
 
-    def rotate_to_north(self): # NOTE: north is defined in the direction of the positive x axis
-        """Sets the rotation until the robot is facing north
-        Returns true if facing north (false otherwise)"""
+    def rotate_to_east(self): 
+        """Sets the rotation until the robot is facing east
+        Returns true if facing east (false otherwise)"""
         theta = self.position['theta']
         if not (theta < .1 and theta > -.1):
             self.start_rotate()
-            print("Spin to north")
-            return False
-        else:
-            self.stop_rotate()
-            return True
-
-    def rotate_to_south(self):
-        """Sets the rotation until the robot is facing south
-        Returns true if facing south (false otherwise)"""
-        theta = self.position['theta']
-        if not (theta > (pi-.1) or theta < (-pi+.1)):
-            self.start_rotate()
-            print("Spin to south")
+            rospy.loginfo("Spin to east")
             return False
         else:
             self.stop_rotate()
@@ -126,26 +114,59 @@ class Robot(object):
         """Sets the rotation until the robot is facing west
         Returns true if facing west (false otherwise)"""
         theta = self.position['theta']
-        if not (theta > ((pi/2)-.1) and theta < ((pi/2)+.1)):
+        if not (theta > (pi-.1) or theta < (-pi+.1)):
             self.start_rotate()
-            print("Spin to west")
+            rospy.loginfo("Spin to west")
             return False
         else:
             self.stop_rotate()
             return True
 
-    def rotate_to_east(self):
-        """Sets the rotation until the robot is facing east
-        Returns true if facing east (false otherwise)"""
-        theta = self.get_position()['theta']
+    def rotate_to_north(self): # NOTE: north is defined in the direction of the positive y axis
+        """Sets the rotation until the robot is facing north
+        Returns true if facing north (false otherwise)"""
+        theta = self.position['theta']
+        if not (theta > ((pi/2)-.1) and theta < ((pi/2)+.1)):
+            self.start_rotate()
+            rospy.loginfo("Spin to north")
+            return False
+        else:
+            self.stop_rotate()
+            return True
+
+    def rotate_to_south(self):
+        """Sets the rotation until the robot is facing south
+        Returns true if facing south (false otherwise)"""
+        theta = self.position['theta']
 
         if not (theta < (-(pi/2)+.1) and theta > (-(pi/2)-.1)):
             self.start_rotate()
-            print("Spin to east")
+            rospy.loginfo("Spin to south")
             return False
         else:
             self.stop_rotate()
             return True
+
+
+    def rotate_to_angle(self, target):
+        """Rotates to the desired target angle. Returns true when facing that direction"""
+        theta = self.position['theta']
+        if target > 0:
+            if not (theta < (target+.1) and theta > (target-.1)):
+                self.start_rotate()
+                rospy.loginfo("Spin to target")
+                return False
+            else:
+                self.stop_rotate()
+                return True
+        else: # target is less then 0 (which corresponds to down)
+            if not (theta > (target+.1) and theta < (target-.1)):
+                self.start_rotate()
+                rospy.loginfo("Spin to target")
+                return False
+            else:
+                self.stop_rotate()
+                return True
 
     def get_position(self):
         """gets this robot's position"""
@@ -179,6 +200,8 @@ class Robot(object):
         To be called by the ros loop. This method sends the Twist message to stage.
         This method should not be overridden instead use execute_callback()
         """
+        self.position = self.get_position()
+
         self.execute_callback()
 
         if self.is_blocked():
@@ -197,7 +220,6 @@ class Robot(object):
                         action = self.NO_ACTION
             action.during(self)
 
-        self.position = self.get_position()
 
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)

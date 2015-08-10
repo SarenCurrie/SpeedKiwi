@@ -3,7 +3,7 @@ import math
 
 class RotateAction(Action):
     """
-    Example Action
+    Action to rotate to face a particular direction
     """
     
     is_rotating = False
