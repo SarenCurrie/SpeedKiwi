@@ -119,9 +119,9 @@ class Robot(object):
             self.set_angular_velocity(-self.angular_top_speed/100)
         elif (theta > (pi-.01) and theta < pi):
             self.set_angular_velocity(self.angular_top_speed/100)
-        elif (theta < ((-pi)+.15) and theta > -pi):
+        elif (theta < ((-pi)+.3) and theta > -pi):
             self.set_angular_velocity(-self.angular_top_speed/4)
-        elif (theta > (pi-.15) and theta < pi):
+        elif (theta > (pi-.3) and theta < pi):
             self.set_angular_velocity(self.angular_top_speed/4)
         elif ((theta > 0) and (pi > 0) and (theta < pi)) or (not (theta < (2*pi)) and (pi < 0) and (theta > pi)):
             self.start_rotate()
@@ -153,11 +153,11 @@ class Robot(object):
             self.set_angular_velocity(-self.angular_top_speed/100)
         elif (theta > (target-.01) and theta < target):
             self.set_angular_velocity(self.angular_top_speed/100)
-        elif (theta < (target+.15) and theta > target):
+        elif (theta < (target+.3) and theta > target):
             self.set_angular_velocity(-self.angular_top_speed/4)
-        elif (theta > (target-.15) and theta < target):
+        elif (theta > (target-.3) and theta < target):
             self.set_angular_velocity(self.angular_top_speed/4)
-        elif ((theta > (target-pi)) and (target > 0) and (theta < target)) or (not (theta < (target+pi)) and (target < 0) and (theta > target)):
+        elif ((target > 0) and (theta > (target-pi)) and (theta < target)) or ((target < 0) and not ((theta < (target+pi)) and (theta > target))):
             self.start_rotate()
         else:
             self.start_rotate_opposite()
