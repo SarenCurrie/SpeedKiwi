@@ -1,18 +1,19 @@
+import rospy
+import tf
 from geometry_msgs.msg import Twist, Pose
 from nav_msgs.msg import Odometry
 from std_msgs.msg import String
-from math import sin, cos
 from sensor_msgs.msg import LaserScan
 from rosgraph_msgs.msg import Log
-from Action import Action
-import rospy
-import tf 
+from math import sin, cos
+from action import Action
 from tf.transformations import euler_from_quaternion
 from math import pi
 
+
 class Robot(object):
-    """
-    Provides a generic class to represent robots and other objects in stage.
+    """Provides a generic class to represent robots and other objects in stage.
+
     Stage only allows robots initialised in the world file to be manipulated by ROS,
     therefore we have to initialise the robots in the world file as well as this class.
     """
@@ -41,7 +42,7 @@ class Robot(object):
         self._action_queue = []
         self.rotation_executing = False
         self.current_rotation = None
-        
+
         def odometry_handler(data):
             """
             Handles odometry messages from stage
@@ -55,10 +56,10 @@ class Robot(object):
             Handles LaserScan messages from stage
             """
             self.laser = data
-            #rospy.loginfo("scan handler")
 
         rospy.Subscriber("/" + self.robot_id + "/base_scan", LaserScan, scan_handler)
-        # Wait for odometry datax`
+
+        # Wait for odometry data
         while self.odometry is None:
             rospy.loginfo("Waiting for odometry information")
 
@@ -71,17 +72,18 @@ class Robot(object):
     def stop(self):
         """Stops the robot from moving"""
         self.set_linear_velocity(0)
+        self.rotation_executing = False
 
     def set_linear_velocity(self, linear):
-        """docstring for set_velocity"""
-        if not self.odometry is None:
+        """Sets this robot's velocity in m/s"""
+        if self.odometry is not None:
             msg = Twist()
             msg.linear.x = linear
             self.velocity = msg
 
     def set_angular_velocity(self, angular):
         """Sets the twist message to include rotation at the given speed"""
-        if not self.odometry is None:
+        if self.odometry is not None:
             msg = Twist()
             msg.angular.z = angular
             self.velocity = msg
@@ -89,14 +91,17 @@ class Robot(object):
     def start_rotate(self):
         """Sets rotation to speed definied in constructor (anti clockwise) """
         self.set_angular_velocity(self.angular_top_speed)
+        self.rotation_executing = True
 
     def start_rotate_opposite(self):
         """Sets rotation to speed definied in constructor (clockwise) """
         self.set_angular_velocity(-self.angular_top_speed)
+        self.rotation_executing = True
 
     def stop_rotate(self):
         """Stops the robot from rotating"""
         self.set_angular_velocity(0)
+        self.rotation_executing = False
 
     def rotate_to_east(self): 
         """Sets the rotation until the robot is facing east
@@ -133,7 +138,6 @@ class Robot(object):
     def rotate_to_south(self):
         """Sets the rotation until the robot is facing south
         Returns true if facing south (false otherwise)"""
-
         return self.rotate_to_angle(-pi/2)
 
 
@@ -163,7 +167,8 @@ class Robot(object):
         """gets this robot's position"""
         position = self.odometry.pose.pose.position
         rotation = self.odometry.pose.pose.orientation
-        euler = euler_from_quaternion(quaternion=(rotation.x, rotation.y, rotation.z, rotation.w)) # Convert to usable angle
+        # Convert to usable angle
+        euler = euler_from_quaternion(quaternion=(rotation.x, rotation.y, rotation.z, rotation.w))
         theta = euler[2] + self.theta_offset
         if theta < -pi:
             theta = theta + (2*pi)
@@ -198,21 +203,18 @@ class Robot(object):
 
         self.execute_callback()
 
-        if self.is_blocked():
-            self.stop()
-        else:
-            action = self.NO_ACTION
-            if self._action_queue:
-                action = self._action_queue[0]
-                if action.is_finished(self):
-                    action.finish(self)
-                    self._action_queue.remove(action)
-                    if self._action_queue:
-                        action = self._action_queue[0]
-                        action.start(self)
-                    else:
-                        action = self.NO_ACTION
-            action.during(self)
+        action = self.NO_ACTION
+        if self._action_queue:
+            action = self._action_queue[0]
+            if action.is_finished(self):
+                action.finish(self)
+                self._action_queue.remove(action)
+                if self._action_queue:
+                    action = self._action_queue[0]
+                    action.start(self)
+                else:
+                    action = self.NO_ACTION
+        action.during(self)
 
 
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
