@@ -2,7 +2,6 @@ from action import Action
 import math
 import rospy
 
-
 class MoveAction(Action):
     """
     Example Action
