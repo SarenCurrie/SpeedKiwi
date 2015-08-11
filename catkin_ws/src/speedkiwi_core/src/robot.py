@@ -111,7 +111,24 @@ class Robot(object):
     def rotate_to_west(self):
         """Sets the rotation until the robot is facing west
         Returns true if facing west (false otherwise)"""
-        return self.rotate_to_angle(pi)
+        theta = self.position['theta']
+        if (theta < ((-pi)+.001) or theta > (pi-.001)):
+            self.stop_rotate()
+            return True
+        elif (theta < ((-pi)+.01) and theta > -pi):
+            self.set_angular_velocity(-self.angular_top_speed/100)
+        elif (theta > (pi-.01) and theta < pi):
+            self.set_angular_velocity(self.angular_top_speed/100)
+        elif (theta < ((-pi)+.15) and theta > -pi):
+            self.set_angular_velocity(-self.angular_top_speed/4)
+        elif (theta > (pi-.15) and theta < pi):
+            self.set_angular_velocity(self.angular_top_speed/4)
+        elif ((theta > 0) and (pi > 0) and (theta < pi)) or (not (theta < (2*pi)) and (pi < 0) and (theta > pi)):
+            self.start_rotate()
+        else:
+            self.start_rotate_opposite()
+            return False
+        #return self.rotate_to_angle(pi)
 
     def rotate_to_north(self): # NOTE: north is defined in the direction of the positive y axis
         """Sets the rotation until the robot is facing north
@@ -127,10 +144,20 @@ class Robot(object):
     def rotate_to_angle(self, target):
         """Rotates to the desired target angle. Returns true when facing that direction"""
         theta = self.position['theta']
-        if (theta < (target+.1) and theta > (target-.1)):
+        if target == pi or target == -pi:
+            return rotate_to_west()
+        if (theta < (target+.001) and theta > (target-.001)):
             self.stop_rotate()
             return True
-        elif ((theta > (target-pi)) and (target > 0) and (theta < target)) or (not (theta < (target+pi)) and (target < angle) and (theta > angle)):
+        elif (theta < (target+.01) and theta > target):
+            self.set_angular_velocity(-self.angular_top_speed/100)
+        elif (theta > (target-.01) and theta < target):
+            self.set_angular_velocity(self.angular_top_speed/100)
+        elif (theta < (target+.15) and theta > target):
+            self.set_angular_velocity(-self.angular_top_speed/4)
+        elif (theta > (target-.15) and theta < target):
+            self.set_angular_velocity(self.angular_top_speed/4)
+        elif ((theta > (target-pi)) and (target > 0) and (theta < target)) or (not (theta < (target+pi)) and (target < 0) and (theta > target)):
             self.start_rotate()
         else:
             self.start_rotate_opposite()
@@ -143,8 +170,10 @@ class Robot(object):
         # Convert to usable angle
         euler = euler_from_quaternion(quaternion=(rotation.x, rotation.y, rotation.z, rotation.w))
         theta = euler[2] + self.theta_offset
-        if theta > pi or theta < -pi:
-            theta = -euler[2]
+        if theta < -pi:
+            theta = theta + (2*pi)
+        elif theta > pi:
+            theta = theta - (2*pi)
         return {
             'x': position.x + self.x_offset,
             'y': position.y + self.y_offset,
@@ -156,7 +185,7 @@ class Robot(object):
         if self.laser:
             for range in self.laser.ranges:
                 if range < 2:
-                    #rospy.loginfo(str(range))
+                    rospy.logdebug(str(range))
                     return True
         return False
 
@@ -170,6 +199,7 @@ class Robot(object):
         This method should not be overridden instead use execute_callback()
         """
         self.position = self.get_position()
+        #rospy.loginfo(self.position["theta"])
 
         self.execute_callback()
 
