@@ -140,7 +140,6 @@ class Robot(object):
         Returns true if facing south (false otherwise)"""
         return self.rotate_to_angle(-pi/2)
 
-
     def rotate_to_angle(self, target):
         """Rotates to the desired target angle. Returns true when facing that direction"""
         theta = self.position['theta']

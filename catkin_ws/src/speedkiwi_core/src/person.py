@@ -11,20 +11,25 @@ class Person(Robot):
         """Movement logic for person"""
 
         if not self.rotation_executing:
-            # Blocking logic
-            if self.is_blocked():
-                self.stop()
-                return
-
-            self.forward()
+            # # Blocking logic
+            # if self.is_blocked():
+            #     self.stop()
+            #     return
+            # self.forward()
 
             position = self.get_position()
             rospy.loginfo(str(position['y']))
 
-            if (position['y'] > 10) and self.direction is "north": 
+            if self.is_blocked() and self.direction is "north": 
                 self.rotate_to_south()
                 self.direction = "south"
-            elif (position['y'] < 0) and self.direction is "south":
+            elif self.is_blocked() and self.direction is "south":
+                self.rotate_to_north()
+                self.direction = "north"
+            elif (position['y'] > 25) and self.direction is "north":
+                self.rotate_to_south()
+                self.direction = "south"
+            elif (position['y'] < 5) and self.direction is "south":
                 self.rotate_to_north()
                 self.direction = "north"
             self.forward()
