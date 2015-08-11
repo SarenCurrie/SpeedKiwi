@@ -112,23 +112,26 @@ class Robot(object):
         """Sets the rotation until the robot is facing west
         Returns true if facing west (false otherwise)"""
         theta = self.position['theta']
-        if (theta < ((-pi)+.001) or theta > (pi-.001)):
+        if (theta < ((-pi)+.0001) or theta > (pi-.0001)):
             self.stop_rotate()
             return True
-        elif (theta < ((-pi)+.01) and theta > -pi):
+        elif (theta < ((-pi)+.003) and theta > -pi):
+            self.set_angular_velocity(-self.angular_top_speed/500)
+        elif (theta > (pi-.003) and theta < pi):
+            self.set_angular_velocity(self.angular_top_speed/500)
+        elif (theta < ((-pi)+.03) and theta > -pi):
             self.set_angular_velocity(-self.angular_top_speed/100)
-        elif (theta > (pi-.01) and theta < pi):
+        elif (theta > (pi-.03) and theta < pi):
             self.set_angular_velocity(self.angular_top_speed/100)
-        elif (theta < ((-pi)+.15) and theta > -pi):
+        elif (theta < ((-pi)+.3) and theta > -pi):
             self.set_angular_velocity(-self.angular_top_speed/4)
-        elif (theta > (pi-.15) and theta < pi):
+        elif (theta > (pi-.3) and theta < pi):
             self.set_angular_velocity(self.angular_top_speed/4)
-        elif ((theta > 0) and (pi > 0) and (theta < pi)) or (not (theta < (2*pi)) and (pi < 0) and (theta > pi)):
+        elif (theta >= 0):
             self.start_rotate()
         else:
             self.start_rotate_opposite()
             return False
-        #return self.rotate_to_angle(pi)
 
     def rotate_to_north(self): # NOTE: north is defined in the direction of the positive y axis
         """Sets the rotation until the robot is facing north
@@ -145,18 +148,22 @@ class Robot(object):
         theta = self.position['theta']
         if target == pi or target == -pi:
             return rotate_to_west()
-        if (theta < (target+.001) and theta > (target-.001)):
+        if (theta < (target+.0001) and theta > (target-.0001)):
             self.stop_rotate()
             return True
-        elif (theta < (target+.01) and theta > target):
+        elif (theta < (target+.003) and theta > target):
+            self.set_angular_velocity(-self.angular_top_speed/500)
+        elif (theta > (target-.003) and theta < target):
+            self.set_angular_velocity(self.angular_top_speed/500)
+        elif (theta < (target+.03) and theta > target):
             self.set_angular_velocity(-self.angular_top_speed/100)
-        elif (theta > (target-.01) and theta < target):
+        elif (theta > (target-.03) and theta < target):
             self.set_angular_velocity(self.angular_top_speed/100)
-        elif (theta < (target+.15) and theta > target):
+        elif (theta < (target+.3) and theta > target):
             self.set_angular_velocity(-self.angular_top_speed/4)
-        elif (theta > (target-.15) and theta < target):
+        elif (theta > (target-.3) and theta < target):
             self.set_angular_velocity(self.angular_top_speed/4)
-        elif ((theta > (target-pi)) and (target > 0) and (theta < target)) or (not (theta < (target+pi)) and (target < 0) and (theta > target)):
+        elif ((target >= 0) and (theta > (target-pi)) and (theta < target)) or ((target <= 0) and not ((theta < (target+pi)) and (theta > target))):
             self.start_rotate()
         else:
             self.start_rotate_opposite()
