@@ -1,14 +1,15 @@
-from Action import Action
+from action import Action
 import math
+
 
 class MoveAction(Action):
     """
     Example Action
     """
-    
+
     x_start = 0
     y_start = 0
-    
+
     def __init__(self, d):
         self.distance = d
 
@@ -23,7 +24,9 @@ class MoveAction(Action):
             robot.forward()
 
     def is_finished(self, robot):
-        delta = math.sqrt((robot.get_position()['x'] - self.x_start) ** 2 + (robot.get_position()['y'] - self.y_start) ** 2)
+        delta_x = robot.get_position()['x'] - self.x_start
+        delta_y = robot.get_position()['y'] - self.y_start
+        delta = math.sqrt(delta_x ** 2 + delta_y ** 2)
         if delta > self.distance:
             return True
         else:
