@@ -6,6 +6,7 @@ from animal import Animal
 from different_robot import DifferentRobot
 from move_action import MoveAction
 from rotate_action import RotateAction
+from navigate_action import NavigateAction
 from math import pi
 
 rospy.init_node('main')
@@ -24,9 +25,9 @@ animal = Animal('robot_2', 2, 2, 0, 0, pi/2)
 # robot1.forward()
 # animal.forward()
 
-robot.add_action(MoveAction(5000))
-robot1.add_action(MoveAction(5000))
-animal.add_action(MoveAction(5000))
+robot.add_action(NavigateAction(50, 50))
+robot1.add_action(NavigateAction(50, 50))
+animal.add_action(NavigateAction(50, 50))
 
 rate = rospy.Rate(10)
 

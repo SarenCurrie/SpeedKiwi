@@ -110,7 +110,7 @@ class Robot(object):
         NOTE: north is defined in the direction of the positive x axis
         """
         theta = self.position['theta']
-        if not (theta < .1 and theta > -.1):
+        if not (theta < .01 and theta > -.01):
             self.start_rotate()
             return False
         else:
@@ -121,7 +121,7 @@ class Robot(object):
         """Sets the rotation until the robot is facing south
         Returns true if facing south (false otherwise)"""
         theta = self.position['theta']
-        if not (theta > (pi-.1) or theta < (-pi+.1)):
+        if not (theta > (pi-.01) or theta < (-pi+.01)):
             self.start_rotate()
             return False
         else:
@@ -132,7 +132,7 @@ class Robot(object):
         """Sets the rotation until the robot is facing west
         Returns true if facing west (false otherwise)"""
         theta = self.position['theta']
-        if not (theta > ((pi/2)-.1) and theta < ((pi/2)+.1)):
+        if not (theta > ((pi/2)-.01) and theta < ((pi/2)+.01)):
             self.start_rotate()
             return False
         else:
