@@ -7,6 +7,7 @@ from different_robot import DifferentRobot
 from move_action import MoveAction
 from rotate_action import RotateAction
 from navigate_action import NavigateAction
+from figure_8_action import Figure8Action
 from math import pi
 
 rospy.init_node('main')
@@ -26,22 +27,7 @@ robot.add_action(RotateAction("rotate_to_north"))
 robot.add_action(MoveAction(75))
 
 
-robot1.add_action(RotateAction("rotate_to_east"))
-robot1.add_action(MoveAction(2))
-robot1.add_action(RotateAction("rotate_to_north"))
-robot1.add_action(MoveAction(2))
-robot1.add_action(RotateAction("rotate_to_west"))
-robot1.add_action(MoveAction(2))
-robot1.add_action(RotateAction("rotate_to_north"))
-robot1.add_action(MoveAction(2))
-robot1.add_action(RotateAction("rotate_to_east"))
-robot1.add_action(MoveAction(2))
-robot1.add_action(RotateAction("rotate_to_south"))
-robot1.add_action(MoveAction(2))
-robot1.add_action(RotateAction("rotate_to_west"))
-robot1.add_action(MoveAction(2))
-robot1.add_action(RotateAction("rotate_to_south"))
-robot1.add_action(MoveAction(2))
+robot1.add_action(Figure8Action())
 
 # robot1.add_action(NavigateAction(50, 50))
 # animal.add_action(NavigateAction(50, 50))
