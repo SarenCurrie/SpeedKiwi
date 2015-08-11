@@ -1,15 +1,16 @@
-from Action import Action
+from action import Action
 import math
 import rospy
+
 
 class RotateAction(Action):
     """
     Action to rotate to face a particular direction
     """
-    
     is_rotating = True
     
     def __init__(self, rotation, angle=None):
+        self.is_rotating = False
         self.current_rotation = rotation
         self.target_angle = angle
 

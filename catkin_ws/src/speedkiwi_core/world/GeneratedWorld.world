@@ -1,0 +1,64 @@
+include "Generated_World/OrchardWallsGEN.inc"
+include "Generated_World/PergolaArchGEN.inc"
+include "Generated_World/PergolaPostGEN.inc"
+include "Generated_World/PergolaBraceGEN.inc"
+include "Generated_World/DrivewayDEF.inc"
+
+# Positions of the orchard objects
+include "Generated_World/PergolaPostPositionsGEN.inc"
+include "Generated_World/PergolaArchPositionsGEN.inc"
+include "Generated_World/PergolaBracePositionsGEN.inc"
+include "Generated_World/DrivewayPositionDEF.inc"
+
+# RobotList must be the last thing to include
+include "PickerRobot.inc"
+#include "CarrierRobot.inc"
+include "RobotList.inc"
+
+
+define blob model
+(
+# Colouring the surrounding trees
+color "black"
+
+# Whether to draw a bounding box around the model, indicating its size
+boundary 0
+
+# Can you interact with with model with the mouse
+gui_move 0
+
+obstacle_return 1
+ranger_return 1
+
+
+block
+  (
+    color "chocolate4"
+    points [4]
+    point[0] [0 0]
+    point[1] [0 0.3]
+    point[2] [0.3 0.3]
+    point[3] [0.3 0]
+    z [0 1.8]
+  )
+
+)
+
+blob( 
+  name "bbb"
+  size [ 20.0 20.0 10 ]
+  pose [ 20.000 20.000 0 0 ]
+)
+
+# Simulation Property: Number of milliseconds per update step 
+interval_sim 100
+
+# Size (in meters) of a pixel in Stage
+resolution 0.02
+
+# Size of the world in meters
+size [150 150] 
+
+
+
+
