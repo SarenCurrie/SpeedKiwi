@@ -72,6 +72,7 @@ class Robot(object):
     def stop(self):
         """Stops the robot from moving"""
         self.set_linear_velocity(0)
+        self.rotation_executing = False
 
     def set_linear_velocity(self, linear):
         """Sets this robot's velocity in m/s"""
@@ -90,14 +91,17 @@ class Robot(object):
     def start_rotate(self):
         """Sets rotation to speed definied in constructor (anti clockwise) """
         self.set_angular_velocity(self.angular_top_speed)
+        self.rotation_executing = True
 
     def start_rotate_opposite(self):
         """Sets rotation to speed definied in constructor (clockwise) """
         self.set_angular_velocity(-self.angular_top_speed)
+        self.rotation_executing = True
 
     def stop_rotate(self):
         """Stops the robot from rotating"""
         self.set_angular_velocity(0)
+        self.rotation_executing = False
 
     def rotate_to_north(self):
         """
@@ -106,7 +110,7 @@ class Robot(object):
         NOTE: north is defined in the direction of the positive x axis
         """
         theta = self.position['theta']
-        if not (theta < .1 and theta > -.1):
+        if not (theta < .01 and theta > -.01):
             self.start_rotate()
             return False
         else:
@@ -117,7 +121,7 @@ class Robot(object):
         """Sets the rotation until the robot is facing south
         Returns true if facing south (false otherwise)"""
         theta = self.position['theta']
-        if not (theta > (pi-.1) or theta < (-pi+.1)):
+        if not (theta > (pi-.01) or theta < (-pi+.01)):
             self.start_rotate()
             return False
         else:
@@ -128,7 +132,7 @@ class Robot(object):
         """Sets the rotation until the robot is facing west
         Returns true if facing west (false otherwise)"""
         theta = self.position['theta']
-        if not (theta > ((pi/2)-.1) and theta < ((pi/2)+.1)):
+        if not (theta > ((pi/2)-.01) and theta < ((pi/2)+.01)):
             self.start_rotate()
             return False
         else:
@@ -183,21 +187,18 @@ class Robot(object):
         """
         self.execute_callback()
 
-        if self.is_blocked():
-            self.stop()
-        else:
-            action = self.NO_ACTION
-            if self._action_queue:
-                action = self._action_queue[0]
-                if action.is_finished(self):
-                    action.finish(self)
-                    self._action_queue.remove(action)
-                    if self._action_queue:
-                        action = self._action_queue[0]
-                        action.start(self)
-                    else:
-                        action = self.NO_ACTION
-            action.during(self)
+        action = self.NO_ACTION
+        if self._action_queue:
+            action = self._action_queue[0]
+            if action.is_finished(self):
+                action.finish(self)
+                self._action_queue.remove(action)
+                if self._action_queue:
+                    action = self._action_queue[0]
+                    action.start(self)
+                else:
+                    action = self.NO_ACTION
+        action.during(self)
 
         self.position = self.get_position()
 
