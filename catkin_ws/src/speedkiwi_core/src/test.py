@@ -14,9 +14,9 @@ robot1 = DifferentRobot('robot_1', 2, 2, 0, 0, pi/2)
 
 robot.add_action(RotateAction("rotate_to_south"))
 robot.add_action(MoveAction(2))
-robot.add_action(RotateAction("rotate_to_angle", 2))
+robot.add_action(RotateAction("rotate_to_west", 2))
 robot.add_action(RotateAction("rotate_to_angle", 1))
-robot.add_action(RotateAction("rotate_to_angle", 2))
+robot.add_action(RotateAction("rotate_to_west", 2))
 robot.add_action(MoveAction(2))
 robot.add_action(RotateAction("rotate_to_north"))
 robot.add_action(MoveAction(2))
@@ -25,7 +25,7 @@ robot.add_action(MoveAction(5))
 robot.add_action(RotateAction("rotate_to_west"))
 robot.add_action(MoveAction(10))
 
-robot1.forward()
+robot1.add_action(MoveAction(50))
 
 rate = rospy.Rate(10)
 
