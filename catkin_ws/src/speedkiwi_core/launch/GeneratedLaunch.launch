@@ -10,9 +10,9 @@
 -->
 
 <node name="main" pkg="speedkiwi_core" type="main.py"/>
-
-<!-- UNCOMMENT IF WANT TO USE CONSOLE TO DEBUG
 <node name="console" pkg="rqt_console" type="rqt_console"/>
+<!-- UNCOMMENT IF WANT TO USE CONSOLE TO DEBUG
+
 -->
 
 </launch>
