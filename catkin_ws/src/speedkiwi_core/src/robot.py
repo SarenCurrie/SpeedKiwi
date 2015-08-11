@@ -23,7 +23,7 @@ class Robot(object):
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
         """
         robot_id: The robot's name in stage
-        top_speedL The robot's maximum speed
+        top_speed: The robot's maximum speed
         x_offset: The x coordinate the robot starts at in stage
         y_offset: The y coordinate the robot starts at in stage
         theta_offset: The direction this robot starts facing in stage
