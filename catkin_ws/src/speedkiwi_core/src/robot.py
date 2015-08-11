@@ -172,8 +172,6 @@ class Robot(object):
         self.position = self.get_position()
 
         self.execute_callback()
-        
-        rospy.loginfo(str(self.is_blocked()))
 
         action = self.NO_ACTION
         if self._action_queue:
