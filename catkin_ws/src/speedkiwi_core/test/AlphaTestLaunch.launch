@@ -1,0 +1,4 @@
+<launch>
+  <node name="Robot" pkg="speedkiwi_core" type="robot.py" />
+  <test test-name="TestThings" pkg="speedkiwi_core" type="test_robot.py" />
+</launch>
