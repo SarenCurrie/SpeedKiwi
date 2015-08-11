@@ -81,11 +81,11 @@ class Robot(object):
             msg.linear.x = linear
             self.velocity = msg
 
-    def set_angular_velocity(self, speed):
+    def set_angular_velocity(self, angular):
         """Sets the twist message to include rotation at the given speed"""
         if self.odometry is not None:
             msg = Twist()
-            msg.angular.z = speed
+            msg.angular.z = angular
             self.velocity = msg
 
     def start_rotate(self):
@@ -103,6 +103,7 @@ class Robot(object):
         self.set_angular_velocity(0)
         self.rotation_executing = False
 
+<<<<<<< HEAD
     def rotate_to_north(self):
         """
         Sets the rotation until the robot is facing north
@@ -120,10 +121,27 @@ class Robot(object):
         else:
             self.stop_rotate()
             return True
+=======
+    def rotate_to_east(self): 
+        """Sets the rotation until the robot is facing east
+        Returns true if facing east (false otherwise)"""
+        return self.rotate_to_angle(0)
+
+    def rotate_to_west(self):
+        """Sets the rotation until the robot is facing west
+        Returns true if facing west (false otherwise)"""
+        return self.rotate_to_angle(pi)
+
+    def rotate_to_north(self): # NOTE: north is defined in the direction of the positive y axis
+        """Sets the rotation until the robot is facing north
+        Returns true if facing north (false otherwise)"""
+        return self.rotate_to_angle(pi/2)
+>>>>>>> 0e07dd7abf5c93c191c69e250fc301709aca82e5
 
     def rotate_to_south(self):
         """Sets the rotation until the robot is facing south
         Returns true if facing south (false otherwise)"""
+<<<<<<< HEAD
         theta = self.position['theta']
 <<<<<<< HEAD
         if not (theta > (pi-.1) or theta < (-pi+.1)):
@@ -135,11 +153,15 @@ class Robot(object):
         else:
             self.stop_rotate()
             return True
+=======
+        return self.rotate_to_angle(-pi/2)
+>>>>>>> 0e07dd7abf5c93c191c69e250fc301709aca82e5
 
-    def rotate_to_west(self):
-        """Sets the rotation until the robot is facing west
-        Returns true if facing west (false otherwise)"""
+
+    def rotate_to_angle(self, target):
+        """Rotates to the desired target angle. Returns true when facing that direction"""
         theta = self.position['theta']
+<<<<<<< HEAD
 <<<<<<< HEAD
         if not (theta > ((pi/2)-.1) and theta < ((pi/2)+.1)):
 =======
@@ -148,21 +170,16 @@ class Robot(object):
             self.start_rotate()
             return False
         else:
+=======
+        if (theta < (target+.1) and theta > (target-.1)):
+>>>>>>> 0e07dd7abf5c93c191c69e250fc301709aca82e5
             self.stop_rotate()
             return True
-
-    def rotate_to_east(self):
-        """Sets the rotation until the robot is facing east
-        Returns true if facing east (false otherwise)"""
-        theta = self.get_position()['theta']
-
-        if not (theta < (-(pi/2)+.1) and theta > (-(pi/2)-.1)):
+        elif ((theta > (target-pi)) and (target > 0) and (theta < target)) or (not (theta < (target+pi)) and (target < angle) and (theta > angle)):
             self.start_rotate()
-            print("Spin to east")
-            return False
         else:
-            self.stop_rotate()
-            return True
+            self.start_rotate_opposite()
+            return False
 
     def get_position(self):
         """gets this robot's position"""
@@ -197,6 +214,8 @@ class Robot(object):
         To be called by the ros loop. This method sends the Twist message to stage.
         This method should not be overridden instead use execute_callback()
         """
+        self.position = self.get_position()
+
         self.execute_callback()
 
         action = self.NO_ACTION
@@ -212,7 +231,6 @@ class Robot(object):
                     action = self.NO_ACTION
         action.during(self)
 
-        self.position = self.get_position()
 
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
