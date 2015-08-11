@@ -8,8 +8,9 @@ import unittest
 ## A sample python unit test
 class TestRobot(unittest.TestCase):
 
-    def test_one_equals_one(self):
-        self.assertEquals(1, 1, "1!=1")
+    def test_robot_initialisation(self):
+            Robot.__init__(Robot, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset)
+
 
 if __name__ == '__main__':
     import rosunit
