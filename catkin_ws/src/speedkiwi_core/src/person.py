@@ -5,7 +5,7 @@ class Person(Robot):
     """Class for people of simulation"""
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
         Robot.__init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset)
-        self.direction = "north"
+        self.direction = "east"
 
     def execute_callback(self):
         """Movement logic for person"""
@@ -17,25 +17,25 @@ class Person(Robot):
             #     return
             # self.forward()
 
-            position = self.get_position()
-            rospy.loginfo(str(position['y']))
+            # position = self.get_position()
+            # rospy.loginfo(str(position['y']))
 
-            if self.is_blocked() and self.direction is "north": 
-                self.rotate_to_south()
-                self.direction = "south"
-            elif self.is_blocked() and self.direction is "south":
-                self.rotate_to_north()
-                self.direction = "north"
-            elif (position['y'] > 25) and self.direction is "north":
-                self.rotate_to_south()
-                self.direction = "south"
-            elif (position['y'] < 5) and self.direction is "south":
-                self.rotate_to_north()
-                self.direction = "north"
+            if self.is_blocked() and self.direction is "east": 
+                self.rotate_to_west()
+                self.direction = "west"
+            elif self.is_blocked() and self.direction is "west":
+                self.rotate_to_east()
+                self.direction = "east"
+            # elif (position['y'] > 25) and self.direction is "east":
+            #     self.rotate_to_west()
+            #     self.direction = "west"
+            # elif (position['y'] < 5) and self.direction is "west":
+            #     self.rotate_to_east()
+            #     self.direction = "east"
             self.forward()
         
         else: 
-           if self.direction == "north":
-               self.rotate_to_north()
+           if self.direction == "east":
+               self.rotate_to_east()
            else:
-               self.rotate_to_south()
+               self.rotate_to_west()
