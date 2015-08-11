@@ -16,9 +16,9 @@ class Animal(Robot):
 
     def execute_callback(self):
         """Behaviour: run around in circles."""
-        # randint = random.randint(1, 5)
-        #
-        # if 1 <= randint <= 4:
-        #     self.forward()
-        # else:
-        #     self.start_rotate()
+        randint = random.randint(1, 5)
+
+        if 1 <= randint <= 4:
+            self.forward()
+        else:
+            self.start_rotate()
