@@ -7,7 +7,8 @@ echo "Welcome Human!"
 echo "Please select whether you want to create a:"
 echo "- (D)efault environment"
 echo "- (C)onfigured environment"
-echo "- OR run (T)ests"
+echo "OR"
+echo "- run (T)ests"
 
 while true;
 do

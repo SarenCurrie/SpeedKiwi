@@ -1,6 +1,6 @@
 <launch>
 
-<node name="stage" pkg="stage_ros" type="stageros" args="$(find speedkiwi_core)/world/DefaultWorld.world"/>
+<node name="stage" pkg="stage_ros" type="stageros" args="-g $(find speedkiwi_core)/world/DefaultWorld.world"/>
 
 <!-- DO NOT DELETE - EXAMPLE NODES -
 
