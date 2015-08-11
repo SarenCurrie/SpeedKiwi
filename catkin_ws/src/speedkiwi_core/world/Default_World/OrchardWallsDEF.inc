@@ -14,7 +14,7 @@ gui_move 0
 orchardWalls( 
   name "OrchardWalls"
   bitmap "Trees.png"
-  size [95.000 95.000 5.500]
-  pose [1.750 35.000 0.000 0.000]
+  size [ 46.0 95.0 5 ]
+  pose [ 0.000 0.000 0 0 ]
 )
 
