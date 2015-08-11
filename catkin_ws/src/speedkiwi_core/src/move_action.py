@@ -4,14 +4,13 @@ import rospy
 
 class MoveAction(Action):
     """
-    Example Action
+    Action to move forward a certain distance in meters
     """
-
-    x_start = 0
-    y_start = 0
 
     def __init__(self, d):
         self.distance = d
+        self.x_start = 0
+        self.y_start = 0
 
     def start(self, robot):
         self.x_start = robot.get_position()['x']
