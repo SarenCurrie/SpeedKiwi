@@ -1,17 +1,17 @@
 # SpeedKiwi
 The best SE 306 2015 - Project 1
 
+![Speedkiwi logo](https://slack-files.com/files-tmb/T07SHFSC9-F07UAGSS0-65ae73cfb5/hipsterlogogenerator_1437460156998_360.png)
+
 ## Installation
 ```
 git clone https://github.com/SarenCurrie/SpeedKiwi.git
 cd SpeedKiwi/catkin_ws
 catkin_make
-source devel/setup.bash
 ```
 
-## Running through launch
+## Running
 ```
-catkin_make
-source devel/setup.bash
-roslaunch speedkiwi_core mylaunch.launch
+./run.sh
+# Enter D to run the default world, C to run the [configured world](https://github.com/SarenCurrie/SpeedKiwi/wiki/Configured-World) and T to run the tests.
 ```
