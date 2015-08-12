@@ -13,5 +13,8 @@ catkin_make
 ## Running
 ```
 ./run.sh
-# Enter D to run the default world, C to run the [configured world](https://github.com/SarenCurrie/SpeedKiwi/wiki/Configured-World) and T to run the tests.
+# Enter: 
+# D to run the (D)efault world
+# C to run the (C)onfigured world (https://github.com/SarenCurrie/SpeedKiwi/wiki/Configured-World) 
+# T to run (T)ests.
 ```
