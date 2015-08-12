@@ -21,9 +21,9 @@ catkin_make
 
 ## Trouble Shooting
 ```
-./run.sh not running?
+Is ./run.sh not running?
+
 Make sure that:
-"./run.sh"
-"src/speedkiwi_core/world/Generated_World/WorldConfiguration.py"
-Are both executable
+1. "./run.sh" is executable
+2. "src/speedkiwi_core/world/Generated_World/WorldConfiguration.py" is executable
 ```
