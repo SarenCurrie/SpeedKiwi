@@ -5,6 +5,7 @@ from nav_msgs.msg import Odometry
 from std_msgs.msg import String
 from sensor_msgs.msg import LaserScan
 from rosgraph_msgs.msg import Log
+from speedkiwi_core.msg import robot_status
 from math import sin, cos
 from action import Action
 from tf.transformations import euler_from_quaternion
@@ -42,6 +43,13 @@ class Robot(object):
         self._action_queue = []
         self.rotation_executing = False
         self.current_rotation = None
+
+        status_pub = rospy.Publisher('statuses', robot_status, queue_size=10)
+
+        def status_handler(data):
+            """Deal with the other robot statuses"""
+            pass # currently does nothing
+            rospy.Subscriber("statuses", robot_status, status_handler)
 
         def odometry_handler(data):
             """
