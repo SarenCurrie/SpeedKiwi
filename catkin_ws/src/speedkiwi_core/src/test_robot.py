@@ -3,17 +3,17 @@ import sys
 import unittest
 import rospy
 
-from move_action import MoveAction
 from robot import Robot
 from math import pi
 
 PKG = 'speedkiwi_core'
 
+
 class TestRobot(unittest.TestCase):
 
     def setUp(self):
         rospy.init_node('test_move_action')
-        self.robot = Robot('robot_0', 1, 0.5, 1, 1, pi/2)
+        self.robot = Robot('robot_0', 1, 0.5, 1, 1, pi / 2)
 
     def test_init(self):
         """Checks if subscribed information has been received."""
@@ -33,6 +33,41 @@ class TestRobot(unittest.TestCase):
 
         self.assertEqual(self.robot.velocity.linear.x, 0)
         self.assertEqual(self.robot.velocity.angular.z, 0)
+
+    def test_set_angular_velocity(self):
+        """Checks if angular velocity is set to the specified value."""
+        self.robot.set_angular_velocity(0.2)
+        self.assertEqual(self.robot.velocity.angular.z, 0.2)
+
+    def test_set_linear_velocity(self):
+        """Checks if linear velocity is set to the specified value."""
+        self.robot.set_linear_velocity(0.7)
+        self.assertEqual(self.robot.velocity.linear.x, 0.7)
+
+    def test_start_rotate(self):
+        """Checks if angular velocity is set to angular_top_speed
+        and rotation_executing is set to true."""
+        self.robot.start_rotate()
+
+        self.assertEqual(self.robot.velocity.angular.z, 0.5)
+        self.assertTrue(self.robot.rotation_executing)
+
+    def test_start_rotate_opposite(self):
+        """Checks if angular velocity is set to angular_top_speed in the
+        negative direction and rotation_executing is set to true."""
+        self.robot.start_rotate_opposite()
+
+        self.assertEqual(self.robot.velocity.angular.z, -0.5)
+        self.assertTrue(self.robot.rotation_executing)
+
+    def test_stop_rotate(self):
+        """Checks to see if angular velocity is set to 0 and
+        rotation_executing is set to false."""
+        self.robot.stop_rotate()
+
+        self.assertEqual(self.robot.velocity.angular.z, 0)
+        self.assertFalse(self.robot.rotation_executing)
+
 
 if __name__ == '__main__':
     import rostest
