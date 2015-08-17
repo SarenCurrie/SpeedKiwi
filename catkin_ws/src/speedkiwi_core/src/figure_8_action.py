@@ -8,9 +8,7 @@ class Figure8Action(Action):
     """
     Action to drive in a figure of 8 shape repetatively forever
     """
-    
-    is_rotating = True
-    
+
     def __init__(self):
         self.is_rotating = True
 

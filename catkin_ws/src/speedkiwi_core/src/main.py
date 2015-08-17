@@ -17,7 +17,7 @@ rospy.init_node('main')
 robot = Robot('robot_0', 3, 0.5, 0, 0, pi/2)
 robot1 = DifferentRobot('robot_1', 2, 0.5, 0, 0, pi/2)
 animal = Animal('robot_2', 2, 2, 0, 0, pi/2)
-person = Person('robot_3', 2, 0.5, 18, 15, 0)
+person = Robot('robot_3', 2, 0.5, 18, 15, 0)
 
 robot.add_action(MoveAction(75))
 robot.add_action(RotateAction("rotate_to_east"))
