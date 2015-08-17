@@ -13,6 +13,9 @@ class MoveRandomAction(Action):
         self.duration = d
         self.counter = 0
 
+    def start(self, robot):
+        rospy.loginfo("Moving randomly" + " - " + str(robot.robot_id))
+
     def during(self, robot):
         """Behaviour: robot moves forward and rotates randomly, and rotates when it detects collision"""
         self.counter += 1

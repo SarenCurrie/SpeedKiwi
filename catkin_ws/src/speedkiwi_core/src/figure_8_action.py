@@ -15,6 +15,7 @@ class Figure8Action(Action):
         self.is_rotating = True
 
     def start(self, robot):
+        rospy.loginfo("Figure 8 Action" + " - " + str(robot.robot_id))
         robot.add_action(RotateAction("rotate_to_east"))
         robot.add_action(MoveAction(5))
         robot.add_action(RotateAction("rotate_to_north"))
