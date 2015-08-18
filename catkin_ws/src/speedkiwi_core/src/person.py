@@ -3,8 +3,8 @@ import rospy
 
 class Person(Robot):
     """Class for people of simulation"""
-    def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
-        Robot.__init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset)
+    def __init__(self, robot_id, robot_type, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
+        Robot.__init__(self, robot_id, robot_type, top_speed, angular_top_speed, x_offset, y_offset, theta_offset)
         self.direction = "east"
 
     def execute_callback(self):
