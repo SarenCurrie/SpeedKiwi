@@ -34,3 +34,6 @@ class MoveAction(Action):
 
     def finish(self, robot):
         robot.stop()
+
+    def to_string(self):
+        return "Move forward " + str(self.distance)

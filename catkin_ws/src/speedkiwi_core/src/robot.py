@@ -217,7 +217,7 @@ class Robot(object):
         msg.x = self.position["x"]
         msg.y = self.position["y"]
         msg.theta = self.position["theta"]
-        msg.current_action = "action"
+        msg.current_action = self._action_queue[len(self._action_queue)-1].to_string() # is there a better way to do this?
         msg.is_blocked = self.is_blocked()
         self.status_msg = msg
 

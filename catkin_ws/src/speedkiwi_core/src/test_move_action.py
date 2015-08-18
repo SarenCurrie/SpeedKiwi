@@ -48,3 +48,6 @@ class TestMoveAction(unittest.TestCase):
 if __name__ == '__main__':
 	import rostest
 	rostest.rosrun(PKG, 'test_move_action', TestMoveAction, sys.argv)
+
+    def to_string(self):
+        return "test movement"

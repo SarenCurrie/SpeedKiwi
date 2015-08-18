@@ -60,3 +60,6 @@ class Figure8Action(Action):
 
     def finish(self, robot):
         robot.stop()
+
+    def to_string(self):
+        return "Figure of eight"
