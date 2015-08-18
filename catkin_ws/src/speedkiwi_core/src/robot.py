@@ -44,12 +44,13 @@ class Robot(object):
         self.rotation_executing = False
         self.current_rotation = None
 
-        status_pub = rospy.Publisher('statuses', robot_status, queue_size=10)
 
         def status_handler(data):
             """Deal with the other robot statuses"""
             pass # currently does nothing
-            rospy.Subscriber("statuses", robot_status, status_handler)
+
+        rospy.Subscriber("statuses", robot_status, status_handler)
+        self.status_msg = robot_status()
 
         def odometry_handler(data):
             """
@@ -207,6 +208,20 @@ class Robot(object):
         """Adds an action to this robot's action queue"""
         self._action_queue.append(action)
 
+    def update_status(self):
+        """Sets up the status message to be published"""
+
+        msg = robot_status()
+        msg.robot_id = self.robot_id
+        msg.robot_type = "R type"
+        msg.x = self.position["x"]
+        msg.y = self.position["y"]
+        msg.theta = self.position["theta"]
+        msg.current_action = "action"
+        msg.is_blocked = self.is_blocked()
+        self.status_msg = msg
+
+
     def execute(self):
         """
         To be called by the ros loop. This method sends the Twist message to stage.
@@ -233,6 +248,10 @@ class Robot(object):
 
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
+
+        status_pub = rospy.Publisher('statuses', robot_status, queue_size=10)
+        self.update_status()
+        status_pub.publish(self.status_msg)
 
     def execute_callback(self):
         """To be overridden in extending classes to define behaviours for each robot."""
