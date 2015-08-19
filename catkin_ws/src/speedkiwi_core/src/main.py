@@ -34,7 +34,7 @@ animal.add_action(MoveRandomAction(10000))
 
 # robot1.add_action(NavigateAction(50, 50))
 # animal.add_action(NavigateAction(50, 50))
-person.add_action(NavigateAction(20, 20))
+person.add_action(NavigateAction(15, 15))
 
 rate = rospy.Rate(10)
 

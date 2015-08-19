@@ -17,7 +17,7 @@ class NavigateAction(Action):
         self.x_correct = False
         self.y_correct = False
         self.current_rotation = None
-        self.rotate_counter = self.ROTATE_COUNTER_THRESHOLD
+        self.rotate_counter = 0
         self.angle = None
 
     def start(self, robot):
@@ -26,14 +26,29 @@ class NavigateAction(Action):
         self.check_direction(robot)
 
     def during(self, robot):
-        if self.rotate_counter > self.ROTATE_COUNTER_THRESHOLD:
-            self.check_direction(robot)
-        if self.angle:
-            if robot.rotate_to_angle(self.angle):
-                self.angle = None
+        if robot.is_blocked():
+            self.angle = None
+            self.rotate_counter = 0
+            robot.start_rotate()
         else:
-            robot.forward()
-            self.rotate_counter += 1
+            robot.stop_rotate()
+            if self.rotate_counter > self.ROTATE_COUNTER_THRESHOLD:
+                self.check_direction(robot)
+            if self.angle:
+                if robot.rotate_to_angle(self.angle):
+                    self.angle = None
+            else:
+                robot.forward()
+                self.rotate_counter += 1
+
+        current_x = robot.get_position()['x']
+        current_y = robot.get_position()['y']
+
+        x_diff = self.x_target - current_x
+        y_diff = self.y_target - current_y
+
+        self.x_correct = (abs(x_diff) < 0.5)
+        self.y_correct = (abs(y_diff) < 0.5)
 
     def is_finished(self, robot):
         if self.x_correct and self.y_correct:
