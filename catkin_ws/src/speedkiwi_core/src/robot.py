@@ -45,10 +45,14 @@ class Robot(object):
         self.rotation_executing = False
         self.current_rotation = None
 
+        self.curr_robot_messages = [None] * 10 # max ten robots before it breaks
 
         def status_handler(data):
-            """Deal with the other robot statuses"""
-            pass # currently does nothing
+            """Deal with the other robot statuses, stores in an list for use later"""
+            robot_id = data.robot_id
+            rid = int(robot_id[-1:])
+            self.curr_robot_messages[rid] = data
+            
 
         rospy.Subscriber("statuses", robot_status, status_handler)
         self.status_msg = robot_status()

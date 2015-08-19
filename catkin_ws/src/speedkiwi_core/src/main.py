@@ -29,7 +29,7 @@ robot.add_action(MoveAction(3.5))
 robot.add_action(RotateAction("rotate_to_north"))
 robot.add_action(MoveAction(75))
 
-robot1.add_action(Figure8Action())
+#robot1.add_action(Figure8Action())
 animal.add_action(MoveRandomAction(10000))
 
 # robot1.add_action(NavigateAction(50, 50))
