@@ -5,6 +5,7 @@ from nav_msgs.msg import Odometry
 from std_msgs.msg import String
 from sensor_msgs.msg import LaserScan
 from rosgraph_msgs.msg import Log
+from speedkiwi_core.msg import robot_status
 from math import sin, cos
 from action import Action
 from tf.transformations import euler_from_quaternion
@@ -30,6 +31,7 @@ class Robot(object):
         """
         super(Robot, self).__init__()
         self.robot_id = robot_id
+        self.type = type(self).__name__
         self.top_speed = top_speed
         self.angular_top_speed = angular_top_speed
         self.x_offset = x_offset
@@ -42,6 +44,18 @@ class Robot(object):
         self._action_queue = []
         self.rotation_executing = False
         self.current_rotation = None
+
+        self.curr_robot_messages = [None] * 10 # max ten robots before it breaks
+
+        def status_handler(data):
+            """Deal with the other robot statuses, stores in an list for use later"""
+            robot_id = data.robot_id
+            rid = int(robot_id[-1:])
+            self.curr_robot_messages[rid] = data
+            
+
+        rospy.Subscriber("statuses", robot_status, status_handler)
+        self.status_msg = robot_status()
 
         def odometry_handler(data):
             """
@@ -199,6 +213,21 @@ class Robot(object):
         """Adds an action to this robot's action queue"""
         self._action_queue.append(action)
 
+    def update_status(self):
+        """Sets up the status message to be published"""
+
+        msg = robot_status()
+        msg.robot_id = self.robot_id
+        msg.robot_type = self.type
+        msg.x = self.position["x"]
+        msg.y = self.position["y"]
+        msg.theta = self.position["theta"]
+        if len(self._action_queue) > 0:
+            msg.current_action = self._action_queue[len(self._action_queue)-1].to_string() # is there a better way to do this?
+        msg.is_blocked = self.is_blocked()
+        self.status_msg = msg
+
+
     def execute(self):
         """
         To be called by the ros loop. This method sends the Twist message to stage.
@@ -225,6 +254,10 @@ class Robot(object):
 
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
+
+        status_pub = rospy.Publisher('statuses', robot_status, queue_size=10)
+        self.update_status()
+        status_pub.publish(self.status_msg)
 
     def execute_callback(self):
         """To be overridden in extending classes to define behaviours for each robot."""

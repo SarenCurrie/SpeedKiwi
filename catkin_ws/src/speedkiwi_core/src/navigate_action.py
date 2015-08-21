@@ -59,6 +59,9 @@ class NavigateAction(Action):
     def finish(self, robot):
         robot.stop()
 
+    def to_string(self):
+        return "Navigating to position x:" + str(self.x) + " y:" + str(self.y)
+
     def check_direction(self, robot):
         self.rotate_counter = 0
 

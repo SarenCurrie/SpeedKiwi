@@ -19,10 +19,12 @@ include "Default_World/PergolaArchPositionsDEF.inc"
 include "Default_World/PergolaBracePositionsDEF.inc"
 include "Default_World/DrivewayPositionDEF.inc"
 
-# Robot models and positions
 include "PickerRobot.inc"
 #include "CarrierRobot.inc"
-include "RobotList.inc" # Must list last
+include "MattsRobot.inc"
+# RobotList must be the last thing to include
+include "RobotList.inc"
+
 
 # Simulation Property: Number of milliseconds per update step 
 interval_sim 100
