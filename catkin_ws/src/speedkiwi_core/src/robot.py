@@ -190,7 +190,7 @@ class Robot(object):
         """is this robot able to move forward"""
         if self.laser:
             for range in self.laser.ranges:
-                if range < 2:
+                if range < 3:
                     rospy.logdebug(str(range))
                     return True
         return False

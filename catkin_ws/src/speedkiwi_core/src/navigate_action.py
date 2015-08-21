@@ -1,65 +1,54 @@
 from action import Action
 import math
+import rospy
 
 class NavigateAction(Action):
     """
     Example Action
     """
-    
-    x_start = 0
-    y_start = 0
-    
+
+    ROTATE_COUNTER_THRESHOLD = 100
+
     def __init__(self, x, y):
-        self.x = x
-        self.y = y
+        self.x_target = x
+        self.y_target = y
         self.x_start = 0
         self.y_start = 0
         self.x_correct = False
         self.y_correct = False
         self.current_rotation = None
+        self.rotate_counter = 0
+        self.angle = None
 
     def start(self, robot):
         self.x_start = robot.get_position()['x']
         self.y_start = robot.get_position()['y']
+        self.check_direction(robot)
 
     def during(self, robot):
+        if robot.is_blocked():
+            self.angle = None
+            self.rotate_counter = 0
+            robot.start_rotate()
+        else:
+            robot.stop_rotate()
+            if self.rotate_counter > self.ROTATE_COUNTER_THRESHOLD:
+                self.check_direction(robot)
+            if self.angle:
+                if robot.rotate_to_angle(self.angle):
+                    self.angle = None
+            else:
+                robot.forward()
+                self.rotate_counter += 1
+
         current_x = robot.get_position()['x']
         current_y = robot.get_position()['y']
 
-        self.x_correct = current_x < (self.x + 0.5) and current_x > (self.x - 0.5)
-        self.y_correct = current_y < (self.y + 0.5) and current_y > (self.y - 0.5)
+        x_diff = self.x_target - current_x
+        y_diff = self.y_target - current_y
 
-        if not robot.rotation_executing:
-            if robot.is_blocked():
-                robot.stop()
-                direction = robot.get_position()['theta']
-                # if direction > -math.pi/4 and direction < math.pi/4:
-                #     robot.rotate_to_east()
-                #     self.current_rotation = "rotate_to_east"
-                #     pass
-                # elif direction > -3 * math.pi/4 and direction < -math.pi/4:
-                #     robot.rotate_to_south()
-                #     self.current_rotation = "rotate_to_south"
-                #     pass
-                # elif direction > math.pi/4 and direction < 3 * math.pi/4:
-                #     robot.rotate_to_north()
-                #     self.current_rotation = "rotate_to_north"
-                #     pass
-                # else:
-                robot.rotate_to_west()
-                self.current_rotation = "rotate_to_west"
-                pass
-            else:
-                robot.forward()
-        else:
-            if self.current_rotation == "rotate_to_west":
-                finished = robot.rotate_to_west()
-            elif self.current_rotation == "rotate_to_east":
-                finished = robot.rotate_to_east()
-            elif self.current_rotation == "rotate_to_north":
-                finished = robot.rotate_to_north()
-            elif self.current_rotation == "rotate_to_south":
-                finished = robot.rotate_to_south()
+        self.x_correct = (abs(x_diff) < 0.5)
+        self.y_correct = (abs(y_diff) < 0.5)
 
     def is_finished(self, robot):
         if self.x_correct and self.y_correct:
@@ -69,3 +58,15 @@ class NavigateAction(Action):
 
     def finish(self, robot):
         robot.stop()
+
+    def check_direction(self, robot):
+        self.rotate_counter = 0
+
+        current_x = robot.get_position()['x']
+        current_y = robot.get_position()['y']
+
+        x_diff = self.x_target - current_x
+        y_diff = self.y_target - current_y
+
+        self.angle = math.atan2(y_diff, x_diff)
+        rospy.loginfo("Checking direction")
