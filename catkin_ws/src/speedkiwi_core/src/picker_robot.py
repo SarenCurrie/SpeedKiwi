@@ -3,8 +3,9 @@ from robot import Robot
 
 class PickerRobot(Robot):
     """Robot that picks kiwifruit and puts it in queue"""
-    def __init__(self, robot_id, robot_type, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
-        Robot.__init__(self, robot_id, robot_type, top_speed, angular_top_speed, x_offset, y_offset, theta_offset)
+    def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
+        Robot.__init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset)
+        self.type = type(self).__name__
 
     def execute_callback(self):
         """docstring for execute_callback"""

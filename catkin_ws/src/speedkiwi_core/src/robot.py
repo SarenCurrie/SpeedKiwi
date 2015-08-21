@@ -21,7 +21,7 @@ class Robot(object):
 
     NO_ACTION = Action()
 
-    def __init__(self, robot_id, robot_type, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
+    def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
         """
         robot_id: The robot's name in stage
         top_speed: The robot's maximum speed
@@ -31,7 +31,7 @@ class Robot(object):
         """
         super(Robot, self).__init__()
         self.robot_id = robot_id
-        self.type = robot_type
+        self.type = type(self).__name__
         self.top_speed = top_speed
         self.angular_top_speed = angular_top_speed
         self.x_offset = x_offset
