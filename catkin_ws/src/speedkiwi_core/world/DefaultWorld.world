@@ -1,16 +1,12 @@
 # Default world specifics include:
+# Kiwifruit trunk height: 1.8m
+# Row width: 3.5m
+# Row length: 70m
+# Tree spacing/Post spacing: 5m
+# Number of rows in orchard: 7
+# Bin dimensions: 1m x 1m x 1m
 
-#
-
-
-#
-
-
-
-#
-
-
-
+# Main orchard models
 include "Default_World/OrchardWallsDEF.inc"
 include "Default_World/PergolaArchDEF.inc"
 include "Default_World/PergolaPostDEF.inc"
@@ -23,12 +19,10 @@ include "Default_World/PergolaArchPositionsDEF.inc"
 include "Default_World/PergolaBracePositionsDEF.inc"
 include "Default_World/DrivewayPositionDEF.inc"
 
-
-# RobotList must be the last thing to include
+# Robot models and positions
 include "PickerRobot.inc"
 #include "CarrierRobot.inc"
-include "RobotList.inc"
-
+include "RobotList.inc" # Must list last
 
 # Simulation Property: Number of milliseconds per update step 
 interval_sim 100
@@ -38,6 +32,3 @@ resolution 0.02
 
 # Size of the world in meters
 size [150 150] 
-
-
-
