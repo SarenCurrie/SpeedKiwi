@@ -1,5 +1,3 @@
-# define newentity oldentity ()
-
 #define the sensor for the Picker robot
 define Sensor ranger 
 ( 
@@ -16,10 +14,10 @@ define Sensor ranger
   ) 
 ) 
 
-define PickerRobot position 
+define CarrierRobot position 
 ( 
   #properties as name value pairs
-  size [2.5 1.5 1.0] 
+  size [1.8 1.5 0.5] 
   drive "diff" 
   block(
   	points 4 
@@ -29,5 +27,5 @@ define PickerRobot position
 	point[3] [2.5 0] 
   	z [0 1]
     )
-    Sensor(pose [1.25 0 -0.75 0])
+    Sensor(pose [0.9 0 -0.4 0])
 ) 
