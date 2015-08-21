@@ -60,7 +60,7 @@ class NavigateAction(Action):
         robot.stop()
 
     def to_string(self):
-        return "Navigating to position x:" + str(self.x) + " y:" + str(self.y)
+        return "Navigating to position x:" + str(self.x_target) + " y:" + str(self.y_target)
 
     def check_direction(self, robot):
         self.rotate_counter = 0
