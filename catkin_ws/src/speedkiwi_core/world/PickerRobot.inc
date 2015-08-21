@@ -3,7 +3,7 @@
 #define the sensor for the Picker robot
 define Sensor ranger 
 ( 
-  sensor( range [ 0 4 ] fov 60.0 samples 500 ) 
+  sensor( range [ 0 3 ] fov 40.0 samples 500 ) 
   size [0.1 0.1 0.1] 
   color "black" 
   block( 
@@ -14,7 +14,7 @@ define Sensor ranger
   point[3] [0 0.1] 
   z [0 0.1] 
   ) 
-) 
+)
 
 define PickerRobot position 
 ( 
@@ -29,5 +29,7 @@ define PickerRobot position
 	point[3] [2.5 0] 
   	z [0 1]
     )
-    Sensor(pose [1.25 0 -0.75 0])
+    Sensor(pose [1.25 0.75 -0.75 -20]) #left sensor
+    Sensor(pose [1.25 -0.75 -0.75 20]) #right sensor
+    
 ) 
