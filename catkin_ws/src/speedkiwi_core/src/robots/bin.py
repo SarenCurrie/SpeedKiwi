@@ -1,6 +1,6 @@
 from robots import Robot
 from std_msgs.msg import String
-from speedkiwi_msgs.msg import bin_status
+from speedkiwi_msgs.msg import bin_status, empty_response
 import rospy
 
 class Bin(Robot):
@@ -14,27 +14,28 @@ class Bin(Robot):
         self.is_empty = True
         self.is_latched = False
 
-        # Suscribe to topic to recieve response from pickers.
-        rospy.Subscriber("empty_response_topic", String, id_response)
-
         def id_response(data):
-            rospy.loginfo("Compare id's: %s %s", data.robot_id, self.robot_id)
+            #rospy.loginfo("Compare id's: %s %s", data.robot_id, self.robot_id)
 
             # If recieves bin recieves own id back, set latched to true
-            if data.robot_id is self.robot_id: # Is this right?
+
+            rospy.loginfo("Data: %s - Self: %s", data.bin_id, self.robot_id)
+
+            if data.bin_id == self.robot_id: # Is this right?
                 self.is_publishing = False
+
+        # Suscribe to topic to recieve response from pickers.
+        rospy.Subscriber("empty_response_topic", empty_response, id_response)
 
     def execute_callback(self):
         """Logic for Bin"""
 
-        bin_pub = rospy.Publisher('bin_status', String, queue_size=10)
-        rate = rospy.Rate(10)
+        bin_pub = rospy.Publisher('bin_status_topic', bin_status, queue_size=10)
 
-        while self.is_publishing:
+        if self.is_publishing:
         	# Publish message bin's details to let pickers know that it can be picked up.
             msg = bin_status()
-            msg.robot_id = self.robot_id
+            msg.bin_id = self.robot_id
             msg.x = self.position["x"]
             msg.y = self.position["y"]
             bin_pub.publish(msg)
-            rate.sleep()

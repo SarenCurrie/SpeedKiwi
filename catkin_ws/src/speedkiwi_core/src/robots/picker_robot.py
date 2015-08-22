@@ -1,7 +1,8 @@
 from robots import Robot
 import rospy
 import os
-from speedkiwi_msgs.msg import empty_response
+from speedkiwi_msgs.msg import bin_status, empty_response
+from actions import NavigateAction
 from std_msgs.msg import String
 
 class PickerRobot(Robot):
@@ -23,24 +24,25 @@ class PickerRobot(Robot):
         file.close()
         self.type = type(self).__name__
 
-        
-
         def callback(data):
-            if self.is_closest == 1:
+            if self.is_closest:
+            #if True:
                 self.current_bin_x = data.x
                 self.current_bin_y = data.y
 
-                empty_response_pub = rospy.Publisher('empty_response_topic', String, queue_size=10)
-                rate = rospy.Rate(10)
+                empty_response_pub = rospy.Publisher('empty_response_topic', empty_response, queue_size=10)
+
+                rospy.loginfo("After Pasfbkaslfjl;")
+
+                self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
 
                 msg = empty_response()
                 msg.picker_id = self.robot_id
-                msg.bin_id = data.robot_id
+                msg.bin_id = data.bin_id
 
                 empty_response_pub.publish(msg)
-                rate.sleep()
 
-        rospy.Subscriber("bin_status", String, callback)
+        rospy.Subscriber("bin_status_topic", bin_status, callback)
 
     def execute_callback(self):
         """Logic for the picker robot."""
@@ -55,8 +57,8 @@ class PickerRobot(Robot):
 
     def do_picking(self):
         """Execute picking behaviour"""
-        rospy.loginfo(self.robot_id + " is picking!")
+        #rospy.loginfo(self.robot_id + " is picking!")
 
     def is_closest(self):
         """Check if this picker is the closest to the specified bin."""
-        return 1
+        return True
