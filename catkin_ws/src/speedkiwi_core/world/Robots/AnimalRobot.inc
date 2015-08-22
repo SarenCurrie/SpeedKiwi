@@ -65,6 +65,26 @@ define AnimalRobot position
     z [0.6 0.9]
   )
 
+  block( #left eye
+    points 4
+    point[0] [0.8 0.13]
+    point[1] [0.8 0.20]
+    point[2] [0.81 0.20]
+    point[3] [0.81 0.13]
+    z [0.82 0.85]
+    color "black"
+  )
+
+  block( #right eye
+    points 4
+    point[0] [0.8 0.30]
+    point[1] [0.8 0.37]
+    point[2] [0.81 0.37]
+    point[3] [0.81 0.30]
+    z [0.82 0.85]
+    color "black"
+  )
+
   block( #left ear
     points 4
     point[0] [0.6 0.1]
@@ -92,6 +112,6 @@ define AnimalRobot position
     z [0.65 0.7]
   )
 
-    Sensor(pose [0.45 0.20 -0.1 -20]) #left sensor
-    Sensor(pose [0.45 -0.20 -0.1 20]) #right sensor
+    Sensor(pose [0.75 0.15 -0.1 -20]) #left sensor
+    Sensor(pose [0.75 -0.15 -0.1 20]) #right sensor
 )
