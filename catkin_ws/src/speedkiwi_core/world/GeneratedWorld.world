@@ -12,9 +12,11 @@ include "Generated_World/PergolaBracePositionsGEN.inc"
 include "Generated_World/DrivewayPositionDEF.inc"
 
 # Robot models and positions
-include "PickerRobot.inc"
-#include "CarrierRobot.inc"
-include "RobotList.inc" # Must list last
+include "Robots/PickerRobot.inc"
+include "Robots/CarrierRobot.inc"
+include "Robots/PersonRobot.inc"
+include "Robots/AnimalRobot.inc"
+include "Robots/RobotList.inc" # Must list last
 
 # Simulation Property: Number of milliseconds per update step 
 interval_sim 100

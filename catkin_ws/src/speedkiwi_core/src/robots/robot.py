@@ -5,9 +5,9 @@ from nav_msgs.msg import Odometry
 from std_msgs.msg import String
 from sensor_msgs.msg import LaserScan
 from rosgraph_msgs.msg import Log
-from speedkiwi_core.msg import robot_status
+from speedkiwi_msgs.msg import robot_status
 from math import sin, cos
-from action import Action
+from actions import Action
 from tf.transformations import euler_from_quaternion
 from math import pi
 
@@ -40,7 +40,8 @@ class Robot(object):
         self.odometry = None
         self.velocity = Twist()
         self.is_moving = False
-        self.laser = None
+        self.leftLaser = None
+        self.rightLaser = None
         self._action_queue = []
         self.rotation_executing = False
         self.current_rotation = None
@@ -69,13 +70,19 @@ class Robot(object):
 
         rospy.Subscriber("/" + self.robot_id + "/odom", Odometry, odometry_handler)
 
-        def scan_handler(data):
+        def left_scan_handler(data):
             """
-            Handles LaserScan messages from stage
+            Handles LaserScan messages from stage for left sensor
             """
-            self.laser = data
+            self.leftLaser = data
 
-        rospy.Subscriber("/" + self.robot_id + "/base_scan", LaserScan, scan_handler)
+        def right_scan_handler(data):
+            """
+            Handles LaserScan messages from stage for right sensor
+            """
+            self.rightLaser = data
+        rospy.Subscriber("/" + self.robot_id + "/base_scan_0", LaserScan, left_scan_handler)
+        rospy.Subscriber("/" + self.robot_id + "/base_scan_1", LaserScan, right_scan_handler)
 
         # Wait for odometry data
         while self.odometry is None:
@@ -206,9 +213,15 @@ class Robot(object):
 
     def is_blocked(self):
         """is this robot able to move forward"""
-        if self.laser:
-            for range in self.laser.ranges:
-                if range < 3:
+        block_range = 3
+        if self.leftLaser:
+            for range in self.leftLaser.ranges:
+                if range < block_range:
+                    rospy.logdebug(str(range))
+                    return True
+        if self.rightLaser:
+            for range in self.rightLaser.ranges:
+                if range < block_range:
                     rospy.logdebug(str(range))
                     return True
         return False
@@ -232,7 +245,7 @@ class Robot(object):
         msg.y = self.position["y"]
         msg.theta = self.position["theta"]
         if len(self._action_queue) > 0:
-            msg.current_action = self._action_queue[len(self._action_queue)-1].to_string() # is there a better way to do this?
+             msg.current_action = type(self._action_queue[len(self._action_queue)-1]).__name__  # is there a better way to do this?
         msg.is_blocked = self.is_blocked()
         self.status_msg = msg
 

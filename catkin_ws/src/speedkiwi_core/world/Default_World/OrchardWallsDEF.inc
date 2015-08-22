@@ -11,10 +11,11 @@ gui_move 0
 
 )
 
+# Size of orchard walls is the width/length of the orchard + 30 (15m each size)
 orchardWalls( 
   name "OrchardWalls"
   bitmap "Trees.png"
-  size [ 46.0 95.0 5 ]
+  size [ 51.0 100.0 5 ]
   pose [ 0.000 0.000 0 0 ]
 )
 

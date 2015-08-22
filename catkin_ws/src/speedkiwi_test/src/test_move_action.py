@@ -3,11 +3,11 @@ import sys
 import unittest
 import rospy
 
-from move_action import MoveAction
-from robot import Robot
+from actions import MoveAction
+from robots import Robot
 from math import pi
 
-PKG = 'speedkiwi_core'
+PKG = 'speedkiwi_test'
 
 class TestMoveAction(unittest.TestCase):
 
@@ -45,9 +45,9 @@ class TestMoveAction(unittest.TestCase):
 
 		self.assertFalse(action.is_finished(self.robot))
 
+	def to_string(self):
+		return "test movement"
+
 if __name__ == '__main__':
 	import rostest
 	rostest.rosrun(PKG, 'test_move_action', TestMoveAction, sys.argv)
-
-    def to_string(self):
-        return "test movement"

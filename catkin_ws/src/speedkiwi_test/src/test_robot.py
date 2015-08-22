@@ -3,10 +3,10 @@ import sys
 import unittest
 import rospy
 
-from robot import Robot
+from robots import Robot
 from math import pi
 
-PKG = 'speedkiwi_core'
+PKG = 'speedkiwi_test'
 
 
 class TestRobot(unittest.TestCase):
@@ -18,7 +18,8 @@ class TestRobot(unittest.TestCase):
     def test_init(self):
         """Checks if subscribed information has been received."""
         self.assertIsNot(self.robot.odometry, None)
-        self.assertIsNot(self.robot.laser, None)
+        self.assertIsNot(self.robot.leftLaser, None)
+        self.assertIsNot(self.robot.rightLaser, None)
 
     def test_forward(self):
         """Checks if forward sets the velocity to its top speed."""

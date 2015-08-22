@@ -9,8 +9,8 @@
 		<node pkg="beginner_tutorials" name="listener" type="listener.py"/>
 -->
 
-<test name="move_action_test" test-name="test_move_action" pkg="speedkiwi_core" type="test_move_action.py" />
-<test name="robot_test" test-name="test_robot" pkg="speedkiwi_core" type="test_robot.py" />
+<test name="move_action_test" test-name="test_move_action" pkg="speedkiwi_test" type="test_move_action.py" />
+<test name="robot_test" test-name="test_robot" pkg="speedkiwi_test" type="test_robot.py" />
 
 
 <!--<node name="console" pkg="rqt_console" type="rqt_console"/>-->
