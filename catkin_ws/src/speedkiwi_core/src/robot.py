@@ -191,7 +191,7 @@ class Robot(object):
         if self.laser:
             for range in self.laser.ranges:
                 if range < 2:
-                    rospy.logdebug(str(range))
+                    # rospy.logdebug(str(range))
                     return True
         return False
 
