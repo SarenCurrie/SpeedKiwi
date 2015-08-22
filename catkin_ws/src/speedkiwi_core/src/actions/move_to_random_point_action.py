@@ -19,7 +19,7 @@ class MoveToRandomPointAction(Action):
 
         # Boundaries
         path = os.path.dirname(__file__) 
-        path = os.path.join(path, "world_locations/")
+        path = os.path.join(path, "../world_locations/")
         with open(path + "world_perimeter.txt", 'r') as file:
             data = file.readlines()
         self.min_x = data[2]

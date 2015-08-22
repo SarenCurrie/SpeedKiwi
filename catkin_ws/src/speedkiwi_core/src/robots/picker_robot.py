@@ -2,6 +2,7 @@ from robots import Robot
 import rospy
 import os
 from speedkiwi_msgs.msg import empty_response
+from std_msgs.msg import String
 
 class PickerRobot(Robot):
 
@@ -10,7 +11,7 @@ class PickerRobot(Robot):
         Robot.__init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset)
         #Define orchard edge coordinates
         dir = os.path.dirname(__file__)
-        path = os.path.join(dir,"world_locations/")
+        path = os.path.join(dir,"../world_locations/")
         with open(path + "orchard.txt", 'r') as file:
             #read orchard location file
             data = file.readlines()
@@ -22,7 +23,7 @@ class PickerRobot(Robot):
         file.close()
         self.type = type(self).__name__
 
-        rospy.Subscriber("bin_status", String, callback)
+        
 
         def callback(data):
             if self.is_closest == 1:
@@ -38,6 +39,8 @@ class PickerRobot(Robot):
 
                 empty_response_pub.publish(msg)
                 rate.sleep()
+
+        rospy.Subscriber("bin_status", String, callback)
 
     def execute_callback(self):
         """Logic for the picker robot."""
