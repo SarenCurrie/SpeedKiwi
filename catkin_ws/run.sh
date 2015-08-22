@@ -25,6 +25,7 @@ elif [[ $REPLY =~ ^[Cc]$ ]]; then
 elif [[ $REPLY =~ ^[Tt]$ ]]; then
 	chmod +x src/speedkiwi_test/src/test_move_action.py
 	chmod +x src/speedkiwi_test/src/test_navigate_action.py
+	chmod +x src/speedkiwi_test/src/test_status.py
 	chmod +x src/speedkiwi_test/src/test_robot.py
 	rostest speedkiwi_test TestLaunch.launch
 
