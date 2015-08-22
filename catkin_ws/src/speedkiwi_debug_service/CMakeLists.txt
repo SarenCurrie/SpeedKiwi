@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(speedkiwi_core)
+project(speedkiwi_debug_service)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -10,7 +10,6 @@ find_package(catkin REQUIRED
   std_msgs
   message_generation
 )
-
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -47,7 +46,9 @@ catkin_python_setup()
 
 ## Generate messages in the 'msg' folder
 # add_message_files(
-#   FILES robot_status.msg
+#   FILES
+#   Message1.msg
+#   Message2.msg
 # )
 
 ## Generate services in the 'srv' folder
@@ -101,8 +102,8 @@ catkin_python_setup()
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES speedkiwi_core
-  CATKIN_DEPENDS roscpp rospy std_msgs message_runtime geometry_msgs
+#  LIBRARIES speedkiwi_debug_service
+#  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
 )
 
@@ -112,28 +113,27 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(
-  ${catkin_INCLUDE_DIRS}
-)
+# include_directories(include)
+
 ## Declare a C++ library
-# add_library(speedkiwi_core
-#   src/${PROJECT_NAME}/speedkiwi_core.cpp
+# add_library(speedkiwi_debug_service
+#   src/${PROJECT_NAME}/speedkiwi_debug_service.cpp
 # )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(speedkiwi_core ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(speedkiwi_debug_service ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(speedkiwi_core_node src/speedkiwi_core_node.cpp)
+# add_executable(speedkiwi_debug_service_node src/speedkiwi_debug_service_node.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(speedkiwi_core_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(speedkiwi_debug_service_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(speedkiwi_core_node
+# target_link_libraries(speedkiwi_debug_service_node
 #   ${catkin_LIBRARIES}
 # )
 
@@ -147,12 +147,12 @@ include_directories(
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 install(PROGRAMS
-  src/main.py
+  src/webservice.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS speedkiwi_core speedkiwi_core_node
+# install(TARGETS speedkiwi_debug_service speedkiwi_debug_service_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -177,7 +177,7 @@ install(PROGRAMS
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_speedkiwi_core.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_speedkiwi_debug_service.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
