@@ -47,7 +47,10 @@ catkin_python_setup()
 
 ## Generate messages in the 'msg' folder
 add_message_files(
-  FILES robot_status.msg
+  FILES
+  robot_status.msg
+  bin_status.msg
+  empty_response.msg
 )
 
 ## Generate services in the 'srv' folder
