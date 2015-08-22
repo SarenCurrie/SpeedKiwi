@@ -6,7 +6,6 @@ class Person(Robot):
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
         Robot.__init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset)
         self.direction = "east"
-        self.type = type(self).__name__
 
     def execute_callback(self):
         """Movement logic for person"""
