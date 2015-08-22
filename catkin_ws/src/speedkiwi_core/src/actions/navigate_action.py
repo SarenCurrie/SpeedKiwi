@@ -7,7 +7,7 @@ class NavigateAction(Action):
     Example Action
     """
 
-    ROTATE_COUNTER_THRESHOLD = 100
+    ROTATE_COUNTER_THRESHOLD = 75
 
     def __init__(self, x, y):
         self.x_target = x
@@ -17,7 +17,7 @@ class NavigateAction(Action):
         self.x_correct = False
         self.y_correct = False
         self.current_rotation = None
-        self.rotate_counter = 0
+        self.rotate_counter = self.ROTATE_COUNTER_THRESHOLD
         self.angle = None
 
     def start(self, robot):
@@ -32,7 +32,7 @@ class NavigateAction(Action):
             robot.start_rotate()
         else:
             robot.stop_rotate()
-            if self.rotate_counter > self.ROTATE_COUNTER_THRESHOLD:
+            if self.rotate_counter >= self.ROTATE_COUNTER_THRESHOLD:
                 self.check_direction(robot)
             if self.angle:
                 if robot.rotate_to_angle(self.angle):
