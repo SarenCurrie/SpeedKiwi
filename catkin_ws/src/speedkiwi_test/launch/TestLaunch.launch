@@ -12,7 +12,7 @@
 <test name="move_action_test" test-name="test_move_action" pkg="speedkiwi_test" type="test_move_action.py" />
 <test name="navigate_action_test" test-name="test_navigate_action" pkg="speedkiwi_test" type="test_navigate_action.py" />
 <test name="robot_test" test-name="test_robot" pkg="speedkiwi_test" type="test_robot.py" />
-
+<test name="status_test" test-name="test_status" pkg="speedkiwi_test" type="test_status.py" />
 
 <!--<node name="console" pkg="rqt_console" type="rqt_console"/>-->
 

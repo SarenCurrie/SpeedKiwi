@@ -12,7 +12,7 @@ PKG = 'speedkiwi_test'
 class TestNavigateAction(unittest.TestCase):
 
     def setUp(self):
-        rospy.init_node('test_move_action')
+        rospy.init_node('test_navigate_action')
         self.robot = Robot('robot_0', 1, 0.5, 1, 1, pi/2)
 
     def test_init(self):
