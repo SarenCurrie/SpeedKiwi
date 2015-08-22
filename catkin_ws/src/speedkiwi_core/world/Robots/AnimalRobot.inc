@@ -4,49 +4,94 @@ include "Robots/Sensor.inc"
 define AnimalRobot position 
 ( 
   #properties as name value pairs
-  size [0.9 0.5 0.5] 
+  size [1.5 0.5 0.9] 
   drive "diff" 
-  block(
+  block( #back right leg
     points 4 
   	point[0] [0 0] 
-  	point[1] [0 0.3] 
-  	point[2] [0.3 0.3]
-    point[3] [0.3 0] 
-  	z [0 0.5]
-    )
-  block(
-    points 4
-    point[0] [0.8 0]
-    point[1] [1.1 0]
-    point[2] [1.1 0.3]
-    point[3] [0.8 0.3]
-    z [0 0.5]
+  	point[1] [0 0.1] 
+  	point[2] [0.1 0.1]
+    point[3] [0.1 0] 
+  	z [0 0.4]
   )
-  block(
+  block( #back left leg
     points 4
-    point[0] [0 0.8]
-    point[1] [0 1.1]
-    point[2] [0.3 1.1]
-    point[3] [0.3 0.8]
-    z [0 0.5]
+    point[0] [0.4 0]
+    point[1] [0.5 0]
+    point[2] [0.5 0.1]
+    point[3] [0.4 0.1]
+    z [0 0.4]
+  )
+  block( #front right leg
+    points 4
+    point[0] [0 0.4]
+    point[1] [0 0.5]
+    point[2] [0.1 0.5]
+    point[3] [0.1 0.4]
+    z [0 0.4]
+  )
+  block( #front left leg
+    points 4
+    point[0] [0.5 0.4]
+    point[1] [0.5 0.5]
+    point[2] [0.4 0.5]
+    point[3] [0.4 0.4]
+    z [0 0.4]
+  )
+  block( #front left leg
+    points 4
+    point[0] [0.5 0.4]
+    point[1] [0.5 0.5]
+    point[2] [0.4 0.5]
+    point[3] [0.4 0.4]
+    z [0 0.4]
   )
 
-  block(
+  block( #body
     points 4
-    point[0] [0.8 0.8]
-    point[1] [0.8 1.1]
-    point[2] [1.1 1.1]
-    point[3] [1.1 0.8]
-    z [0 0.5]
+    point[0] [0 0]
+    point[1] [0 0.5]
+    point[2] [0.5 0.5]
+    point[3] [0.5 0]
+    z [0.4 0.7]
   )
 
-  block(
-    points[0] [0 0]
-    points[1] [0 1.1]
-    points[2] [1.1 1.1]
-    points[3] [1.1 0]
-    z [0.5 0.8]
+  block( #head
+    points 4
+    point[0] [0.5 0.1]
+    point[1] [0.5 0.4]
+    point[2] [0.8 0.4]
+    point[3] [0.8 0.1]
+    z [0.6 0.9]
   )
-    Sensor(pose [0.45 0.25 -0.4 -20]) #left sensor
-    Sensor(pose [0.45 -0.25 -0.4 20]) #right sensor
-) 
+
+  block( #left ear
+    points 4
+    point[0] [0.6 0.1]
+    point[1] [0.7 0.1]
+    point[2] [0.7 0.08]
+    point[3] [0.6 0.08]
+    z [0.5 0.9]
+  )
+
+  block( #right ear
+    points 4
+    point[0] [0.6 0.4]
+    point[1] [0.6 0.42]
+    point[2] [0.7 0.42]
+    point[3] [0.7 0.4]
+    z [0.5 0.9]
+  )
+
+  block( #tail
+    points 4
+    point[0] [0 0.2]
+    point[1] [0 0.3]
+    point[2] [-0.2 0.3]
+    point[3] [-0.2 0.2]
+    z [0.65 0.7]
+  )
+
+    Sensor(pose [0.45 0.20 -0.1 -20]) #left sensor
+    Sensor(pose [0.45 -0.20 -0.1 20]) #right sensor
+)
