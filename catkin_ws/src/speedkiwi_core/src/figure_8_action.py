@@ -8,13 +8,12 @@ class Figure8Action(Action):
     """
     Action to drive in a figure of 8 shape repetatively forever
     """
-    
-    is_rotating = True
-    
+
     def __init__(self):
         self.is_rotating = True
 
     def start(self, robot):
+        rospy.loginfo("Figure 8 Action" + " - " + str(robot.robot_id))
         robot.add_action(RotateAction("rotate_to_east"))
         robot.add_action(MoveAction(5))
         robot.add_action(RotateAction("rotate_to_north"))
@@ -59,3 +58,6 @@ class Figure8Action(Action):
 
     def finish(self, robot):
         robot.stop()
+
+    def to_string(self):
+        return "Figure of eight"

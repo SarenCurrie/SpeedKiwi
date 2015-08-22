@@ -15,7 +15,7 @@ class MoveAction(Action):
     def start(self, robot):
         self.x_start = robot.get_position()['x']
         self.y_start = robot.get_position()['y']
-        rospy.loginfo("forward " + str(self.distance))
+        rospy.loginfo("forward " + str(self.distance) + " - " + str(robot.robot_id))
 
     def during(self, robot):
         if robot.is_blocked():
@@ -34,3 +34,6 @@ class MoveAction(Action):
 
     def finish(self, robot):
         robot.stop()
+
+    def to_string(self):
+        return "Move forward " + str(self.distance)

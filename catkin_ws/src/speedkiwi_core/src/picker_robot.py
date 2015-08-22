@@ -19,6 +19,7 @@ class PickerRobot(Robot):
         self.minX = float(data[3])
         self.minY = float(data[4])
         file.close()
+        self.type = type(self).__name__
 
     def execute_callback(self):
         """docstring for execute_callback"""

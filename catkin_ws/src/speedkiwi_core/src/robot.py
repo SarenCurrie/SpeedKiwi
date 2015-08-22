@@ -5,6 +5,7 @@ from nav_msgs.msg import Odometry
 from std_msgs.msg import String
 from sensor_msgs.msg import LaserScan
 from rosgraph_msgs.msg import Log
+from speedkiwi_core.msg import robot_status
 from math import sin, cos
 from action import Action
 from tf.transformations import euler_from_quaternion
@@ -30,6 +31,7 @@ class Robot(object):
         """
         super(Robot, self).__init__()
         self.robot_id = robot_id
+        self.type = type(self).__name__
         self.top_speed = top_speed
         self.angular_top_speed = angular_top_speed
         self.x_offset = x_offset
@@ -38,10 +40,23 @@ class Robot(object):
         self.odometry = None
         self.velocity = Twist()
         self.is_moving = False
-        self.laser = None
+        self.leftLaser = None
+        self.rightLaser = None
         self._action_queue = []
         self.rotation_executing = False
         self.current_rotation = None
+
+        self.curr_robot_messages = [None] * 10 # max ten robots before it breaks
+
+        def status_handler(data):
+            """Deal with the other robot statuses, stores in an list for use later"""
+            robot_id = data.robot_id
+            rid = int(robot_id[-1:])
+            self.curr_robot_messages[rid] = data
+            
+
+        rospy.Subscriber("statuses", robot_status, status_handler)
+        self.status_msg = robot_status()
 
         def odometry_handler(data):
             """
@@ -51,13 +66,19 @@ class Robot(object):
 
         rospy.Subscriber("/" + self.robot_id + "/odom", Odometry, odometry_handler)
 
-        def scan_handler(data):
+        def left_scan_handler(data):
             """
-            Handles LaserScan messages from stage
+            Handles LaserScan messages from stage for left sensor
             """
-            self.laser = data
+            self.leftLaser = data
 
-        rospy.Subscriber("/" + self.robot_id + "/base_scan", LaserScan, scan_handler)
+        def right_scan_handler(data):
+            """
+            Handles LaserScan messages from stage for right sensor
+            """
+            self.rightLaser = data
+        rospy.Subscriber("/" + self.robot_id + "/base_scan_0", LaserScan, left_scan_handler)
+        rospy.Subscriber("/" + self.robot_id + "/base_scan_1", LaserScan, right_scan_handler)
 
         # Wait for odometry data
         while self.odometry is None:
@@ -188,16 +209,37 @@ class Robot(object):
 
     def is_blocked(self):
         """is this robot able to move forward"""
-        if self.laser:
-            for range in self.laser.ranges:
-                if range < 2:
-                    # rospy.logdebug(str(range))
+        block_range = 3
+        if self.leftLaser:
+            for range in self.leftLaser.ranges:
+                if range < block_range:
+                    rospy.logdebug(str(range))
+                    return True
+        if self.rightLaser:
+            for range in self.rightLaser.ranges:
+                if range < block_range:
+                    rospy.logdebug(str(range))
                     return True
         return False
 
     def add_action(self, action):
         """Adds an action to this robot's action queue"""
         self._action_queue.append(action)
+
+    def update_status(self):
+        """Sets up the status message to be published"""
+
+        msg = robot_status()
+        msg.robot_id = self.robot_id
+        msg.robot_type = self.type
+        msg.x = self.position["x"]
+        msg.y = self.position["y"]
+        msg.theta = self.position["theta"]
+        if len(self._action_queue) > 0:
+            msg.current_action = self._action_queue[len(self._action_queue)-1].to_string() # is there a better way to do this?
+        msg.is_blocked = self.is_blocked()
+        self.status_msg = msg
+
 
     def execute(self):
         """
@@ -225,6 +267,10 @@ class Robot(object):
 
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
+
+        status_pub = rospy.Publisher('statuses', robot_status, queue_size=10)
+        self.update_status()
+        status_pub.publish(self.status_msg)
 
     def execute_callback(self):
         """To be overridden in extending classes to define behaviours for each robot."""

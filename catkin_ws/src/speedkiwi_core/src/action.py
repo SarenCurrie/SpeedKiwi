@@ -41,3 +41,9 @@ class Action(object):
         This should be overridden if you want behaviour at the end of the action.
         """
         pass
+
+    def to_string(self):
+        """
+        Returns a string representation of the action
+        """
+        pass
