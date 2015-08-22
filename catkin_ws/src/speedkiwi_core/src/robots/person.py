@@ -1,4 +1,4 @@
-from robot import Robot
+from robots import Robot
 import rospy
 
 class Person(Robot):
