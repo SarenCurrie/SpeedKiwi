@@ -10,16 +10,20 @@ from rotate_action import RotateAction
 from navigate_action import NavigateAction
 from figure_8_action import Figure8Action
 from move_random_action import MoveRandomAction
+from picker_robot import PickerRobot
 from move_to_random_point_action import MoveToRandomPointAction
 from math import pi
 
 rospy.init_node('main')
 
-robot = Robot('robot_0', 3, 0.5, 0, 0, pi/2)
+robot = PickerRobot('robot_0', 3, 0.5, -8.5, -37, 0)
 robot1 = DifferentRobot('robot_1', 2, 0.5, 0, 0, pi/2)
 animal = Animal('robot_2', 2, 2, 0, 0, pi/2)
 person = Robot('robot_3', 2, 0.5, -17, 37, 0)
 
+# robot.add_action(RotateAction("rotate_to_north"))
+robot.add_action(MoveAction(1))
+robot.add_action(RotateAction("rotate_to_north"))
 robot.add_action(MoveAction(75))
 robot.add_action(RotateAction("rotate_to_east"))
 robot.add_action(MoveAction(3.5))
