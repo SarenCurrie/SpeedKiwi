@@ -1,6 +1,6 @@
-from robot import Robot
+from robots import Robot
 from std_msgs.msg import String
-from speedkiwi_core.msg import bin_status
+from speedkiwi_msgs.msg import bin_status
 import rospy
 
 class Bin(Robot):
@@ -36,5 +36,5 @@ class Bin(Robot):
             msg.robot_id = self.robot_id
             msg.x = self.position["x"]
             msg.y = self.position["y"]
-        	bin_pub.publish(msg)
-        	rate.sleep()
+            bin_pub.publish(msg)
+            rate.sleep()

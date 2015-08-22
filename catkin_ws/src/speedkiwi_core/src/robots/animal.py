@@ -4,8 +4,8 @@ from std_msgs.msg import String
 from math import sin, cos
 import rospy
 from robot import Robot
-from move_action import MoveAction
-from rotate_action import RotateAction
+from actions import MoveAction
+from actions import RotateAction
 
 
 class Animal(Robot):

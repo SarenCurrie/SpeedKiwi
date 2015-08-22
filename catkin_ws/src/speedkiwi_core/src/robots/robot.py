@@ -5,9 +5,9 @@ from nav_msgs.msg import Odometry
 from std_msgs.msg import String
 from sensor_msgs.msg import LaserScan
 from rosgraph_msgs.msg import Log
-from speedkiwi_core.msg import robot_status
+from speedkiwi_msgs.msg import robot_status
 from math import sin, cos
-from action import Action
+from actions import Action
 from tf.transformations import euler_from_quaternion
 from math import pi
 
@@ -236,7 +236,7 @@ class Robot(object):
         msg.y = self.position["y"]
         msg.theta = self.position["theta"]
         if len(self._action_queue) > 0:
-            msg.current_action = self._action_queue[len(self._action_queue)-1].to_string() # is there a better way to do this?
+             msg.current_action = type(self._action_queue[len(self._action_queue)-1]).__name__  # is there a better way to do this?
         msg.is_blocked = self.is_blocked()
         self.status_msg = msg
 

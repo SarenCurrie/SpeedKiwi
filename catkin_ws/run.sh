@@ -23,9 +23,9 @@ elif [[ $REPLY =~ ^[Cc]$ ]]; then
 	roslaunch speedkiwi_core GeneratedLaunch.launch
 	break;
 elif [[ $REPLY =~ ^[Tt]$ ]]; then
-	chmod +x src/speedkiwi_core/src/test_move_action.py
-	chmod +x src/speedkiwi_core/src/test_robot.py
-	rostest speedkiwi_core TestLaunch.launch
+	chmod +x src/speedkiwi_test/src/test_move_action.py
+	chmod +x src/speedkiwi_test/src/test_robot.py
+	rostest speedkiwi_test TestLaunch.launch
 
 	break;
 fi

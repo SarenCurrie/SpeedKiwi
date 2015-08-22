@@ -1,7 +1,7 @@
-from robot import Robot
+from robots import Robot
 import rospy
 import os
-from speedkiwi_core.msg import empty_response
+from speedkiwi_msgs.msg import empty_response
 
 class PickerRobot(Robot):
 
@@ -40,8 +40,7 @@ class PickerRobot(Robot):
                 rate.sleep()
 
     def execute_callback(self):
-<<<<<<< HEAD
-        """docstring for execute_callback"""
+        """Logic for the picker robot."""
         currentX = self.position['x']
         currentY = self.position['y']
         inOrchard = False #used for debugging purposes
@@ -54,10 +53,7 @@ class PickerRobot(Robot):
     def do_picking(self):
         """Execute picking behaviour"""
         rospy.loginfo(self.robot_id + " is picking!")
-=======
-        """Logic for the picker robot."""
 
     def is_closest(self):
         """Check if this picker is the closest to the specified bin."""
         return 1
->>>>>>> master

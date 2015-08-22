@@ -3,11 +3,11 @@ import sys
 import unittest
 import rospy
 
-from move_action import MoveAction
-from robot import Robot
+from actions import MoveAction
+from robots import Robot
 from math import pi
 
-PKG = 'speedkiwi_core'
+PKG = 'speedkiwi_test'
 
 class TestMoveAction(unittest.TestCase):
 
