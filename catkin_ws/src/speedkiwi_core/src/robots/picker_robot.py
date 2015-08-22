@@ -51,7 +51,10 @@ class PickerRobot(Robot):
         if ((self.minX <= currentX <= self.maxX) and (self.minY <= currentY <= self.maxY)):
             inOrchard = True
             self.do_picking()
+            self.current_speed = 0.25
             """need to slow down robot to 0.01m/s"""
+        else:
+            self.current_speed = self.top_speed
 
     def do_picking(self):
         """Execute picking behaviour"""
