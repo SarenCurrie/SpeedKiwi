@@ -14,29 +14,20 @@ class Bin(Robot):
         self.is_empty = True
         self.is_latched = False
 
-<<<<<<< HEAD:catkin_ws/src/speedkiwi_core/src/bin.py
-         self.master = None
+        self.master = None
 
-        # Suscribe to topic to recieve response from pickers.
-        rospy.Subscriber("empty_response_topic", String, id_response)
-
-=======
->>>>>>> 0d18d252049456e0a840a6f99c25d1dfd6834d20:catkin_ws/src/speedkiwi_core/src/robots/bin.py
         def id_response(data):
             #rospy.loginfo("Compare id's: %s %s", data.robot_id, self.robot_id)
 
             # If recieves bin recieves own id back, set latched to true
 
-            rospy.loginfo("Data: %s - Self: %s", data.bin_id, self.robot_id)
+            # rospy.loginfo("Data: %s - Self: %s", data.bin_id, self.robot_id)
 
             if data.bin_id == self.robot_id: # Is this right?
                 self.is_publishing = False
 
-<<<<<<< HEAD:catkin_ws/src/speedkiwi_core/src/bin.py
-=======
         # Suscribe to topic to recieve response from pickers.
         rospy.Subscriber("empty_response_topic", empty_response, id_response)
->>>>>>> 0d18d252049456e0a840a6f99c25d1dfd6834d20:catkin_ws/src/speedkiwi_core/src/robots/bin.py
 
     def execute_callback(self):
         """Logic for Bin"""
@@ -49,9 +40,7 @@ class Bin(Robot):
             msg.bin_id = self.robot_id
             msg.x = self.position["x"]
             msg.y = self.position["y"]
-<<<<<<< HEAD:catkin_ws/src/speedkiwi_core/src/bin.py
-        	bin_pub.publish(msg)
-        	rate.sleep()
+            bin_pub.publish(msg)
        
 
 
@@ -61,6 +50,3 @@ class Bin(Robot):
 
     def mimic(self):
         self.add_action(self.master.current_action())
-=======
-            bin_pub.publish(msg)
->>>>>>> 0d18d252049456e0a840a6f99c25d1dfd6834d20:catkin_ws/src/speedkiwi_core/src/robots/bin.py
