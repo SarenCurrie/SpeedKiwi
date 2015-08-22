@@ -10,6 +10,7 @@ from rotate_action import RotateAction
 from navigate_action import NavigateAction
 from figure_8_action import Figure8Action
 from move_random_action import MoveRandomAction
+from move_to_random_point_action import MoveToRandomPointAction
 from math import pi
 
 rospy.init_node('main')
@@ -30,7 +31,7 @@ robot.add_action(RotateAction("rotate_to_north"))
 robot.add_action(MoveAction(75))
 
 #robot1.add_action(Figure8Action())
-animal.add_action(MoveRandomAction(10000))
+animal.add_action(MoveToRandomPointAction())
 
 # robot1.add_action(NavigateAction(50, 50))
 # animal.add_action(NavigateAction(50, 50))
