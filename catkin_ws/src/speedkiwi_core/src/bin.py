@@ -14,6 +14,8 @@ class Bin(Robot):
         self.is_empty = True
         self.is_latched = False
 
+         self.master = None
+
         # Suscribe to topic to recieve response from pickers.
         rospy.Subscriber("empty_response_topic", String, id_response)
 
@@ -23,6 +25,7 @@ class Bin(Robot):
             # If recieves bin recieves own id back, set latched to true
             if data.robot_id is self.robot_id: # Is this right?
                 self.is_publishing = False
+
 
     def execute_callback(self):
         """Logic for Bin"""
@@ -38,3 +41,12 @@ class Bin(Robot):
             msg.y = self.position["y"]
         	bin_pub.publish(msg)
         	rate.sleep()
+       
+
+
+    def latch(self, robot):
+        self.master = robot
+
+
+    def mimic(self):
+        self.add_action(self.master.current_action())
