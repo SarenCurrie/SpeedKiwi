@@ -1,6 +1,7 @@
 from robots import Robot
 import rospy
 import os
+import random
 from speedkiwi_msgs.msg import empty_response
 from std_msgs.msg import String
 
@@ -22,6 +23,9 @@ class PickerRobot(Robot):
         self.minY = float(data[4])
         file.close()
         self.type = type(self).__name__
+
+        self.fruit_count = 0
+        self.max_fruit = 100
 
         
 
@@ -51,12 +55,28 @@ class PickerRobot(Robot):
         if ((self.minX <= currentX <= self.maxX) and (self.minY <= currentY <= self.maxY)):
             inOrchard = True
             self.do_picking()
-            """need to slow down robot to 0.01m/s"""
+            self.current_speed = 0.25 #slow down to picking speed
+        else:
+            self.current_speed = self.top_speed
 
     def do_picking(self):
         """Execute picking behaviour"""
-        rospy.loginfo(self.robot_id + " is picking!")
+        if self.check_full() == True:
+            rospy.loginfo(self.robot_id + " is full")
+            return
+        randint = random.randint(1,10)
+        if randint == 1:
+            self.fruit_count += 1
+            rospy.loginfo(self.robot_id + " has picked " + str(self.fruit_count) + " kiwifruit!")
 
     def is_closest(self):
         """Check if this picker is the closest to the specified bin."""
         return 1
+
+    def check_full(self):
+        if self.fruit_count >= self.max_fruit:
+            return True
+        return False
+
+    def empty_bin(self):
+        self.fruit_count = 0

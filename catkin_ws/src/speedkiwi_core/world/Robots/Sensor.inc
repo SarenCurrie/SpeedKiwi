@@ -1,7 +1,7 @@
 define Sensor ranger 
 ( 
   sensor( range [ 0 3 ] fov 40.0 samples 500 ) 
-  size [0.1 0.1 0.1] 
+  size [0.01 0.01 0.01] 
   color "black" 
   block( 
   points 4 
