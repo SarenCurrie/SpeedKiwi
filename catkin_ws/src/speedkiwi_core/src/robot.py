@@ -40,7 +40,8 @@ class Robot(object):
         self.odometry = None
         self.velocity = Twist()
         self.is_moving = False
-        self.laser = None
+        self.leftLaser = None
+        self.rightLaser = None
         self._action_queue = []
         self.rotation_executing = False
         self.current_rotation = None
@@ -65,13 +66,19 @@ class Robot(object):
 
         rospy.Subscriber("/" + self.robot_id + "/odom", Odometry, odometry_handler)
 
-        def scan_handler(data):
+        def left_scan_handler(data):
             """
-            Handles LaserScan messages from stage
+            Handles LaserScan messages from stage for left sensor
             """
-            self.laser = data
+            self.leftLaser = data
 
-        rospy.Subscriber("/" + self.robot_id + "/base_scan", LaserScan, scan_handler)
+        def right_scan_handler(data):
+            """
+            Handles LaserScan messages from stage for right sensor
+            """
+            self.rightLaser = data
+        rospy.Subscriber("/" + self.robot_id + "/base_scan_0", LaserScan, left_scan_handler)
+        rospy.Subscriber("/" + self.robot_id + "/base_scan_1", LaserScan, right_scan_handler)
 
         # Wait for odometry data
         while self.odometry is None:
@@ -202,9 +209,15 @@ class Robot(object):
 
     def is_blocked(self):
         """is this robot able to move forward"""
-        if self.laser:
-            for range in self.laser.ranges:
-                if range < 3:
+        block_range = 3
+        if self.leftLaser:
+            for range in self.leftLaser.ranges:
+                if range < block_range:
+                    rospy.logdebug(str(range))
+                    return True
+        if self.rightLaser:
+            for range in self.rightLaser.ranges:
+                if range < block_range:
                     rospy.logdebug(str(range))
                     return True
         return False

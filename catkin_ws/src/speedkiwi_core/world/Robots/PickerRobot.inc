@@ -13,5 +13,6 @@ define PickerRobot position
 	point[3] [2.5 0] 
   	z [0 1]
     )
-    Sensor(pose [1.25 0 -0.75 0])
+    Sensor(pose [1.25 0.75 -0.75 -20]) #left sensor
+    Sensor(pose [1.25 -0.75 -0.75 20]) #right sensor
 ) 

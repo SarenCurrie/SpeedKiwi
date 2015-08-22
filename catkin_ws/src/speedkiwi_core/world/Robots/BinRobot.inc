@@ -1,10 +1,10 @@
 #define the sensor for the Picker robot
 include "Robots/Sensor.inc"
 
-define AnimalRobot position 
+define BinRobot position 
 ( 
   #properties as name value pairs
-  size [0.9 0.5 0.5] 
+  size [1 1 1] 
   drive "diff" 
   block(
   	points 4 
@@ -14,6 +14,4 @@ define AnimalRobot position
 	point[3] [2.5 0] 
   	z [0 1]
     )
-    Sensor(pose [0.45 0.25 -0.4 -20]) #left sensor
-    Sensor(pose [0.45 -0.25 -0.4 20]) #right sensor
 ) 

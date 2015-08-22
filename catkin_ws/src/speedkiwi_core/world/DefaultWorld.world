@@ -25,6 +25,8 @@ include "Robots/CarrierRobot.inc"
 include "Robots/MattsRobot.inc"
 include "Robots/PersonRobot.inc"
 include "Robots/AnimalRobot.inc"
+include "Robots/BinRobot.inc"
+include "Robots/TractorRobot.inc"
 # Must include RobotList.inc last
 include "Robots/RobotList.inc" 
 

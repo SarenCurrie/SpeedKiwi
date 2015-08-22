@@ -1,18 +1,4 @@
-#define the sensor for the Picker robot
-define Sensor ranger 
-( 
-  sensor( range [ 0 4 ] fov 60.0 samples 500 ) 
-  size [0.1 0.1 0.1] 
-  color "black" 
-  block( 
-  points 4 
-  point[0] [0 0] 
-  point[1] [0.1 0] 
-  point[2] [0.1 0.1] 
-  point[3] [0 0.1] 
-  z [0 0.1] 
-  ) 
-) 
+include "Robots/Sensor.inc" 
 
 define CarrierRobot position 
 ( 
@@ -27,5 +13,7 @@ define CarrierRobot position
 	point[3] [2.5 0] 
   	z [0 1]
     )
-    Sensor(pose [0.9 0 -0.4 0])
+   
+    Sensor(pose [0.9 0.75 -0.4 -20]) #left sensor
+    Sensor(pose [0.9 -0.75 -0.4 20]) #right sensor
 ) 
