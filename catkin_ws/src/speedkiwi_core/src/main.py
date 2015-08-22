@@ -7,12 +7,13 @@ from math import pi
 
 rospy.init_node('main')
 
-robot = Robot('robot_0', 3, 0.5, -8.5, -37, pi/2)
+picker = Robot('robot_0', 3, 0.5, -8.5, -37, pi/2)
 robot1 = DifferentRobot('robot_1', 2, 0.5, 0, 0, pi/2)
 animal = Animal('robot_2', 2, 2, 0, 0, pi/2)
 person = Robot('robot_3', 2, 0.5, -17, 37, 0)
 binbot = Bin('robot_6',3, 0.5, -8.5, -37, pi/2)
-picker = PickerRobot('robot_9', 3, 0.5, 0, -45, 0)
+picker2 = PickerRobot('robot_9', 3, 0.5, 0, -45, 0)
+picker3 = PickerRobot('robot_10', 3, 0.5, 5, -40, 0)
 
 binbot.latch(robot)
 robot.add_slave(binbot)
@@ -44,5 +45,6 @@ while not rospy.is_shutdown():
     person.execute()
     binbot.execute()
     picker.execute()
+    picker2.execute()
 
     rate.sleep()

@@ -11,3 +11,4 @@ BinRobot( pose [ -0 -40 0.150 0.000 ] name "bin2" color "blue")
 BinRobot( pose [ 5 -40 0.150 0.000 ] name "bin3" color "blue")
 
 PickerRobot( pose [ 0 -45 0.000 0.000 ] name "pickerRobot2" color "pink" )
+PickerRobot( pose [ 5 -40 0.000 0.000 ] name "pickerRobot3" color "pink" )

@@ -17,13 +17,11 @@ class Bin(Robot):
         self.master = None
 
         def id_response(data):
-            #rospy.loginfo("Compare id's: %s %s", data.robot_id, self.robot_id)
-
             # If recieves bin recieves own id back, set latched to true
 
             # rospy.loginfo("Data: %s - Self: %s", data.bin_id, self.robot_id)
 
-            if data.bin_id == self.robot_id: # Is this right?
+            if data.bin_id == self.robot_id:
                 self.is_publishing = False
 
         # Suscribe to topic to recieve response from pickers.
@@ -41,7 +39,6 @@ class Bin(Robot):
             msg.x = self.position["x"]
             msg.y = self.position["y"]
             bin_pub.publish(msg)
-       
 
 
     def latch(self, robot):
