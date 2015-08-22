@@ -19,6 +19,9 @@ include "Default_World/PergolaArchPositionsDEF.inc"
 include "Default_World/PergolaBracePositionsDEF.inc"
 include "Default_World/DrivewayPositionDEF.inc"
 
+#Floormap
+include "Default_World/FloormapDEF.inc"
+
 # Robot models and positions
 include "Robots/PickerRobot.inc"
 include "Robots/CarrierRobot.inc"
