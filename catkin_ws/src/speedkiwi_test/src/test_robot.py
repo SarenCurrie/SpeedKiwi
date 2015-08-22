@@ -3,10 +3,10 @@ import sys
 import unittest
 import rospy
 
-from robot import Robot
+from robots import Robot
 from math import pi
 
-PKG = 'speedkiwi_core'
+PKG = 'speedkiwi_test'
 
 
 class TestRobot(unittest.TestCase):

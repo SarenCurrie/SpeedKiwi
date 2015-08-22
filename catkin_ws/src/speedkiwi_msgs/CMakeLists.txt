@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(speedkiwi_core)
+project(speedkiwi_msgs)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -46,9 +46,9 @@ catkin_python_setup()
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES robot_status.msg
-# )
+add_message_files(
+  FILES robot_status.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -146,10 +146,9 @@ include_directories(
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-install(PROGRAMS
-  src/main.py
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+# install(PROGRAMS
+#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )
 
 ## Mark executables and/or libraries for installation
 # install(TARGETS speedkiwi_core speedkiwi_core_node

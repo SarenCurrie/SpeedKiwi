@@ -1,15 +1,8 @@
 #!/usr/bin/env python
 
 import rospy
-from robot import Robot
-from animal import Animal
-from person import Person
-from different_robot import DifferentRobot
-from move_action import MoveAction
-from rotate_action import RotateAction
-from navigate_action import NavigateAction
-from figure_8_action import Figure8Action
-from move_random_action import MoveRandomAction
+from robots import Robot, Animal, Person, DifferentRobot
+from actions import MoveAction, RotateAction, NavigateAction, Figure8Action, MoveRandomAction
 from math import pi
 
 rospy.init_node('main')
