@@ -32,7 +32,7 @@ class PickerRobot(Robot):
         self.current_bin_y = 0
 
         def callback(data):
-            if self.is_closest() and not is_holding_bin:
+            if self.is_closest() and not self.is_holding_bin:
                 self.current_bin_x = data.x
                 self.current_bin_y = data.y
 
