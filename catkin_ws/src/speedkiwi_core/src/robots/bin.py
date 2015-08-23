@@ -27,22 +27,22 @@ class Bin(Robot):
             if data.bin_id == self.robot_id:
                 self.is_publishing = False
                 self.designated_picker = data.picker_id
-                #rospy.loginfo(str(self.is_publishing))
+                #rospy.loginfo(self.robot_id + "    " + data.picker_id)
             #self.is_carried = True
 
         def mimic_now(data):
-            rospy.loginfo(self.robot_id)
+            #rospy.loginfo(self.robot_id)
             if data.robot_id == self.designated_picker:
-                rospy.loginfo("?????")
+               # rospy.loginfo("?????")
                 if int(data.x) == int(self.position['x']):
-                    rospy.loginfo("DID_IT_WORK?????")
+                   # rospy.loginfo("DID_IT_WORK?????")
                     if int(data.y) == int(self.position['y']):
-                        rospy.loginfo("DID_IT_WORK?????")
+                     #   rospy.loginfo("DID_IT_WORK?????")
 
                         picker = robot_storage.getRobotWithId(data.robot_id)
-                        rospy.loginfo(data.robot_id)
+                        #rospy.loginfo(data.robot_id)
                         self.latch(picker)
-                        bin_latch = rospy.Publisher('latched_to_picker', empty_response, queue_size=10)
+                        bin_latch = rospy.Publisher('latched_to_picker', empty_response, queue_size=1)
                         msg = empty_response()
                         msg.picker_id = data.robot_id
                         msg.bin_id = self.robot_id
@@ -57,25 +57,23 @@ class Bin(Robot):
 
     def execute_callback(self):
         """Logic for Bin"""
-        if self.slow_down_counter < 10:
-            self.slow_down_counter += 1
-        else:
-            if self.is_publishing: # This boolean is initally True
+        if self.is_publishing: # This boolean is initally True
+            rospy.loginfo("BIN: " + self.robot_id + "HERE")
+            # Publish message bin's details to let pickers know that it can be picked up.
+            bin_pub = rospy.Publisher('bin_status_topic', bin_status, queue_size=1)
 
-                # Publish message bin's details to let pickers know that it can be picked up.
-                bin_pub = rospy.Publisher('bin_status_topic', bin_status, queue_size=10)
+            msg = bin_status()
+            msg.bin_id = self.robot_id
 
-                msg = bin_status()
-                msg.bin_id = self.robot_id
+            if self.master == None:
+                msg.is_carried = False
+            else:
+                msg.is_carried = True 
 
-                if self.master == None:
-                    msg.is_carried = False
-                else:
-                    msg.is_carried = True 
-
-                msg.x = self.position["x"]
-                msg.y = self.position["y"]
-                bin_pub.publish(msg)
+            msg.x = self.position["x"]
+            msg.y = self.position["y"]
+            rospy.loginfo(msg)
+            bin_pub.publish(msg)
 
     def latch(self, robot):
         self.master = robot

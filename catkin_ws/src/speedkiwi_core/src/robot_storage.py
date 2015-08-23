@@ -5,3 +5,6 @@ def addRobot(object, id):
 
 def getRobotWithId(id):
 	return robotsDict[id]
+
+def get_robot_list():
+	return robotsDict

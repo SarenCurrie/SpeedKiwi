@@ -15,10 +15,10 @@ person2 = EducatedPerson('robot_2', 2, 0.5, 27, -48, 0)
 
 tractor = Tractor('robot_3', 2, 0.9, -20, 43, 0)
 
-binbot1 = Bin('robot_4',3, 0.5, -8.75, -38, 0)
-binbot2 = Bin('robot_5',3, 0.5, -8.75, -38, 0)
-binbot3 = Bin('robot_6',3, 0.5, -8.75, -38, 0)
-binbot4 = Bin('robot_7',3, 0.5, -8.75, -38, 0)
+binbot1 = Bin('robot_4',3, 0.5, -8.75, -38, pi/2)
+binbot2 = Bin('robot_5',3, 0.5, -1.75, -38, pi/2)
+binbot3 = Bin('robot_6',3, 0.5, 1.75, -38, pi/2)
+binbot4 = Bin('robot_7',3, 0.5, 8.75, -38, pi/2)
 
 picker1 = PickerRobot('robot_8', 3, 0.5, -8.75, -41, 0)
 picker2 = PickerRobot('robot_9', 3, 0.5, 1, -41, 0)
@@ -60,10 +60,9 @@ animal.add_action(NavigateAction(0, 40))
 # animal.add_action(NavigateAction(50, 50))
 # person.add_action(NavigateAction(15, 15))
 
-rate = rospy.Rate(10)
+rate = rospy.Rate(100)
 
 while not rospy.is_shutdown():
-    
     robot.execute()
     robot1.execute()
     animal.execute()
@@ -77,6 +76,5 @@ while not rospy.is_shutdown():
     picker1.execute()
     picker2.execute()
     picker3.execute()
-
 
     rate.sleep()

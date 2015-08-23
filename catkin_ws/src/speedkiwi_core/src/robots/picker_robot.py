@@ -3,6 +3,7 @@ import rospy
 import os
 from speedkiwi_msgs.msg import bin_status, empty_response, robot_status
 from actions import NavigateAction
+import robot_storage
 import random
 from std_msgs.msg import String
 import math
@@ -28,7 +29,7 @@ class PickerRobot(Robot):
         self.type = type(self).__name__
 
         # Unique variables for picker robots
-        self.picker_dict = dict()
+        # self.picker_dict = dict()
         self.current_bin_x = 0
         self.current_bin_y = 0
         
@@ -37,28 +38,29 @@ class PickerRobot(Robot):
 
         def callback(data):
             # Data used to calculate if it's the closest to the bin
+            rospy.loginfo("Bin call: " + data.bin_id + " %.1f       %.1f" % (data.x, data.y))
             self.current_bin_x = data.x
             self.current_bin_y = data.y
-            rospy.loginfo(len(self.picker_dict))
-            if self.is_closest() and not self.slave and not data.is_carried:
+            #rospy.loginfo(len(self.picker_dict))
+            if self.is_closest(): # and not self.slave and not data.is_carried:
 
-                empty_response_pub = rospy.Publisher('empty_response_topic', empty_response, queue_size=10)
+                empty_response_pub = rospy.Publisher('empty_response_topic', empty_response, queue_size=1)
 
                 self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
-
+                rospy.loginfo("P Robot: " + self.robot_id + "    " + "Bin closest: " + data.bin_id)
                 msg = empty_response()
                 msg.picker_id = self.robot_id
                 msg.bin_id = data.bin_id
 
                 empty_response_pub.publish(msg)
 
-        def picker_locations(data):
+        #def picker_locations(data):
 
             #rospy.loginfo("Data: %s - Self: %s", data.robot_type, "PickerRobot")
 
-            if data.robot_type == "PickerRobot":
-                if not data.robot_id == self.robot_id:
-                    self.picker_dict[data.robot_id] = data
+            #if data.robot_type == "PickerRobot":
+                #if not data.robot_id == self.robot_id:
+                    #self.picker_dict[data.robot_id] = data
 
         def initiate_picking(data):
             if data.picker_id == self.robot_id:
@@ -66,7 +68,7 @@ class PickerRobot(Robot):
 
         rospy.Subscriber("bin_status_topic", bin_status, callback)
 
-        rospy.Subscriber("statuses", robot_status, picker_locations)
+        #rospy.Subscriber("statuses", robot_status, picker_locations)
 
         rospy.Subscriber("latched_to_picker", empty_response, initiate_picking)
 
@@ -84,7 +86,7 @@ class PickerRobot(Robot):
             self.current_speed = self.top_speed
 
         if self.current_bin_x == self.position['x'] and self.current_bin_y == self.position['y']:
-            empty_response_pub = rospy.Publisher('empty_response_topic', String, queue_size=10)
+            empty_response_pub = rospy.Publisher('empty_response_topic', String, queue_size=1)
 
             empty_response_pub.publish("Latch")
 
@@ -107,15 +109,25 @@ class PickerRobot(Robot):
             d = math.sqrt( (float(x)-float(self.current_bin_x))**2 + (float(y)-float(self.current_bin_y))**2)
             #rospy.loginfo("Returning distance: %d", d)
             return d
-            
-        for p in self.picker_dict:
-            if dist(self.position['x'], self.position['y']) > dist(self.picker_dict[p].x, self.picker_dict[p].y):
-                return False
-            elif dist(self.position['x'], self.position['y']) == dist(self.picker_dict[p].x, self.picker_dict[p].y):
-                if int(self.robot_id[6:]) > int(self.picker_dict[p].robot_id[6:]):
-                    return False
+        
+        robot_list = robot_storage.get_robot_list()
 
+        for p in robot_list:
+            if robot_list[p].type == "PickerRobot":
+                if not robot_list[p].robot_id == self.robot_id:
+                    rospy.loginfo("I'm picker robot: " + robot_list[p].robot_id + "My Distance from bin %.1f is: %.1f" % (self.current_bin_x, dist(robot_list[p].position['x'], robot_list[p].position['y'])))
+
+                    if dist(self.position['x'], self.position['y']) > dist(robot_list[p].position['x'], robot_list[p].position['y']):
+                        rospy.loginfo(robot_list[p].robot_id + "Wasn't the closest to %.1f" % self.current_bin_x)
+                        return False
+                    elif dist(self.position['x'], self.position['y']) == dist(robot_list[p].position['x'], robot_list[p].position['y']):
+                        if int(self.robot_id[6:]) > int(robot_list[p].robot_id[6:]):
+                            rospy.loginfo("I wasn't the closest =")
+                            return False
+
+        rospy.loginfo(self.robot_id + "was the closest!!!!!!!!!! %.1f" % self.current_bin_x)
         return True
+
 
     def check_full(self):
         if self.fruit_count >= self.max_fruit:
