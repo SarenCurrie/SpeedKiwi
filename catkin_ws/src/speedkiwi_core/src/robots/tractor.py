@@ -22,7 +22,7 @@ class Tractor(Robot):
         self.was_blocked = False
         self.old_queue = []
 
-        self.d = 10
+        self.d = 5.5
 
     def execute_callback(self):
         """Movement logic for a tractor"""
