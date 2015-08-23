@@ -3,6 +3,7 @@
 import rospy
 from robots import Robot, Animal, Person, DifferentRobot, PickerRobot, Bin, Tractor, EducatedPerson
 from actions import MoveAction, RotateAction, NavigateAction, Figure8Action, MoveRandomAction
+import robot_storage
 from math import pi
 
 rospy.init_node('main')
@@ -26,10 +27,23 @@ picker3 = PickerRobot('robot_10', 3, 0.5, 5, -43, 0)
 robot = Robot('robot_11', 3, 0.5, -8.5, -37, 0) #Will be carrier #1
 robot1 = DifferentRobot('robot_12', 2, 0.5, 0, 0, 0) #Will be carrier #2
 
+robot_storage.addRobot(animal, "robot_0")
+robot_storage.addRobot(person1, "robot_1")
+robot_storage.addRobot(person2, "robot_2")
+robot_storage.addRobot(tractor, "robot_3")
+robot_storage.addRobot(binbot1, "robot_4")
+robot_storage.addRobot(binbot2, "robot_5")
+robot_storage.addRobot(binbot3, "robot_6")
+robot_storage.addRobot(binbot4, "robot_7")
+robot_storage.addRobot(picker1, "robot_8")
+robot_storage.addRobot(picker2, "robot_9")
+robot_storage.addRobot(picker3, "robot_10")
+robot_storage.addRobot(robot, "robot_11")
+robot_storage.addRobot(robot1, "robot_12")
 
 # Testing bin mimicking:
-binbot1.latch(picker1)
-picker1.add_slave(binbot1)
+# binbot1.latch(picker1)
+# picker1.add_slave(binbot1)
 
 # robot.add_action(RotateAction("rotate_to_north"))
 robot.add_action(MoveAction(1))

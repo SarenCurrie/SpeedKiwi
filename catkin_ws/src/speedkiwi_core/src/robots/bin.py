@@ -1,6 +1,7 @@
 from robots import Robot
 from std_msgs.msg import String
-from speedkiwi_msgs.msg import bin_status, empty_response
+from speedkiwi_msgs.msg import bin_status, empty_response, robot_status
+import robot_storage
 import rospy
 
 class Bin(Robot):
@@ -13,6 +14,8 @@ class Bin(Robot):
         self.is_publishing = True
         self.is_empty = True
         self.is_carried = False
+        self.designated_picker = None
+
 
         self.master = None
 
@@ -22,11 +25,25 @@ class Bin(Robot):
 
             if data.bin_id == self.robot_id:
                 self.is_publishing = False
+                self.designated_picker = data.picker_id
                 #rospy.loginfo(str(self.is_publishing))
             #self.is_carried = True
 
+        def mimic_now(data):
+            if data.robot_id == self.designated_picker:
+                picker = robot_storage.getRobotWithId(data.robot_id)
+                self.latch(picker)
+                self.mimic
+
+
+
+
+
         # Suscribe to topic to recieve response from pickers.
         rospy.Subscriber("empty_response_topic", empty_response, id_response)
+
+        rospy.Subscriber("statuses", robot_status, mimic_now)
+
 
     def execute_callback(self):
         """Logic for Bin"""

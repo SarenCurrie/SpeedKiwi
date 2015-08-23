@@ -1,2 +1,0 @@
-string picker_id
-string bin_id
