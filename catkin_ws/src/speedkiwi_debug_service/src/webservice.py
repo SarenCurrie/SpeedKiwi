@@ -24,6 +24,10 @@ def status_handler(data):
 
 rospy.Subscriber("statuses", robot_status, status_handler)
 
+@app.route("/")
+def index():
+    return app.send_static_file('index.html')
+
 @app.route("/dashboard")
 def dashboard():
     if statuses:
