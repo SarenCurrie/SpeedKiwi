@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import rospy
-from robots import Robot, Animal, Person, DifferentRobot, PickerRobot, Bin
+from robots import Robot, Animal, Person, DifferentRobot, PickerRobot, Bin, EducatedPerson
 from actions import MoveAction, RotateAction, NavigateAction, Figure8Action, MoveRandomAction
 from math import pi
 
@@ -10,7 +10,8 @@ rospy.init_node('main')
 robot = Robot('robot_0', 3, 0.5, -8.5, -37, pi/2)
 robot1 = DifferentRobot('robot_1', 2, 0.5, 0, 0, pi/2)
 animal = Animal('robot_2', 2, 2, 0, 0, pi/2)
-person = Robot('robot_3', 2, 0.5, -17, 37, 0)
+person = Person('robot_3', 2, 0.5, -17, 37, 0)
+person2 = EducatedPerson('robot_4', 2, 0.5, -17, 37, 0)
 binbot = Bin('robot_6',3, 0.5, -8.5, -37, pi/2)
 picker2 = PickerRobot('robot_9', 3, 0.5, 0, -45, 0)
 picker3 = PickerRobot('robot_10', 3, 0.5, 5, -40, 0)
@@ -44,6 +45,7 @@ while not rospy.is_shutdown():
     robot1.execute()
     animal.execute()
     person.execute()
+    person2.execute()
     binbot.execute()
     picker2.execute()
     picker3.execute()
