@@ -11,7 +11,21 @@ class EducatedPerson(Robot):
 		rospy.Subscriber("move_command", String, self.cmd_handler)
 
 	def cmd_handler(self, data):
-		rospy.loginfo("Move: %s", str(data.data))
-		
-
-
+		#rospy.loginfo("Move: %s", str(data.data))
+		msg = str(data.data)
+		if msg == 'up':
+			rospy.loginfo("Move up")
+			self.current_speed = self.top_speed
+			self.forward()
+		elif msg == 'down':
+			rospy.loginfo("Move down")
+			self.current_speed = -self.current_speed
+			self.forward()
+		elif msg == 'left':
+			rospy.loginfo("Move left")
+			self.stop()
+			self.start_rotate()
+		elif msg == 'right':
+			rospy.loginfo("Move right")
+			self.stop()
+			self.start_rotate_opposite()
