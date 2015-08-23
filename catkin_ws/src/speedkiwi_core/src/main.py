@@ -7,7 +7,7 @@ from math import pi
 
 rospy.init_node('main')
 
-robot = Robot('robot_0', 3, 0.5, -8.5, -37, pi/2)
+robot = PickerRobot('robot_0', 3, 0.5, -8.5, -37, 0)
 robot1 = DifferentRobot('robot_1', 2, 0.5, 0, 0, pi/2)
 animal = Animal('robot_2', 2, 2, 0, 0, pi/2)
 person = Robot('robot_3', 2, 0.5, -17, 37, 0)
@@ -19,8 +19,9 @@ picker3 = PickerRobot('robot_10', 3, 0.5, 5, -40, 0)
 binbot.latch(robot)
 robot.add_slave(binbot)
 
-# # robot.add_action(RotateAction("rotate_to_north"))
+# robot.add_action(RotateAction("rotate_to_north"))
 robot.add_action(MoveAction(1))
+robot.add_action(RotateAction("rotate_to_west"))
 robot.add_action(RotateAction("rotate_to_north"))
 robot.add_action(MoveAction(78))
 robot.add_action(RotateAction("rotate_to_east"))
