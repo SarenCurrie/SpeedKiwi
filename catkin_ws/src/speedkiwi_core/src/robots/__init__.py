@@ -3,4 +3,5 @@ from bin import *
 from different_robot import *
 from person import *
 from picker_robot import *
+from tractor import *
 from robot import *

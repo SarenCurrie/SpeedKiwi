@@ -24,6 +24,7 @@ class NavigateAction(Action):
         self.x_start = robot.get_position()['x']
         self.y_start = robot.get_position()['y']
         self.check_direction(robot)
+        rospy.loginfo(self.to_string() + " " + str(robot.robot_id))
 
     def during(self, robot):
         if robot.is_blocked():
