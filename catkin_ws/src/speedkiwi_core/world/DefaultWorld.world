@@ -41,3 +41,25 @@ resolution 0.02
 
 # Size of the world in meters
 size [150 150] 
+
+window
+( 
+  #size of the window in pixels
+  size [800 600]
+  center [0.312 -2.287]
+  rotate [0.000 0.000]
+  scale 5
+  show_data 0
+  show_flags 1
+  show_blocks 1
+  show_clock 1
+  show_footprints 0
+  show_grid 0
+  show_trailarrows 0
+  show_trailrise 0
+  show_trailfast 0
+  show_occupancy 0
+  show_tree 0
+  pcam_on 0
+  screenshots 0
+)
