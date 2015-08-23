@@ -12,6 +12,7 @@ define PersonRobot position
   	point[2] [0.3 0.22]
     point[3] [0.3 0.12] 
   	z [0 0.8]
+    color "DodgerBlue4"
   )
 
   block( #left leg
@@ -21,6 +22,7 @@ define PersonRobot position
     point[2] [0.3 0.48]
     point[3] [0.3 0.38]
     z [0 0.8]
+    color "DodgerBlue4"
   )
 
   block( #right foot
@@ -48,6 +50,7 @@ define PersonRobot position
     point[2] [0.3 0.5]
     point[3] [0.3 0.1]
     z [0.8 1.4]
+    color "ivory3"
   )
 
   block( #head

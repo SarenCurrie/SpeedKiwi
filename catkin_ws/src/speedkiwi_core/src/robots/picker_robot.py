@@ -19,6 +19,7 @@ class PickerRobot(Robot):
             #read orchard location file
             data = file.readlines()
 
+        #define max/min coordinates for orchard space
         self.maxX = float(data[1]) 
         self.maxY = float(data[2])
         self.minX = float(data[3])

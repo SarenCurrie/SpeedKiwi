@@ -31,7 +31,8 @@ def bin_status_handler(data):
     bin_id = data.bin_id
     bin_statuses[bin_id] = {
         'x': data.x,
-        'y': data.y
+        'y': data.y,
+        'isCarried': data.is_carried
     }
 
 rospy.Subscriber("bin_status_topic", bin_status, bin_status_handler)
