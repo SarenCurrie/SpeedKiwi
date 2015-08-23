@@ -42,7 +42,7 @@ def main():
                 screen.addstr(0, 0, 'down ')
                 cmd = 'down'
             else:
-                screen.addstr(0, 0, 'Please use the arrow keys.')
+                screen.addstr(0, 0, 'Use the arrow keys.')
                 continue
 
             if cmd == 'up' or cmd == 'down' or cmd == 'left' or cmd == 'right':

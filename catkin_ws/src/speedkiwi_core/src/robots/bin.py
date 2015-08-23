@@ -12,38 +12,44 @@ class Bin(Robot):
         # Unique booleans for Bin instance
         self.is_publishing = True
         self.is_empty = True
-        self.is_latched = False
+        self.is_carried = False
 
         self.master = None
 
         def id_response(data):
-            # If recieves bin recieves own id back, set latched to true
-
-            # rospy.loginfo("Data: %s - Self: %s", data.bin_id, self.robot_id)
+            # If bin recieves own id back, stop publishing.
+            #rospy.loginfo("Data: %s - Self: %s", data.bin_id, self.robot_id)
 
             if data.bin_id == self.robot_id:
                 self.is_publishing = False
+                #rospy.loginfo(str(self.is_publishing))
+            #self.is_carried = True
 
         # Suscribe to topic to recieve response from pickers.
         rospy.Subscriber("empty_response_topic", empty_response, id_response)
 
     def execute_callback(self):
         """Logic for Bin"""
-
-        bin_pub = rospy.Publisher('bin_status_topic', bin_status, queue_size=10)
+        rospy.loginfo(str(self.is_publishing))
 
         if self.is_publishing:
         	# Publish message bin's details to let pickers know that it can be picked up.
+            bin_pub = rospy.Publisher('bin_status_topic', bin_status, queue_size=10)
+
             msg = bin_status()
             msg.bin_id = self.robot_id
+
+            if self.master == None:
+                msg.is_carried = False
+            else:
+                msg.is_carried = True 
+                               
             msg.x = self.position["x"]
             msg.y = self.position["y"]
             bin_pub.publish(msg)
 
-
     def latch(self, robot):
         self.master = robot
 
-
     def mimic(self):
-        self.add_action(self.master.current_action())
+        self.add_action(self.master.current_action())   

@@ -19,6 +19,7 @@ class PickerRobot(Robot):
             #read orchard location file
             data = file.readlines()
 
+        #define max/min coordinates for orchard space
         self.maxX = float(data[1]) 
         self.maxY = float(data[2])
         self.minX = float(data[3])
@@ -28,7 +29,7 @@ class PickerRobot(Robot):
 
         # Unique variables for picker robots
         self.picker_dict = dict()
-        self.is_holding_bin = False
+        self.is_carrying = False
         self.current_bin_x = 0
         self.current_bin_y = 0
         
@@ -36,9 +37,10 @@ class PickerRobot(Robot):
         self.max_fruit = 100
 
         def callback(data):
-            if self.is_closest() and not self.is_holding_bin:
-                self.current_bin_x = data.x
-                self.current_bin_y = data.y
+            self.current_bin_x = data.x
+            self.current_bin_y = data.y
+
+            if self.is_closest() and not self.is_carrying and not data.is_carried:
 
                 empty_response_pub = rospy.Publisher('empty_response_topic', empty_response, queue_size=10)
 
@@ -49,11 +51,11 @@ class PickerRobot(Robot):
                 msg.bin_id = data.bin_id
 
                 empty_response_pub.publish(msg)
+                #self.is_carrying = True
 
         def pickerLocations(data):
 
             #rospy.loginfo("Data: %s - Self: %s", data.robot_type, "PickerRobot")
-            #rospy.loginfo("Data: %s - Self: %s", data.robot_id, self.robot_id)
 
             if data.robot_type == "PickerRobot":
                 if not data.robot_id == self.robot_id:
@@ -76,6 +78,11 @@ class PickerRobot(Robot):
         else:
             self.current_speed = self.top_speed
 
+        if self.current_bin_x == self.position['x'] and self.current_bin_y == self.position['y']:
+            empty_response_pub = rospy.Publisher('empty_response_topic', String, queue_size=10)
+
+            empty_response_pub.publish("Latch")
+
     def do_picking(self):
         """Execute picking behaviour"""
         #rospy.loginfo(self.robot_id + " is picking!")
@@ -92,14 +99,16 @@ class PickerRobot(Robot):
         """Check if this picker is the closest to the specified bin."""
         
         def dist(x, y):
-
             d = math.sqrt( (float(x)-float(self.current_bin_x))**2 + (float(y)-float(self.current_bin_y))**2)
+            #rospy.loginfo("Returning distance: %d", d)
             return d
-            rospy.loginfo("Returning distance: %d", d)
-
+            
         for p in self.picker_dict:
             if dist(self.position['x'], self.position['y']) > dist(self.picker_dict[p].x, self.picker_dict[p].y):
                 return False
+            elif dist(self.position['x'], self.position['y']) == dist(self.picker_dict[p].x, self.picker_dict[p].y):
+                if int(self.robot_id[6:]) > int(self.picker_dict[p].robot_id[6:]):
+                    return False
 
         return True
 
