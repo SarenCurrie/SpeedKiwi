@@ -6,7 +6,7 @@ PersonRobot( pose [ 27 -48.000 0.000 0.000 ] name "educatedPerson")
 
 TractorRobot( pose [ -20 43 0.000 0.000 ] name "tractorRobot")
 
-BinRobot( pose [ -8.75 -38 0.150 0.000 ] name "bin1" color "blue")
+BinRobot( pose [ -8.75 -41 0.150 0.000 ] name "bin1" color "blue")
 BinRobot( pose [ -1.75 -38 0.150 0.000 ] name "bin2" color "blue")
 BinRobot( pose [ 1.75 -38 0.150 0.000 ] name "bin3" color "blue")
 BinRobot( pose [ 5.25 -38 0.150 0.000 ] name "bin4" color "blue")
