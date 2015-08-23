@@ -4,7 +4,7 @@ import rospy
 import json
 from speedkiwi_msgs.msg import robot_status
 from flask import Flask, jsonify
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', static_url_path='')
 
 rospy.init_node('webservice')
 
