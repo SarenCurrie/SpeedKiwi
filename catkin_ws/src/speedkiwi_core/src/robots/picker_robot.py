@@ -64,7 +64,8 @@ class PickerRobot(Robot):
 
         def initiate_picking(data):
             if data.picker_id == self.robot_id:
-                self.add_action(NavigateAction(0, 20)) 
+                pickerx = robot_storage.getRobotWithId(data.picker_id)
+                self.add_action(NavigateAction(pickerx.position["x"], 35)) 
 
         rospy.Subscriber("bin_status_topic", bin_status, callback)
 
