@@ -9,10 +9,10 @@
 		<node pkg="beginner_tutorials" name="listener" type="listener.py"/>
 -->
 
+<node name="console" pkg="rqt_console" type="rqt_console"/>
 <node name="main" pkg="speedkiwi_core" type="main.py"/>
 
 
-<node name="console" pkg="rqt_console" type="rqt_console"/>
 
 
 </launch>

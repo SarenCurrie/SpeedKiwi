@@ -1,9 +1,11 @@
 from robots import Robot
 import rospy
 import os
+from speedkiwi_msgs.msg import bin_status, empty_response, robot_status
+from actions import NavigateAction
 import random
-from speedkiwi_msgs.msg import empty_response
 from std_msgs.msg import String
+import math
 
 class PickerRobot(Robot):
 
@@ -24,27 +26,42 @@ class PickerRobot(Robot):
         file.close()
         self.type = type(self).__name__
 
+        # Unique variables for picker robots
+        self.picker_dict = dict()
+        self.is_holding_bin = False
+        self.current_bin_x = 0
+        self.current_bin_y = 0
+        
         self.fruit_count = 0
         self.max_fruit = 100
 
-        
-
         def callback(data):
-            if self.is_closest == 1:
+            if self.is_closest() and not self.is_holding_bin:
                 self.current_bin_x = data.x
                 self.current_bin_y = data.y
 
-                empty_response_pub = rospy.Publisher('empty_response_topic', String, queue_size=10)
-                rate = rospy.Rate(10)
+                empty_response_pub = rospy.Publisher('empty_response_topic', empty_response, queue_size=10)
+
+                self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
 
                 msg = empty_response()
                 msg.picker_id = self.robot_id
-                msg.bin_id = data.robot_id
+                msg.bin_id = data.bin_id
 
                 empty_response_pub.publish(msg)
-                rate.sleep()
 
-        rospy.Subscriber("bin_status", String, callback)
+        def pickerLocations(data):
+
+            #rospy.loginfo("Data: %s - Self: %s", data.robot_type, "PickerRobot")
+            #rospy.loginfo("Data: %s - Self: %s", data.robot_id, self.robot_id)
+
+            if data.robot_type == "PickerRobot":
+                if not data.robot_id == self.robot_id:
+                    self.picker_dict[data.robot_id] = data
+
+        rospy.Subscriber("bin_status_topic", bin_status, callback)
+
+        rospy.Subscriber("statuses", robot_status, pickerLocations)
 
     def execute_callback(self):
         """Logic for the picker robot."""
@@ -61,13 +78,30 @@ class PickerRobot(Robot):
 
     def do_picking(self):
         """Execute picking behaviour"""
+        #rospy.loginfo(self.robot_id + " is picking!")
         if self.check_full() == True:
             rospy.loginfo(self.robot_id + " is full")
             return
+        
         randint = random.randint(1,10)
         if randint == 1:
             self.fruit_count += 1
             rospy.loginfo(self.robot_id + " has picked " + str(self.fruit_count) + " kiwifruit!")
+
+    def is_closest(self):
+        """Check if this picker is the closest to the specified bin."""
+        
+        def dist(x, y):
+
+            d = math.sqrt( (float(x)-float(self.current_bin_x))**2 + (float(y)-float(self.current_bin_y))**2)
+            return d
+            rospy.loginfo("Returning distance: %d", d)
+
+        for p in self.picker_dict:
+            if dist(self.position['x'], self.position['y']) > dist(self.picker_dict[p].x, self.picker_dict[p].y):
+                return False
+
+        return True
 
     def is_closest(self):
         """Check if this picker is the closest to the specified bin."""
