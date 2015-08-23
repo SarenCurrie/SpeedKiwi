@@ -60,7 +60,7 @@ animal.add_action(NavigateAction(0, 40))
 # animal.add_action(NavigateAction(50, 50))
 # person.add_action(NavigateAction(15, 15))
 
-rate = rospy.Rate(100)
+rate = rospy.Rate(10)
 
 while not rospy.is_shutdown():
     robot.execute()

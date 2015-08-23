@@ -29,7 +29,7 @@ class Person(Robot):
         if self.counter == sys.maxint:
             self.counter = 0
 
-        if self.counter % 1000 == 0:
+        if self.counter % 100 == 0:
             rospy.loginfo("Counter:" + str(self.counter))
 
             if self._action_queue:
