@@ -63,9 +63,8 @@ class Animal(Robot):
         target_x = self.robot_dict.values()[self.dict_index].x
         target_y = self.robot_dict.values()[self.dict_index].y
         target_id = self.robot_dict.values()[self.dict_index].robot_id
-        rospy.loginfo(self.robot_id + " targeting " + str(target_id) + " at " + str(target_x) + "," + str(target_y))
+        rospy.loginfo("Animal:" + self.robot_id + " targeting " + str(target_id) + " at " + str(target_x) + "," + str(target_y))
         if bool(self._action_queue):
-            rospy.loginfo("execute bool thing")
             self._action_queue[0].finish(self)
             self._action_queue.pop()
         self.add_action(NavigateAction(target_x,target_y))
