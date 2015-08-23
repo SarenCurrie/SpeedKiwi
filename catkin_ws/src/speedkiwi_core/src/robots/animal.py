@@ -34,9 +34,9 @@ class Animal(Robot):
             target_y = self.y_offset
             distance = math.sqrt( (float(current_x)-float(target_x))**2 + (float(current_y)-float(target_y))**2)
             if distance >= 1:
-                rospy.loginfo("Dog has arrived in the kennel")
                 return
             else:
+                rospy.loginfo("Dog has arrived in the kennel")
                 self.retreat = False
         # rospy.loginfo("dict size: " + str(len(self.robot_dict)) + " index: " + str(self.dict_index) + " targeting: " + str(self.currently_targeting))
         if (self.currently_targeting == False and bool(self.robot_dict)):
