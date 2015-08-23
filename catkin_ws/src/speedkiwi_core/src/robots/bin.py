@@ -30,7 +30,7 @@ class Bin(Robot):
 
     def execute_callback(self):
         """Logic for Bin"""
-        rospy.loginfo(str(self.is_publishing))
+        bin_pub = rospy.Publisher('bin_status_topic', bin_status, queue_size=10)
 
         if self.is_publishing:
             # Publish message bin's details to let pickers know that it can be picked up.
@@ -51,6 +51,5 @@ class Bin(Robot):
     def latch(self, robot):
         self.master = robot
 
-    def mimic(self):
-        # self.add_action(self.master.current_action())
-        pass
+    # def mimic(self):
+    #     self.add_action(self.master.current_action())
