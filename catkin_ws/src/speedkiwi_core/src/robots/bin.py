@@ -33,10 +33,6 @@ class Bin(Robot):
             if data.robot_id == self.designated_picker:
                 picker = robot_storage.getRobotWithId(data.robot_id)
                 self.latch(picker)
-                self.mimic
-
-
-
 
 
         # Suscribe to topic to recieve response from pickers.
@@ -67,7 +63,6 @@ class Bin(Robot):
 
     def latch(self, robot):
         self.master = robot
+        robot.add_slave(self)
 
-    def mimic(self):
-        self.add_action(self.master.current_action())   
 
