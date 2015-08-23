@@ -22,6 +22,10 @@ xOffSet = float(rowLength)/2
 yOffSet = float(colLength)/2
 
 
+# +-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+
+# |M|o|d|e|l| |p|o|s|i|t|i|o|n|s|
+# +-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+
+
 # --------------- Pergola Post Position Generation --------------- #
 # Check to make sure the file exists before deleting the previously generated file.
 if (os.path.isfile(path + "PergolaPostPositionsGEN.inc")):
@@ -88,6 +92,34 @@ for i in range(0, int(rowNum)):
 
 braceFile.close()
 
+
+# Therefore the y pos of the road needs to be Length/6 - Length/2
+# 16.67 - 50 = 33
+
+# Therefore the x pos of the road needs to be Width/2 + Driveway/4
+# 25.5 + 1.5
+
+
+# --------------- Driveway Position Generation --------------- #
+# Check to make sure the file exists before deleting the previously generated file.
+if (os.path.isfile(path + "DrivewayPositionGEN.inc")):
+    os.remove(path + "DrivewayPositionGEN.inc")
+
+# Open the newly generated file.
+braceFile = open(path + "DrivewayPositionGEN.inc", "a")
+
+braceFile.write("Driveway(\n")
+# Positions the the driveway in the space at the bottom right
+braceFile.write("pose [ %.3f %.3f 0.000 0.000 ]\n" % ((float(rowLength)+30)/2 + 1.5, (float(colLength)+30)/6 - (float(colLength)+30)/2 ))
+braceFile.write(")\n")
+
+braceFile.close()
+
+
+# +-+-+-+-+-+ +-+-+-+-+-+
+# |M|o|d|e|l| |s|i|z|e|s|
+# +-+-+-+-+-+ +-+-+-+-+-+
+
 # --------------- Change the Pergola Arch Model size --------------- #
 # Read the file
 with open(path + "PergolaArchGEN.inc", 'r') as file:
@@ -132,10 +164,52 @@ file.close()
 with open(path + "OrchardWallsGEN.inc", 'r') as file:
     # Read the model file
     data = file.readlines()
-
-data[16] = '  size [ %.1f %.1f 5 ]\n' % (float(rowLength)+float(25), float(colLength)+float(25))
+# Make the pergola walls 15m on each side bigger then the orchard
+data[17] = '  size [ %.1f %.1f 3 ]\n' % (float(rowLength)+float(30), float(colLength)+float(30))
 # Write to the file
 with open(path + "OrchardWallsGEN.inc", 'w') as file:
     file.writelines(data)
 
 file.close()
+
+
+# --------------- Change the Driveway Model size --------------- #
+# Read the file
+with open(path + "DrivewayGEN.inc", 'r') as file:
+    # Read the model file
+    data = file.readlines()
+
+data[2] = '  size [6 %.1f 0.01]\n' % ((float(colLength)+float(30))/3)
+# Write to the file
+with open(path + "DrivewayGEN.inc", 'w') as file:
+    file.writelines(data)
+
+file.close()
+
+
+# --------------- Change the Floormap Model size --------------- #
+# Read the file
+with open(path + "FloormapGEN.inc", 'r') as file:
+    # Read the model file
+    data = file.readlines()
+
+data[2] = '  size [%.1f %.1f 0.001]\n' % (float(rowLength)+50, float(colLength)+50)
+# Write to the file
+with open(path + "FloormapGEN.inc", 'w') as file:
+    file.writelines(data)
+
+file.close()
+
+
+
+ #+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+
+ #|P|o|i|n|t| |L|o|c|a|t|i|o|n|s|
+ #+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+
+
+
+# Generate world perimeter corner points
+
+
+
+
+# Generate world orchard corner points
