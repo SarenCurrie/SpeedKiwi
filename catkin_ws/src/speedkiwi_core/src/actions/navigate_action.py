@@ -2,6 +2,7 @@ from action import Action
 import math
 import rospy
 
+
 class NavigateAction(Action):
     """
     Example Action

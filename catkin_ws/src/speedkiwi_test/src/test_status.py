@@ -11,6 +11,7 @@ from math import pi
 
 PKG = 'speedkiwi_test'
 
+
 class TestStatus(unittest.TestCase):
 
     def setUp(self):

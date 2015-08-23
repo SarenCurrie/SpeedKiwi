@@ -2,6 +2,7 @@ from action import Action
 import math
 import rospy
 
+
 class MoveAction(Action):
     """
     Action to move forward a certain distance in meters
@@ -19,10 +20,9 @@ class MoveAction(Action):
 
     def during(self, robot):
         if robot.is_blocked():
-            robot.stop() 
+            robot.stop()
         else:
             robot.forward()
-
 
     def is_finished(self, robot):
         delta_x = robot.get_position()['x'] - self.x_start

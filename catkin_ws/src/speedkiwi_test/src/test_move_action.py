@@ -9,6 +9,7 @@ from math import pi
 
 PKG = 'speedkiwi_test'
 
+
 class TestMoveAction(unittest.TestCase):
 
     def setUp(self):
