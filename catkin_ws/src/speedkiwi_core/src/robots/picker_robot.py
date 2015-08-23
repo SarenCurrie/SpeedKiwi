@@ -29,7 +29,6 @@ class PickerRobot(Robot):
 
         # Unique variables for picker robots
         self.picker_dict = dict()
-        self.is_carrying = False
         self.current_bin_x = 0
         self.current_bin_y = 0
         
@@ -40,7 +39,7 @@ class PickerRobot(Robot):
             self.current_bin_x = data.x
             self.current_bin_y = data.y
 
-            if self.is_closest() and not self.is_carrying and not data.is_carried:
+            if self.is_closest() and not self.slave and not data.is_carried:
 
                 empty_response_pub = rospy.Publisher('empty_response_topic', empty_response, queue_size=10)
 
@@ -51,7 +50,6 @@ class PickerRobot(Robot):
                 msg.bin_id = data.bin_id
 
                 empty_response_pub.publish(msg)
-                #self.is_carrying = True
 
         def pickerLocations(data):
 
