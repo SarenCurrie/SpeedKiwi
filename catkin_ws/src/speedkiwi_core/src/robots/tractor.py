@@ -39,10 +39,10 @@ class Tractor(Robot):
             self._action_queue = self.old_queue
 
         elif len(self._action_queue) == 0:
+            self.add_action(NavigateAction(self.min_x+self.d, self.min_y+self.d))
             self.add_action(NavigateAction(self.max_x-self.d, self.min_y+self.d))
             self.add_action(NavigateAction(self.max_x-self.d, self.max_y-self.d))
             self.add_action(NavigateAction(self.min_x+self.d, self.max_y-self.d))
-            self.add_action(NavigateAction(self.min_x+self.d, self.min_y+self.d))
             
 
         
