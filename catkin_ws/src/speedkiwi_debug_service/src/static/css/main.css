@@ -70,22 +70,22 @@ body {
    =================== */
 
 .header-container {
-    border-bottom: 20px solid #e44d26;
+    border-bottom: 20px solid #f2a404;
 }
 
 .footer-container,
 .main aside {
-    border-top: 20px solid #e44d26;
+    border-top: 20px solid #f2a404;
 }
 
 .header-container,
 .footer-container,
 .main aside {
-    background: #f16529;
+    background: #333;
 }
 
 .title {
-    color: white;
+    color: #f2a404;
 }
 
 /* ==============
@@ -107,13 +107,13 @@ nav a {
     text-decoration: none;
     font-weight: bold;
 
-    color: white;
-    background: #e44d26;
+    color: #eee;
+    background: #f2a404;
 }
 
 nav a:hover,
 nav a:visited {
-    color: white;
+    color: #eee;
 }
 
 nav a:hover {
@@ -158,17 +158,21 @@ span.key {
 	font-weight: bold;
 }
 
+div.robot {
+	display: inline-block;
+	margin: 10px;
+	padding: 10px;
+	width: 300px;
+	color: #eee;
+	background: #333;
 
+	font-family: monospace;
+	font-size: smaller;
+}
 
-
-
-
-
-
-
-
-
-
+div.robot > h2 {
+	color: #f2a404;
+}
 
 /* ==========================================================================
    Media Queries
@@ -241,7 +245,7 @@ span.key {
 
     .main article {
         float: left;
-        width: 57%;
+        /*width: 57%;*/
     }
 
     .main aside {
