@@ -15,7 +15,7 @@ person2 = EducatedPerson('robot_2', 2, 0.5, 27, -48, 0)
 
 tractor = Tractor('robot_3', 2, 0.9, -20, 43, 0)
 
-binbot1 = Bin('robot_4',3, 0.5, -8.75, -41, 0)
+binbot1 = Bin('robot_4',3, 0.5, -8.75, -38, 0)
 binbot2 = Bin('robot_5',3, 0.5, -8.75, -38, 0)
 binbot3 = Bin('robot_6',3, 0.5, -8.75, -38, 0)
 binbot4 = Bin('robot_7',3, 0.5, -8.75, -38, 0)

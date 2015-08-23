@@ -36,9 +36,10 @@ class PickerRobot(Robot):
         self.max_fruit = 100
 
         def callback(data):
+            # Data used to calculate if it's the closest to the bin
             self.current_bin_x = data.x
             self.current_bin_y = data.y
-
+            rospy.loginfo(len(self.picker_dict))
             if self.is_closest() and not self.slave and not data.is_carried:
 
                 empty_response_pub = rospy.Publisher('empty_response_topic', empty_response, queue_size=10)

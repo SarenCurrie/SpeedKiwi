@@ -11,6 +11,7 @@ class Bin(Robot):
         self.type = type(self).__name__
 
         # Unique booleans for Bin instance
+        self.slow_down_counter = 0
         self.is_publishing = True
         self.is_empty = True
         self.is_carried = False
@@ -43,23 +44,25 @@ class Bin(Robot):
 
     def execute_callback(self):
         """Logic for Bin"""
-        bin_pub = rospy.Publisher('bin_status_topic', bin_status, queue_size=10)
+        if self.slow_down_counter < 10:
+            self.slow_down_counter += 1
+        else:
+            if self.is_publishing: # This boolean is initally True
 
-        if self.is_publishing:
-            # Publish message bin's details to let pickers know that it can be picked up.
-            bin_pub = rospy.Publisher('bin_status_topic', bin_status, queue_size=10)
+                # Publish message bin's details to let pickers know that it can be picked up.
+                bin_pub = rospy.Publisher('bin_status_topic', bin_status, queue_size=10)
 
-            msg = bin_status()
-            msg.bin_id = self.robot_id
+                msg = bin_status()
+                msg.bin_id = self.robot_id
 
-            if self.master == None:
-                msg.is_carried = False
-            else:
-                msg.is_carried = True 
+                if self.master == None:
+                    msg.is_carried = False
+                else:
+                    msg.is_carried = True 
 
-            msg.x = self.position["x"]
-            msg.y = self.position["y"]
-            bin_pub.publish(msg)
+                msg.x = self.position["x"]
+                msg.y = self.position["y"]
+                bin_pub.publish(msg)
 
     def latch(self, robot):
         self.master = robot
