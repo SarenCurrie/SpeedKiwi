@@ -25,25 +25,6 @@ class Animal(Robot):
         
         rospy.Subscriber("statuses", robot_status, robot_locations)
 
-
-    # def execute_callback(self):
-    #     """Movement logic for person"""
-    #     if self.counter % 100 == 0 and self.robot_dict:
-    #         if self._action_queue:
-    #             self._action_queue[0].finish(self)
-    #             self._action_queue.pop()
-
-    #         self.dict_index = 0
-
-    #         if (self.dict_index >= 0): #need this to check if index is not out of bounds
-    #             target_x = self.robot_dict.values()[self.dict_index].x
-    #             target_y = self.robot_dict.values()[self.dict_index].y
-
-    #             self.add_action(NavigateAction(target_x, target_y))
-    #             rospy.loginfo("Goal " + str(target_x) + "," + str(target_y))
-
-    #     self.counter += 1
-
     def execute_callback(self):
         """Logic for the animal"""
         if self.retreat:
