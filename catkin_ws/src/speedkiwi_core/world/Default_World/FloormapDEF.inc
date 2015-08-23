@@ -6,7 +6,7 @@ define Floormap model
 
   block
   (
-    color "lawn green"
+    color "medium sea green"
     points [4]
     point[0] [0 0]
     point[1] [0 1]
