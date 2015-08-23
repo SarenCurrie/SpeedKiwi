@@ -33,11 +33,8 @@ class Bin(Robot):
         def mimic_now(data):
             #rospy.loginfo(self.robot_id)
             if data.robot_id == self.designated_picker:
-               # rospy.loginfo("?????")
-                if int(data.x) == int(self.position['x']):
-                   # rospy.loginfo("DID_IT_WORK?????")
-                    if int(data.y) == int(self.position['y']):
-                     #   rospy.loginfo("DID_IT_WORK?????")
+                if (data.x-0.3) <= self.position['x'] <= (data.x+0.3):
+                    if (data.y-0.3) <= self.position['y'] <= (data.y+0.3):
 
                         picker = robot_storage.getRobotWithId(data.robot_id)
                         #rospy.loginfo(data.robot_id)
