@@ -3,6 +3,7 @@ from actions import NavigateAction
 import rospy
 import random
 import os
+import sys
 
 class Person(Robot):
     """Class for people of simulation"""
@@ -24,7 +25,13 @@ class Person(Robot):
 
     def execute_callback(self):
         """Movement logic for person"""
-        if self.counter % 100 == 0:
+        # Just for safety
+        if self.counter == sys.maxint:
+            self.counter = 0
+
+        if self.counter % 1000 == 0:
+            rospy.loginfo("Counter:" + str(self.counter))
+
             if self._action_queue:
                 self._action_queue[0].finish(self)
                 self._action_queue.pop()
