@@ -52,7 +52,7 @@ class PickerRobot(Robot):
 
                 empty_response_pub.publish(msg)
 
-        def pickerLocations(data):
+        def picker_locations(data):
 
             #rospy.loginfo("Data: %s - Self: %s", data.robot_type, "PickerRobot")
 
@@ -60,9 +60,15 @@ class PickerRobot(Robot):
                 if not data.robot_id == self.robot_id:
                     self.picker_dict[data.robot_id] = data
 
+        def initiate_picking(data):
+            if data.picker_id == self.robot_id:
+                self.add_action(NavigateAction(0, 20)) 
+
         rospy.Subscriber("bin_status_topic", bin_status, callback)
 
-        rospy.Subscriber("statuses", robot_status, pickerLocations)
+        rospy.Subscriber("statuses", robot_status, picker_locations)
+
+        rospy.Subscriber("latched_to_picker", empty_response, initiate_picking)
 
     def execute_callback(self):
         """Logic for the picker robot."""

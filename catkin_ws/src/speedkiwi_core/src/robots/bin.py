@@ -31,9 +31,22 @@ class Bin(Robot):
             #self.is_carried = True
 
         def mimic_now(data):
+            rospy.loginfo(self.robot_id)
             if data.robot_id == self.designated_picker:
-                picker = robot_storage.getRobotWithId(data.robot_id)
-                self.latch(picker)
+                rospy.loginfo("?????")
+                if int(data.x) == int(self.position['x']):
+                    rospy.loginfo("DID_IT_WORK?????")
+                    if int(data.y) == int(self.position['y']):
+                        rospy.loginfo("DID_IT_WORK?????")
+
+                        picker = robot_storage.getRobotWithId(data.robot_id)
+                        rospy.loginfo(data.robot_id)
+                        self.latch(picker)
+                        bin_latch = rospy.Publisher('latched_to_picker', empty_response, queue_size=10)
+                        msg = empty_response()
+                        msg.picker_id = data.robot_id
+                        msg.bin_id = self.robot_id
+                        bin_latch.publish(msg)
 
 
         # Suscribe to topic to recieve response from pickers.
@@ -67,5 +80,6 @@ class Bin(Robot):
     def latch(self, robot):
         self.master = robot
         robot.add_slave(self)
+
 
 
