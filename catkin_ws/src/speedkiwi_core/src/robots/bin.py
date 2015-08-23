@@ -18,12 +18,12 @@ class Bin(Robot):
 
         def id_response(data):
             # If bin recieves own id back, stop publishing.
-            rospy.loginfo("Data: %s - Self: %s", data.bin_id, self.robot_id)
+            #rospy.loginfo("Data: %s - Self: %s", data.bin_id, self.robot_id)
 
             if data.bin_id == self.robot_id:
                 self.is_publishing = False
                 #rospy.loginfo(str(self.is_publishing))
-            self.is_carried = True
+            #self.is_carried = True
 
         # Suscribe to topic to recieve response from pickers.
         rospy.Subscriber("empty_response_topic", empty_response, id_response)

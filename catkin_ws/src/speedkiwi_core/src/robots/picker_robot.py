@@ -50,7 +50,7 @@ class PickerRobot(Robot):
                 msg.bin_id = data.bin_id
 
                 empty_response_pub.publish(msg)
-                self.is_carrying = True
+                #self.is_carrying = True
 
         def pickerLocations(data):
 
@@ -76,6 +76,11 @@ class PickerRobot(Robot):
             self.current_speed = 0.25 #slow down to picking speed
         else:
             self.current_speed = self.top_speed
+
+        if self.current_bin_x == self.position['x'] and self.current_bin_y == self.position['y']:
+            empty_response_pub = rospy.Publisher('empty_response_topic', String, queue_size=10)
+
+            empty_response_pub.publish("Latch")
 
     def do_picking(self):
         """Execute picking behaviour"""
