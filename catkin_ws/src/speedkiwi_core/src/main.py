@@ -13,8 +13,10 @@ animal = Animal('robot_2', 2, 2, 0, 0, pi/2)
 person = Person('robot_3', 2, 0.5, -17, 37, 0)
 person2 = EducatedPerson('robot_4', 2, 0.5, -17, 37, 0)
 binbot = Bin('robot_6',3, 0.5, -8.5, -37, pi/2)
+binbot2 = Bin('robot_7',3, 0.5, 0, -40, pi/2)
+binbot3 = Bin('robot_8',3, 0.5, 5, -40, pi/2)
 picker2 = PickerRobot('robot_9', 3, 0.5, 0, -45, 0)
-picker3 = PickerRobot('robot_10', 3, 0.5, 5, -40, 0)
+picker3 = PickerRobot('robot_10', 3, 0.5, 10, -40, 0)
 
 # Testing bin mimicking:
 binbot.latch(robot)
@@ -48,6 +50,8 @@ while not rospy.is_shutdown():
     person.execute()
     person2.execute()
     binbot.execute()
+    binbot2.execute()
+    binbot3.execute()
     picker2.execute()
     picker3.execute()
 
