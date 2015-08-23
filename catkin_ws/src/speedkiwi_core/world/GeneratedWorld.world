@@ -14,9 +14,13 @@ include "Generated_World/DrivewayPositionDEF.inc"
 # Robot models and positions
 include "Robots/PickerRobot.inc"
 include "Robots/CarrierRobot.inc"
+include "Robots/MattsRobot.inc"
 include "Robots/PersonRobot.inc"
 include "Robots/AnimalRobot.inc"
-include "Robots/RobotList.inc" # Must list last
+include "Robots/BinRobot.inc"
+include "Robots/TractorRobot.inc"
+# Must include RobotList.inc last
+include "Robots/RobotList.inc" 
 
 # Simulation Property: Number of milliseconds per update step 
 interval_sim 100

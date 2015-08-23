@@ -33,6 +33,7 @@ class Robot(object):
         self.robot_id = robot_id
         self.type = type(self).__name__
         self.top_speed = top_speed
+        self.current_speed = self.top_speed
         self.angular_top_speed = angular_top_speed
         self.x_offset = x_offset
         self.y_offset = y_offset
@@ -45,6 +46,10 @@ class Robot(object):
         self._action_queue = []
         self.rotation_executing = False
         self.current_rotation = None
+
+
+        self.slave = None
+
 
         self.curr_robot_messages = [None] * 10 # max ten robots before it breaks
 
@@ -83,12 +88,13 @@ class Robot(object):
         # Wait for odometry data
         while self.odometry is None:
             rospy.loginfo("Waiting for odometry information")
+            pass
 
         self.position = self.get_position()
 
     def forward(self):
         """starts the robot moving at it's top speed"""
-        self.set_linear_velocity(self.top_speed)
+        self.set_linear_velocity(self.current_speed)
 
     def stop(self):
         """Stops the robot from moving"""
@@ -168,7 +174,7 @@ class Robot(object):
         """Rotates to the desired target angle. Returns true when facing that direction"""
         theta = self.position['theta']
         if target == pi or target == -pi:
-            return rotate_to_west()
+            return self.rotate_to_west()
         if (theta < (target+.0001) and theta > (target-.0001)):
             self.stop_rotate()
             return True
@@ -226,6 +232,11 @@ class Robot(object):
         """Adds an action to this robot's action queue"""
         self._action_queue.append(action)
 
+    def current_action(self):
+        """Returns the current action if there is one."""
+        if self._action_queue:
+            return self._action_queue[0]
+
     def update_status(self):
         """Sets up the status message to be published"""
 
@@ -249,6 +260,10 @@ class Robot(object):
         self.position = self.get_position()
         #rospy.loginfo(self.position["theta"])
 
+        status_pub = rospy.Publisher('statuses', robot_status, queue_size=10)
+        self.update_status()
+        status_pub.publish(self.status_msg)
+
         self.execute_callback()
 
         action = self.NO_ACTION
@@ -260,6 +275,8 @@ class Robot(object):
                 if self._action_queue:
                     action = self._action_queue[0]
                     action.start(self)
+                    if self.slave:
+                        self.slave.mimic()
                 else:
                     action = self.NO_ACTION
         action.during(self)
@@ -268,10 +285,9 @@ class Robot(object):
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
 
-        status_pub = rospy.Publisher('statuses', robot_status, queue_size=10)
-        self.update_status()
-        status_pub.publish(self.status_msg)
-
     def execute_callback(self):
         """To be overridden in extending classes to define behaviours for each robot."""
         pass
+
+    def add_slave(self, bin_robot):
+        self.slave = bin_robot
