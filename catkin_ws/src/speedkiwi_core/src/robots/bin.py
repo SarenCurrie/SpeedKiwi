@@ -51,3 +51,6 @@ class Bin(Robot):
 
     def latch(self, robot):
         self.master = robot
+
+    def mimic(self):
+        self.add_action(self.master.current_action())   
