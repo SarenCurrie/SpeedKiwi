@@ -12,7 +12,7 @@ animal = Animal('robot_0', 2, 2, 19, -45, 0)
 person1 = Person('robot_1', 2, 0.5, 0, 40, 0)
 person2 = EducatedPerson('robot_2', 2, 0.5, 27, -48, 0)
 
-tractor = Tractor('robot_3', 2, 2, -20, 43, 0)
+tractor = Tractor('robot_3', 2, 0.9, -20, 43, 0)
 
 binbot1 = Bin('robot_4',3, 0.5, -8.75, -41, 0)
 binbot2 = Bin('robot_5',3, 0.5, -8.75, -38, 0)
@@ -56,6 +56,7 @@ while not rospy.is_shutdown():
     robot.execute()
     robot1.execute()
     animal.execute()
+    tractor.execute()
     person1.execute()
     person2.execute()
     binbot1.execute()
