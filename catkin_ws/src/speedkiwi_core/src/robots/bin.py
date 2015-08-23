@@ -75,6 +75,3 @@ class Bin(Robot):
     def latch(self, robot):
         self.master = robot
         robot.add_slave(self)
-
-
-

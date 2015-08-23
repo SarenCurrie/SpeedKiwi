@@ -8,7 +8,7 @@ from math import pi
 
 rospy.init_node('main')
 
-animal = Animal('robot_0', 2, 2, 19, -45, 0)
+animal = Animal('robot_0', 2, 0.5, 19, -45, 0)
 
 person1 = Person('robot_1', 2, 0.5, 0, 40, 0)
 person2 = EducatedPerson('robot_2', 2, 0.5, 27, -48, 0)
@@ -54,7 +54,7 @@ robot_storage.addRobot(robot1, "robot_12")
 # robot.add_action(MoveAction(3.5))
 
 #robot1.add_action(Figure8Action())
-animal.add_action(NavigateAction(0, 40))
+# animal.add_action(NavigateAction(0, 40))
 
 # robot1.add_action(NavigateAction(50, 50))
 # animal.add_action(NavigateAction(50, 50))
@@ -76,5 +76,6 @@ while not rospy.is_shutdown():
     picker1.execute()
     picker2.execute()
     picker3.execute()
+    tractor.execute()
 
     rate.sleep()
