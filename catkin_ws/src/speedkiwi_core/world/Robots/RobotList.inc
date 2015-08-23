@@ -1,39 +1,19 @@
-# throw in a robot 
-PickerRobot( pose [ -8.5 -37 0.000 0.000 ] name "pickerRobot" color "pink" )
-MattsRobot( pose [ 16 -30 0.000 90.000 ] name "carrierRobot" color "cyan")
-AnimalRobot( pose [ -15 40.000 0.000 90.000 ] name "animal" color "yellow")
-PersonRobot( pose [ -17 37.000 0.000 0.000 ] name "mark_wilson" color "sandy brown" )
-PersonRobot( pose [ -17 37.000 0.000 0.000 ] name "person" color "red" )
-PersonRobot( pose [ -20 37.000 0.000 0.000 ] name "person2" color "blue" )
+# This is the default list of robots to throw in.
+AnimalRobot( pose [ 19 -45.000 0.000 0.000 ] name "animal" color "yellow") 
 
-CarrierRobot( pose [ 15 -20 0.000 90.000 ] name "carrierRobot" color "cyan")
-TractorRobot( pose [ -30 -50 0.000 90.000 ] name "tractorRobot" color "orange")
-BinRobot( pose [ -8.5 -37 0.150 90.000 ] name "bin1" color "blue")
-BinRobot( pose [ -0 -40 0.150 0.000 ] name "bin2" color "blue")
-BinRobot( pose [ 5 -40 0.150 0.000 ] name "bin3" color "blue")
+PersonRobot( pose [ 0 40.000 0.000 0.000 ] name "uneducatedPerson")
+PersonRobot( pose [ 27 -48.000 0.000 0.000 ] name "educatedPerson")
 
-PickerRobot( pose [ 0 -45 0.000 0.000 ] name "pickerRobot2" color "pink" )
-PickerRobot( pose [ 5 -40 0.000 0.000 ] name "pickerRobot3" color "pink" )
+TractorRobot( pose [ -20 43 0.000 0.000 ] name "tractorRobot")
 
+BinRobot( pose [ -8.75 -38 0.150 0.000 ] name "bin1" color "blue")
+BinRobot( pose [ -1.75 -38 0.150 0.000 ] name "bin2" color "blue")
+BinRobot( pose [ 1.75 -38 0.150 0.000 ] name "bin3" color "blue")
+BinRobot( pose [ 5.25 -38 0.150 0.000 ] name "bin4" color "blue")
 
+PickerRobot( pose [ -8.75 -41 0.000 0.000 ] name "pickerRobot1" color "pink" )
+PickerRobot( pose [ 1 -41 0.000 0.000 ] name "pickerRobot2" color "pink" )
+PickerRobot( pose [ 5 -43 0.000 0.000 ] name "pickerRobot3" color "pink" )
 
-
-
-
-# Matts changes
-# throw in a robot 
-#PickerRobot( pose [ -8.5 -37 0.000 90.000 ] name "pickerRobot" color "pink" )
-#MattsRobot( pose [ 16 -30 0.000 90.000 ] name "carrierRobot" color "cyan")
-#AnimalRobot( pose [ -15 40.000 0.000 90.000 ] name "animal" color "yellow")
-#PersonRobot( pose [ -17 37.000 0.000 0.000 ] name "mark_wilson" color "sandy brown" )
-#PersonRobot( pose [ -17 37.000 0.000 0.000 ] name "person" color "red" )
-#PersonRobot( pose [ -20 37.000 0.000 0.000 ] name "person2" color "blue" )
-
-#CarrierRobot( pose [ 15 -20 0.000 90.000 ] name "carrierRobot" color "cyan")
-#TractorRobot( pose [ -20 -45 0.000 0.000 ] name "tractorRobot" color "orange")
-#BinRobot( pose [ -8.5 -37 0.150 90.000 ] name "bin1" color "blue")
-#BinRobot( pose [ 0 -40 0.150 0.000 ] name "bin2" color "blue")
-#BinRobot( pose [ 5 -40 0.150 0.000 ] name "bin3" color "blue")
-
-#PickerRobot( pose [ 0 -45 0.000 0.000 ] name "pickerRobot2" color "pink" )
-#PickerRobot( pose [ 10 -40 0.000 0.000 ] name "pickerRobot3" color "pink" )
+CarrierRobot( pose [ 25 -35 0.000 0.000 ] name "carrierRobot1" color "cyan")
+CarrierRobot( pose [ 25 -40 0.000 0.000 ] name "carrierRobot2" color "cyan")
