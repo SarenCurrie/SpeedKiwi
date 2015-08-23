@@ -87,7 +87,7 @@ class Robot(object):
 
         # Wait for odometry data
         while self.odometry is None:
-            #rospy.loginfo("Waiting for odometry information")
+            rospy.loginfo("Waiting for odometry information")
             pass
 
         self.position = self.get_position()
