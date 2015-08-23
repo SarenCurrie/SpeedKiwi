@@ -48,11 +48,6 @@ class Bin(Robot):
             msg.x = self.position["x"]
             msg.y = self.position["y"]
             bin_pub.publish(msg)
-<<<<<<< Updated upstream
 
-
-=======
-       
->>>>>>> Stashed changes
     def latch(self, robot):
         self.master = robot
