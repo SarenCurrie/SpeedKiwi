@@ -15,9 +15,8 @@ do
 read -p "Select and press Enter: " REPLY
 
 if [[ $REPLY =~ ^[Dd]$ ]]; then
-	roslaunch speedkiwi_core DefaultLaunch.launch	
+	roslaunch speedkiwi_core DefaultLaunch.launch
 	break;
-	
 elif [[ $REPLY =~ ^[Cc]$ ]]; then
 	python src/speedkiwi_core/world/Generated_World/WorldConfiguration.py
 	roslaunch speedkiwi_core GeneratedLaunch.launch
