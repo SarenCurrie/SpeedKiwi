@@ -103,10 +103,6 @@ class PickerRobot(Robot):
 
         return True
 
-    def is_closest(self):
-        """Check if this picker is the closest to the specified bin."""
-        return 1
-
     def check_full(self):
         if self.fruit_count >= self.max_fruit:
             return True
