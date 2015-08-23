@@ -5,11 +5,12 @@ from std_msgs.msg import String
 import curses
 
 def main():
-    """Publishes a movement command based on user input.
-    
-    The robot will listen for movement commands on the 'move_command' topic.
-    This is a text-based user interface that allows us to manually move the
-    robot, by publishing to this topic.
+    """Publishes a movement command based on arrow key input. 
+    Used for the EducatedPerson class.
+
+    Credits to:
+    http://www.codehaven.co.uk/using-arrow-keys-with-inputs-python/
+    https://github.com/hcrlab/randomwalker
     """
     rospy.init_node('person_controller', anonymous=True)
     cmd_publisher = rospy.Publisher('move_command', String, queue_size=10)
@@ -29,7 +30,6 @@ def main():
             if cmd == ord('q'):
                 break
             elif cmd == curses.KEY_RIGHT:
-                # print doesn't work with curses, use addstr instead
                 screen.addstr(0, 0, 'right')
                 cmd = 'right'
             elif cmd == curses.KEY_LEFT:

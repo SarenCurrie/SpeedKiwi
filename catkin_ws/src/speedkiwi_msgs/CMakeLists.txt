@@ -51,6 +51,7 @@ add_message_files(
   robot_status.msg
   bin_status.msg
   empty_response.msg
+  full_response.msg
 )
 
 ## Generate services in the 'srv' folder
