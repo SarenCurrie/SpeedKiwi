@@ -174,7 +174,7 @@ class Robot(object):
         """Rotates to the desired target angle. Returns true when facing that direction"""
         theta = self.position['theta']
         if target == pi or target == -pi:
-            return rotate_to_west()
+            return self.rotate_to_west()
         if (theta < (target+.0001) and theta > (target-.0001)):
             self.stop_rotate()
             return True
