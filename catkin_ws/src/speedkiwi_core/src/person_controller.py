@@ -4,8 +4,9 @@ import rospy
 from std_msgs.msg import String
 import curses
 
+
 def main():
-    """Publishes a movement command based on arrow key input. 
+    """Publishes a movement command based on arrow key input.
     Used for the EducatedPerson class.
 
     Credits to:
@@ -16,7 +17,7 @@ def main():
     cmd_publisher = rospy.Publisher('move_command', String, queue_size=10)
 
     # get the curses screen window
-    screen = curses.initscr()     
+    screen = curses.initscr()
     # turn off input echoing
     curses.noecho()
     # respond to keys immediately (don't wait for enter)
@@ -34,10 +35,10 @@ def main():
                 cmd = 'right'
             elif cmd == curses.KEY_LEFT:
                 screen.addstr(0, 0, 'left ')
-                cmd = 'left'       
+                cmd = 'left'
             elif cmd == curses.KEY_UP:
-                screen.addstr(0, 0, 'up   ')  
-                cmd = 'up'     
+                screen.addstr(0, 0, 'up   ')
+                cmd = 'up'
             elif cmd == curses.KEY_DOWN:
                 screen.addstr(0, 0, 'down ')
                 cmd = 'down'
@@ -49,7 +50,9 @@ def main():
                 cmd_publisher.publish(cmd)
     finally:
         # shut down cleanly
-        curses.nocbreak(); screen.keypad(0); curses.echo()
+        curses.nocbreak()
+        screen.keypad(0)
+        curses.echo()
         curses.endwin()
 
 if __name__ == '__main__':

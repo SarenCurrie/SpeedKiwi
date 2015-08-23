@@ -8,8 +8,9 @@ from std_msgs.msg import String
 import math
 import random
 
+
 class CarrierRobot(Robot):
-	def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
+    def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
         Robot.__init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset)
         self.type = type(self).__name__
 
@@ -19,7 +20,7 @@ class CarrierRobot(Robot):
         self.current_bin_y = 0
 
         def callback(self):
-        	self.current_bin_x = data.x
+            self.current_bin_x = data.x
             self.current_bin_y = data.y
 
             if self.is_closest() and not self.slave and not data.is_carried:
@@ -36,7 +37,7 @@ class CarrierRobot(Robot):
 
         def carrierLocations(data):
 
-            #rospy.loginfo("Data: %s - Self: %s", data.robot_type, "CarrierRobot")
+            # rospy.loginfo("Data: %s - Self: %s", data.robot_type, "CarrierRobot")
 
             if data.robot_type == "CarrierRobot":
                 if not data.robot_id == self.robot_id:
@@ -45,7 +46,6 @@ class CarrierRobot(Robot):
         rospy.Subscriber("bin_status_topic", bin_status, callback)
 
         rospy.Subscriber("statuses", robot_status, carrierLocations)
-
 
     def execute_callback(self):
         """Logic for the carrier robot."""
@@ -59,15 +59,15 @@ class CarrierRobot(Robot):
 
             full_response_pub.publish("Latch")
 
-
     def is_closest(self):
         """Check if this carrier is the closest to the specified bin."""
-        
+
         def dist(x, y):
-            d = math.sqrt( (float(x)-float(self.current_bin_x))**2 + (float(y)-float(self.current_bin_y))**2)
-            #rospy.loginfo("Returning distance: %d", d)
+            d = math.sqrt((float(x)-float(self.current_bin_x))**2 + (float(y)-float(self.current_bin_y))**2)
+            # rospy.loginfo("Returning distance: %d", d)
+
             return d
-            
+
         for p in self.carrier_dict:
             if dist(self.position['x'], self.position['y']) > dist(self.carrier_dict[p].x, self.carrier_dict[p].y):
                 return False
@@ -76,5 +76,3 @@ class CarrierRobot(Robot):
                     return False
 
         return True
-
-

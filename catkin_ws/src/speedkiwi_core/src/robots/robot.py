@@ -46,18 +46,15 @@ class Robot(object):
         self._action_queue = []
         self.rotation_executing = False
         self.current_rotation = None
-
         self.slave = None
 
-
-        self.curr_robot_messages = [None] * 10 # max ten robots before it breaks
+        self.curr_robot_messages = [None] * 10  # max ten robots before it breaks
 
         def status_handler(data):
             """Deal with the other robot statuses, stores in an list for use later"""
             robot_id = data.robot_id
             rid = int(robot_id[-1:])
             self.curr_robot_messages[rid] = data
-            
 
         rospy.Subscriber("statuses", robot_status, status_handler)
         self.status_msg = robot_status()
@@ -133,7 +130,7 @@ class Robot(object):
         self.set_angular_velocity(0)
         self.rotation_executing = False
 
-    def rotate_to_east(self): 
+    def rotate_to_east(self):
         """Sets the rotation until the robot is facing east
         Returns true if facing east (false otherwise)"""
         return self.rotate_to_angle(0)
@@ -163,7 +160,7 @@ class Robot(object):
             self.start_rotate_opposite()
             return False
 
-    def rotate_to_north(self): # NOTE: north is defined in the direction of the positive y axis
+    def rotate_to_north(self):  # NOTE: north is defined in the direction of the positive y axis
         """Sets the rotation until the robot is facing north
         Returns true if facing north (false otherwise)"""
         return self.rotate_to_angle(pi/2)
@@ -250,10 +247,9 @@ class Robot(object):
         msg.y = self.position["y"]
         msg.theta = self.position["theta"]
         if len(self._action_queue) > 0:
-             msg.current_action = type(self._action_queue[len(self._action_queue)-1]).__name__  # is there a better way to do this?
+            msg.current_action = type(self._action_queue[len(self._action_queue)-1]).__name__  # is there a better way to do this?
         msg.is_blocked = self.is_blocked()
         self.status_msg = msg
-
 
     def execute(self):
         """
@@ -261,7 +257,6 @@ class Robot(object):
         This method should not be overridden instead use execute_callback()
         """
         self.position = self.get_position()
-        #rospy.loginfo(self.position["theta"])
 
         status_pub = rospy.Publisher('statuses', robot_status, queue_size=10)
         self.update_status()
@@ -283,7 +278,6 @@ class Robot(object):
                 else:
                     action = self.NO_ACTION
         action.during(self)
-
 
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)

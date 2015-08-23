@@ -10,6 +10,7 @@ rospy.init_node('webservice')
 
 robot_statuses = {}
 
+
 def robot_status_handler(data):
     """Deal with the other robot statuses, stores in an list for use later"""
     robot_id = data.robot_id
@@ -25,6 +26,7 @@ def robot_status_handler(data):
 rospy.Subscriber("statuses", robot_status, robot_status_handler)
 
 robot_statuses = {}
+
 
 def bin_status_handler(data):
     """Deal with the other robot statuses, stores in an list for use later"""
@@ -44,9 +46,11 @@ ROS_ERROR = {
     'message': 'Not recieving data from ROS'
 }
 
+
 @app.route("/")
 def index():
     return app.send_static_file('index.html')
+
 
 @app.route("/robots")
 def robots():
@@ -55,6 +59,7 @@ def robots():
     else:
         return jsonify(ROS_ERROR)
 
+
 @app.route("/robots/<robot_id>")
 def robot(robot_id):
     if robot_statuses and robot_id in robot_statuses:
@@ -62,12 +67,14 @@ def robot(robot_id):
     else:
         return jsonify(ROS_ERROR)
 
+
 @app.route("/bins")
 def bins():
     if bin_statuses:
         return jsonify(bin_statuses)
     else:
         return jsonify(ROS_ERROR)
+
 
 @app.route("/bins/<bin_id>")
 def bin(bin_id):
