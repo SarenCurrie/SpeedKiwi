@@ -36,4 +36,4 @@ def dashboard():
         return "Nope"
 
 if __name__ == "__main__":
-    app.run()
+    app.run(port=1337)
