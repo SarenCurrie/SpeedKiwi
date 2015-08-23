@@ -4,7 +4,7 @@ include "Robots/Sensor.inc"
 define AnimalRobot position 
 ( 
   #properties as name value pairs
-  size [1.5 0.5 0.9] 
+  size [1.5 0.5 0.8] 
   drive "diff" 
   block( #back right leg
     points 4 
@@ -111,7 +111,6 @@ define AnimalRobot position
     point[3] [-0.2 0.2]
     z [0.65 0.7]
   )
-
-    Sensor(pose [0.75 0.15 -0.1 -20]) #left sensor
-    Sensor(pose [0.75 -0.15 -0.1 20]) #right sensor
+    Sensor(pose [0.75 0.15 -0.5 -20]) #left sensor
+    Sensor(pose [0.75 -0.15 -0.5 20]) #right sensor
 )
