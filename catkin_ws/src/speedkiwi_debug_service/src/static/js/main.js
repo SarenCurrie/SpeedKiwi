@@ -5,7 +5,7 @@ $(document).ready(function() {
 });
 
 function update() {
-  $.ajax('http://127.0.0.1:1337/dashboard', {
+  $.ajax('http://127.0.0.1:1337/robots', {
     success: function(data, textStatus, xhr) {
       $('#robots').empty()
       $.each(data, function(key, val) {
