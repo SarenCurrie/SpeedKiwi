@@ -2,7 +2,7 @@
 
 import rospy
 from robots import Robot, Animal, Person, DifferentRobot, PickerRobot, Bin
-from actions import MoveAction, RotateAction, NavigateAction, Figure8Action, MoveRandomAction,MoveToRandomPointAction
+from actions import MoveAction, RotateAction, NavigateAction, Figure8Action, MoveRandomAction
 from math import pi
 
 rospy.init_node('main')
