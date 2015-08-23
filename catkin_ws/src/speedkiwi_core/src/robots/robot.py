@@ -47,7 +47,6 @@ class Robot(object):
         self.rotation_executing = False
         self.current_rotation = None
 
-
         self.slave = None
 
 
@@ -107,6 +106,8 @@ class Robot(object):
             msg = Twist()
             msg.linear.x = linear
             self.velocity = msg
+            if self.slave:
+                self.slave.velocity = self.velocity
 
     def set_angular_velocity(self, angular):
         """Sets the twist message to include rotation at the given speed"""
@@ -114,6 +115,8 @@ class Robot(object):
             msg = Twist()
             msg.angular.z = angular
             self.velocity = msg
+            if self.slave:
+                self.slave.velocity = self.velocity
 
     def start_rotate(self):
         """Sets rotation to speed definied in constructor (anti clockwise) """
@@ -275,8 +278,8 @@ class Robot(object):
                 if self._action_queue:
                     action = self._action_queue[0]
                     action.start(self)
-                    if self.slave:
-                        self.slave.mimic()
+                    # if self.slave:
+                    #     self.slave.mimic()
                 else:
                     action = self.NO_ACTION
         action.during(self)
