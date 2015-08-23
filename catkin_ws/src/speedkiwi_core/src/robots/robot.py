@@ -287,6 +287,8 @@ class Robot(object):
 
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
+        if self.slave:
+            self.slave.execute()
 
     def execute_callback(self):
         """To be overridden in extending classes to define behaviours for each robot."""

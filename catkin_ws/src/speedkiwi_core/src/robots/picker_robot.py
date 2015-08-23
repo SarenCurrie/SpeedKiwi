@@ -97,7 +97,7 @@ class PickerRobot(Robot):
 
     def is_closest(self):
         """Check if this picker is the closest to the specified bin."""
-        
+
         def dist(x, y):
             d = math.sqrt( (float(x)-float(self.current_bin_x))**2 + (float(y)-float(self.current_bin_y))**2)
             #rospy.loginfo("Returning distance: %d", d)
