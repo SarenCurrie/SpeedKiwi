@@ -33,7 +33,7 @@ class Bin(Robot):
         rospy.loginfo(str(self.is_publishing))
 
         if self.is_publishing:
-        	# Publish message bin's details to let pickers know that it can be picked up.
+            # Publish message bin's details to let pickers know that it can be picked up.
             bin_pub = rospy.Publisher('bin_status_topic', bin_status, queue_size=10)
 
             msg = bin_status()
@@ -43,7 +43,7 @@ class Bin(Robot):
                 msg.is_carried = False
             else:
                 msg.is_carried = True 
-                               
+
             msg.x = self.position["x"]
             msg.y = self.position["y"]
             bin_pub.publish(msg)
@@ -52,4 +52,4 @@ class Bin(Robot):
         self.master = robot
 
     def mimic(self):
-        self.add_action(self.master.current_action())   
+        # self.add_action(self.master.current_action())
