@@ -53,3 +53,4 @@ class Bin(Robot):
 
     def mimic(self):
         # self.add_action(self.master.current_action())
+        pass
