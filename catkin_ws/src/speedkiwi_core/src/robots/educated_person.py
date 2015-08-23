@@ -12,6 +12,3 @@ class EducatedPerson(Robot):
 
 	def cmd_handler(self, data):
 		rospy.loginfo("Move: %s", str(data.data))
-		
-
-
