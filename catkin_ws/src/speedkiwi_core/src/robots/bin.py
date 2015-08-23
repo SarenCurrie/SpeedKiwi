@@ -30,7 +30,7 @@ class Bin(Robot):
 
     def execute_callback(self):
         """Logic for Bin"""
-        rospy.loginfo(str(self.is_publishing))
+        # rospy.loginfo(str(self.is_publishing))
 
         if self.is_publishing:
         	# Publish message bin's details to let pickers know that it can be picked up.
