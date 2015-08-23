@@ -33,6 +33,7 @@ class Robot(object):
         self.robot_id = robot_id
         self.type = type(self).__name__
         self.top_speed = top_speed
+        self.current_speed = self.top_speed
         self.angular_top_speed = angular_top_speed
         self.x_offset = x_offset
         self.y_offset = y_offset
@@ -93,7 +94,7 @@ class Robot(object):
 
     def forward(self):
         """starts the robot moving at it's top speed"""
-        self.set_linear_velocity(self.top_speed)
+        self.set_linear_velocity(self.current_speed)
 
     def stop(self):
         """Stops the robot from moving"""
@@ -214,7 +215,7 @@ class Robot(object):
 
     def is_blocked(self):
         """is this robot able to move forward"""
-        block_range = 3
+        block_range = 2.5
         if self.leftLaser:
             for range in self.leftLaser.ranges:
                 if range < block_range:

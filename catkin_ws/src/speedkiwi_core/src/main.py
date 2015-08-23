@@ -31,11 +31,11 @@ robot.add_action(RotateAction("rotate_to_west"))
 robot.add_action(MoveAction(3.5))
 
 #robot1.add_action(Figure8Action())
-animal.add_action(MoveToRandomPointAction())
+animal.add_action(NavigateAction(0, 40))
 
 # robot1.add_action(NavigateAction(50, 50))
 # animal.add_action(NavigateAction(50, 50))
-person.add_action(NavigateAction(15, 15))
+# person.add_action(NavigateAction(15, 15))
 
 rate = rospy.Rate(10)
 
