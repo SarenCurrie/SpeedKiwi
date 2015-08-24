@@ -40,7 +40,7 @@ class PickerRobot(Robot):
             self.current_bin_y = data.y
             # rospy.loginfo(len(self.picker_dict))
             if self.is_closest():  # and not self.slave and not data.is_carried:
-
+                rospy.loginfo("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
                 empty_response_pub = rospy.Publisher('empty_response_topic', empty_response, queue_size=1)
 
                 self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
