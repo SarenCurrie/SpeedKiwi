@@ -103,6 +103,6 @@ define TractorRobot position
     color "yellow"
   )
 
-    Sensor(pose [0.5 1 -2 -20]) #left sensor
-    Sensor(pose [0.5 -1 -2 20]) #right sensor
+    Sensor(pose [0.7 1.7 -2 -20]) #left sensor
+    Sensor(pose [0.7 -1.7 -2 20]) #right sensor
 ) 
