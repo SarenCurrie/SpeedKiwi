@@ -17,17 +17,24 @@ class Bin(Robot):
         self.is_empty = False
         self.is_carried = False
         self.designated_picker = None
+        self.designated_carrier = None
         self.master = None
         self.should_face = None
         self.empty_response_msg = empty_response()
         self.bin_latch = rospy.Publisher('latched_to_picker', empty_response, queue_size=1)
+        self.bin_full_latch = rospy.Publisher('latched_to_carrier', full_response, queue_size=1)
 
         def id_response(data):
             # rospy.loginfo("SDAFDFDSFDSAFDSAFDSAFDSAFDSAFSADFADSFSADF")
             if data.bin_id == self.robot_id:
 
                 self.is_publishing = False
-                self.designated_picker = data.robot_id
+                
+                robot = robot_storage.getRobotWithId(data.robot_id)
+                if robot.type == "PickerRobot":
+                    self.designated_picker = data.robot_id
+                elif robot.type == "CarrierRobot":
+                    self.designated_carrier = data.robot_id
                 # rospy.loginfo(self.robot_id + "    " + data.robot_id)
             # self.is_carried = True
 
@@ -44,12 +51,29 @@ class Bin(Robot):
                         self.empty_response_msg.robot_id = data.robot_id
                         self.empty_response_msg.bin_id = self.robot_id
 
-                        bin_latch = rospy.Publisher('latched_to_picker', full_response, queue_size=1)
-                        bin_latch = rospy.Publisher('latched_to_picker', empty_response, queue_size=1)
+                        
                         msg = empty_response()
                         msg.robot_id = data.robot_id
                         msg.bin_id = self.robot_id
-                        bin_latch.publish(msg)
+                        self.bin_latch.publish(msg)
+
+
+            if not self.should_face and data.robot_id == self.designated_carrier and not self.master:
+                if (data.x-0.5) <= self.position['x'] <= (data.x+0.5):
+                    if (data.y-0.5) <= self.position['y'] <= (data.y+0.5):
+
+                        carrier = robot_storage.getRobotWithId(data.robot_id)
+                        # rospy.loginfo(data.robot_id)
+                        self.latch(carrier)
+
+                        self.empty_response_msg.robot_id = data.robot_id
+                        self.empty_response_msg.bin_id = self.robot_id
+
+                        
+                        msg = full_response()
+                        msg.robot_id = data.robot_id
+                        msg.bin_id = self.robot_id
+                        self.bin_full_latch.publish(msg)
 
 
         # Suscribe to topic to recieve response from pickers.

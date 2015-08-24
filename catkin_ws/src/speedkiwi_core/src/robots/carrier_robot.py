@@ -21,13 +21,15 @@ class CarrierRobot(Robot):
         self.going_towards = None
         self.counter = 0
 
+        full_response_pub = rospy.Publisher('full_response_topic', full_response, queue_size=10)
+
         def callback(data):
             self.current_bin_x = data.x
             self.current_bin_y = data.y
 
             if self.is_closest() and not self.slave and not data.is_carried and not data.is_empty and not self.going_towards:
                 rospy.loginfo("Carrier bot coming towards bin " + data.bin_id + " at " + str(self.current_bin_x) + ", " + str(self.current_bin_y))
-                full_response_pub = rospy.Publisher('full_response_topic', full_response, queue_size=10)
+                
                 self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
 
                 msg = full_response()
@@ -37,15 +39,15 @@ class CarrierRobot(Robot):
                 full_response_pub.publish(msg)
                 self.going_towards = data.bin_id
 
-        def carrierLocations(data):
-            #rospy.loginfo("Data: %s - Self: %s", data.robot_type, "CarrierRobot")
-            if data.robot_type == "CarrierRobot":
-                if not data.robot_id == self.robot_id:
-                    self.carrier_dict[data.robot_id] = data
+        def bin_carrying(data):
+            if data.robot_id == self.robot_id:
+                rospy.loginfo("going up to 35 after carrying bin")
+                carrierx = robot_storage.getRobotWithId(data.robot_id)
+                self.add_action(NavigateAction(carrierx.position["x"], 35))
 
+        rospy.Subscriber("latched_to_carrier", full_response, bin_carrying)        
 
         rospy.Subscriber("bin_status_topic", bin_status, callback)
-        rospy.Subscriber("statuses", robot_status, carrierLocations)
 
     def execute_callback(self):
         """Logic for the carrier robot."""
