@@ -117,17 +117,17 @@ class PickerRobot(Robot):
         for p in robot_list:
             if robot_list[p].type == "PickerRobot":
                 if not robot_list[p].robot_id == self.robot_id:
-                    rospy.loginfo("I'm picker robot: " + robot_list[p].robot_id + "My Distance from bin %.1f is: %.1f" % (self.current_bin_x, dist(robot_list[p].position['x'], robot_list[p].position['y'])))
+                    # rospy.loginfo("I'm picker robot: " + robot_list[p].robot_id + "My Distance from bin %.1f is: %.1f" % (self.current_bin_x, dist(robot_list[p].position['x'], robot_list[p].position['y'])))
 
                     if dist(self.position['x'], self.position['y']) > dist(robot_list[p].position['x'], robot_list[p].position['y']):
-                        rospy.loginfo(robot_list[p].robot_id + "Wasn't the closest to %.1f" % self.current_bin_x)
+                        # rospy.loginfo(robot_list[p].robot_id + "Wasn't the closest to %.1f" % self.current_bin_x)
                         return False
                     elif dist(self.position['x'], self.position['y']) == dist(robot_list[p].position['x'], robot_list[p].position['y']):
                         if int(self.robot_id[6:]) > int(robot_list[p].robot_id[6:]):
-                            rospy.loginfo("I wasn't the closest =")
+                            # rospy.loginfo("I wasn't the closest =")
                             return False
 
-        rospy.loginfo(self.robot_id + "was the closest! %.1f" % self.current_bin_x)
+        # rospy.loginfo(self.robot_id + "was the closest! %.1f" % self.current_bin_x)
         return True
 
     def check_full(self):

@@ -23,12 +23,12 @@ class Bin(Robot):
         self.bin_latch = rospy.Publisher('latched_to_picker', empty_response, queue_size=1)
 
         def id_response(data):
-            rospy.loginfo("SDAFDFDSFDSAFDSAFDSAFDSAFDSAFSADFADSFSADF")
+            # rospy.loginfo("SDAFDFDSFDSAFDSAFDSAFDSAFDSAFSADFADSFSADF")
             if data.bin_id == self.robot_id:
 
                 self.is_publishing = False
                 self.designated_picker = data.picker_id
-                rospy.loginfo(self.designated_picker + "SDAFDFDSFDSAFDSAFDSAFDSAFDSAFSADFADSFSADF")
+                # rospy.loginfo(self.designated_picker + "SDAFDFDSFDSAFDSAFDSAFDSAFDSAFSADFADSFSADF")
                 # rospy.loginfo(self.robot_id + "    " + data.picker_id)
             # self.is_carried = True
 
@@ -51,7 +51,7 @@ class Bin(Robot):
 
     def execute_callback(self):
         """Logic for Bin"""
-        rospy.loginfo(str(self.robot_id) + str(self.should_face) + "GOOD")
+        # rospy.loginfo(str(self.robot_id) + str(self.should_face) + "GOOD")
 
         if self.should_face:
             if self.rotate_to_angle(self.should_face):
@@ -78,4 +78,6 @@ class Bin(Robot):
     def latch(self, robot):
         self.master = robot
         robot.add_slave(self)
+        robot.stop()
         self.should_face = robot.position['theta']
+        rospy.loginfo('SHOULD FACE' + str(self.should_face))
