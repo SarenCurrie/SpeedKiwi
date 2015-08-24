@@ -1,6 +1,6 @@
 from robots import Robot
 from std_msgs.msg import String
-from speedkiwi_msgs.msg import bin_status, empty_response, robot_status
+from speedkiwi_msgs.msg import bin_status, empty_response, full_response, robot_status
 import robot_storage
 import rospy
 
@@ -46,6 +46,8 @@ class Bin(Robot):
 
         # Suscribe to topic to recieve response from pickers.
         rospy.Subscriber("empty_response_topic", empty_response, id_response)
+        rospy.Subscriber("full_response_topic", full_response, id_response)
+
 
         rospy.Subscriber("statuses", robot_status, mimic_now)
 
@@ -63,6 +65,11 @@ class Bin(Robot):
                 msg.is_carried = False
             else:
                 msg.is_carried = True
+
+            if self.is_empty:
+                msg.is_empty = True
+            else:
+                msg.is_empty = False
 
             msg.x = self.position["x"]
             msg.y = self.position["y"]
