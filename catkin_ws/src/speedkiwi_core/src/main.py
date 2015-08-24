@@ -24,8 +24,8 @@ picker1 = PickerRobot('robot_8', 3, 0.5, -8.75, -41, 0)
 picker2 = PickerRobot('robot_9', 3, 0.5, 1, -41, 0)
 picker3 = PickerRobot('robot_10', 3, 0.5, 5, -43, 0)
 
-carrier1 = CarrierRobot('robot_11', 3, 0.5, -8.5, -37, 0) #Will be carrier #1
-robot1 = DifferentRobot('robot_12', 2, 0.5, 0, 0, 0) #Will be carrier #2
+carrier1 = CarrierRobot('robot_11', 3, 0.5, 20, -37, 0) #Will be carrier #1
+carrier2 = CarrierRobot('robot_12', 3, 0.5, 30, -37, 0) #Will be carrier #2
 
 robot_storage.addRobot(animal, "robot_0")
 robot_storage.addRobot(person1, "robot_1")
@@ -39,7 +39,7 @@ robot_storage.addRobot(picker1, "robot_8")
 robot_storage.addRobot(picker2, "robot_9")
 robot_storage.addRobot(picker3, "robot_10")
 robot_storage.addRobot(carrier1, "robot_11")
-robot_storage.addRobot(robot1, "robot_12")
+robot_storage.addRobot(carrier2, "robot_12")
 
 rate = rospy.Rate(10)
 
@@ -56,9 +56,10 @@ while not rospy.is_shutdown():
     binbot2.execute()
     binbot3.execute()
     binbot4.execute()
-    picker1.execute()
-    picker2.execute()
-    picker3.execute()
+    # picker1.execute()
+    # picker2.execute()
+    # picker3.execute()
     carrier1.execute()
-    tractor.execute()
+    carrier2.execute()
+
     rate.sleep()

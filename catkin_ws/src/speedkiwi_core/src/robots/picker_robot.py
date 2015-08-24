@@ -49,9 +49,9 @@ class PickerRobot(Robot):
                 self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
                 rospy.loginfo("P Robot: " + self.robot_id + "    " + "Bin closest: " + data.bin_id)
                 msg = empty_response()
-                msg.picker_id = self.robot_id
+                msg.robot_id = self.robot_id
                 msg.bin_id = data.bin_id
-                rospy.loginfo(self.robot_id + msg.picker_id + msg.bin_id + data.bin_id)
+                rospy.loginfo(self.robot_id + msg.robot_id + msg.bin_id + data.bin_id)
                 empty_response_pub.publish(msg)
                 rospy.loginfo("??????????????????////???????????????????")
 
@@ -64,8 +64,8 @@ class PickerRobot(Robot):
         #             self.picker_dict[data.robot_id] = data
 
         def initiate_picking(data):
-            if data.picker_id == self.robot_id:
-                pickerx = robot_storage.getRobotWithId(data.picker_id)
+            if data.robot_id == self.robot_id:
+                pickerx = robot_storage.getRobotWithId(data.robot_id)
                 self.add_action(NavigateAction(pickerx.position["x"], 35))
 
         rospy.Subscriber("bin_status_topic", bin_status, callback)

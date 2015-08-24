@@ -14,7 +14,7 @@ class Bin(Robot):
         # Unique booleans for Bin instance
         self.slow_down_counter = 0
         self.is_publishing = True
-        self.is_empty = True
+        self.is_empty = False
         self.is_carried = False
         self.designated_picker = None
         self.master = None
@@ -27,9 +27,8 @@ class Bin(Robot):
             if data.bin_id == self.robot_id:
 
                 self.is_publishing = False
-                self.designated_picker = data.picker_id
-                # rospy.loginfo(self.designated_picker + "SDAFDFDSFDSAFDSAFDSAFDSAFDSAFSADFADSFSADF")
-                # rospy.loginfo(self.robot_id + "    " + data.picker_id)
+                self.designated_picker = data.robot_id
+                # rospy.loginfo(self.robot_id + "    " + data.robot_id)
             # self.is_carried = True
 
         def mimic_now(data):              
@@ -41,8 +40,17 @@ class Bin(Robot):
                         picker = robot_storage.getRobotWithId(data.robot_id)
                         # rospy.loginfo(data.robot_id)
                         self.latch(picker)
-                        self.empty_response_msg.picker_id = data.robot_id
+
+                        self.empty_response_msg.robot_id = data.robot_id
                         self.empty_response_msg.bin_id = self.robot_id
+
+                        bin_latch = rospy.Publisher('latched_to_picker', full_response, queue_size=1)
+                        bin_latch = rospy.Publisher('latched_to_picker', empty_response, queue_size=1)
+                        msg = empty_response()
+                        msg.robot_id = data.robot_id
+                        msg.bin_id = self.robot_id
+                        bin_latch.publish(msg)
+
 
         # Suscribe to topic to recieve response from pickers.
         rospy.Subscriber("empty_response_topic", empty_response, id_response)
@@ -59,7 +67,7 @@ class Bin(Robot):
                 self.bin_latch.publish(self.empty_response_msg)
                 self.should_face = None
         if self.is_publishing:  # This boolean is initally True
-            rospy.loginfo("BIN: " + self.robot_id + "HERE")
+            rospy.loginfo("BIN: " + self.robot_id + "at " + str(self.position["x"]) + ", " + str(self.position["y"]))
             # Publish message bin's details to let pickers know that it can be picked up.
             bin_pub = rospy.Publisher('bin_status_topic', bin_status, queue_size=1)
 
