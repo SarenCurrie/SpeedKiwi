@@ -35,15 +35,14 @@ class Bin(Robot):
         def mimic_now(data):              
 
             if not self.should_face and data.robot_id == self.designated_picker and not self.master:
-                if (data.x-0.3) <= self.position['x'] <= (data.x+0.3):
-                    if (data.y-0.3) <= self.position['y'] <= (data.y+0.3):
+                if (data.x-0.5) <= self.position['x'] <= (data.x+0.5):
+                    if (data.y-0.5) <= self.position['y'] <= (data.y+0.5):
 
                         picker = robot_storage.getRobotWithId(data.robot_id)
                         # rospy.loginfo(data.robot_id)
                         self.latch(picker)
                         self.empty_response_msg.picker_id = data.robot_id
                         self.empty_response_msg.bin_id = self.robot_id
-                        self.should_face = picker.get_position()['theta']
 
         # Suscribe to topic to recieve response from pickers.
         rospy.Subscriber("empty_response_topic", empty_response, id_response)
@@ -52,6 +51,8 @@ class Bin(Robot):
 
     def execute_callback(self):
         """Logic for Bin"""
+        rospy.loginfo(str(self.robot_id) + str(self.should_face) + "GOOD")
+
         if self.should_face:
             if self.rotate_to_angle(self.should_face):
                 self.bin_latch.publish(self.empty_response_msg)
@@ -77,3 +78,4 @@ class Bin(Robot):
     def latch(self, robot):
         self.master = robot
         robot.add_slave(self)
+        self.should_face = robot.position['theta']
