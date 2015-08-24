@@ -6,16 +6,13 @@ import random
 import os
 import sys
 
+
 class Person(Robot):
     """Class for people of simulation"""
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
         Robot.__init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset)
         self.counter = 0
 
-        # path = os.path.dirname(__file__) 
-        # path = os.path.join(path, "../world_locations/")
-        # with open(path + "world_perimeter.txt", 'r') as file:
-        #     data = file.readlines()
         boundaries = locations.get_orchard_boundaries()
         self.min_x = int(boundaries["min_x"])
         self.max_x = int(boundaries["max_x"])

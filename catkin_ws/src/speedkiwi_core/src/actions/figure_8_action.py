@@ -4,6 +4,7 @@ from rotate_action import RotateAction
 import math
 import rospy
 
+
 class Figure8Action(Action):
     """
     Action to drive in a figure of 8 shape repetatively forever
@@ -51,7 +52,6 @@ class Figure8Action(Action):
         robot.add_action(MoveAction(5))
         robot.add_action(Figure8Action())
         self.is_rotating = False
-
 
     def is_finished(self, robot):
         return not self.is_rotating

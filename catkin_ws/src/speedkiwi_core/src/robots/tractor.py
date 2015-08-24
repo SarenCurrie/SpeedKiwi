@@ -4,6 +4,7 @@ from world_locations import locations
 import rospy
 import os
 
+
 class Tractor(Robot):
     """Class for tractor in simulation"""
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
@@ -39,6 +40,3 @@ class Tractor(Robot):
             self.add_action(NavigateAction(self.max_x-self.d, self.min_y+self.d))
             self.add_action(NavigateAction(self.max_x-self.d, self.max_y-self.d))
             self.add_action(NavigateAction(self.min_x+self.d, self.max_y-self.d))
-            
-
-        
