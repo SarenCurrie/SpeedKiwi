@@ -19,13 +19,13 @@ class TestPerson(unittest.TestCase):
         """Checks if attributes are set correctly after init."""
         person = self.person
         self.assertEquals(person.counter, 0)
-        self.assertEquals(person.min_x, self.boundaries['min_x'])
-        self.assertEquals(person.max_x, self.boundaries['max_x'])
-        self.assertEquals(person.min_y, self.boundaries['min_y'])
-        self.assertEquals(person.max_y, self.boundaries['max_y'])
+        self.assertEquals(person.min_x, int(self.boundaries["min_x"]))
+        self.assertEquals(person.max_x, int(self.boundaries["max_x"]))
+        self.assertEquals(person.min_y, int(self.boundaries["min_y"]))
+        self.assertEquals(person.max_y, int(self.boundaries["max_y"]))
 
     def test_execute_callback(self):
-        """Checks to see if action queue has action and 
+        """Checks to see if action queue has action and
         counter has incremented accordingly."""
         self.person.execute_callback()
         self.assertEquals(self.person.counter, 1)
