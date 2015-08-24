@@ -92,13 +92,14 @@ class PickerRobot(Robot):
         """Execute picking behaviour"""
         # rospy.loginfo(self.robot_id + " is picking!")
         if self.check_full() == True:
-            rospy.loginfo(self.robot_id + " is full")
             return
 
         randint = random.randint(1, 10)
         if randint == 1:
             self.fruit_count += 1
             rospy.loginfo(self.robot_id + " has picked " + str(self.fruit_count) + " kiwifruit!")
+            if self.check_full():
+                rospy.loginfo(self.robot_id + " is full")
 
     def is_closest(self):
         """Check if this picker is the closest to the specified bin."""

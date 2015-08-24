@@ -74,4 +74,3 @@ class NavigateAction(Action):
         y_diff = self.y_target - current_y
 
         self.angle = math.atan2(y_diff, x_diff)
-        rospy.loginfo("Checking direction")
