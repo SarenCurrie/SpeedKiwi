@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import rospy
-from robots import Robot, Animal, Person, DifferentRobot, PickerRobot, Bin, Tractor, EducatedPerson
+from robots import Robot, Animal, Person, DifferentRobot, PickerRobot, CarrierRobot, Bin, Tractor, EducatedPerson
 from actions import MoveAction, RotateAction, NavigateAction, Figure8Action, MoveRandomAction
 import robot_storage
 from math import pi
@@ -41,25 +41,24 @@ robot_storage.addRobot(binbot4, "robot_7")
 robot_storage.addRobot(picker1, "robot_8")
 robot_storage.addRobot(picker2, "robot_9")
 robot_storage.addRobot(picker3, "robot_10")
-robot_storage.addRobot(robot, "robot_11")
+robot_storage.addRobot(carrier1, "robot_11")
 robot_storage.addRobot(robot1, "robot_12")
 
 rate = rospy.Rate(10)
 
 while not rospy.is_shutdown():
-    robot.execute()
-    robot1.execute()
+
     animal.execute()
     tractor.execute()
     person1.execute()
     person2.execute()
+    picker1.execute()
+    picker2.execute()
+    picker3.execute()
     binbot1.execute()
     binbot2.execute()
     binbot3.execute()
     binbot4.execute()
-    picker1.execute()
-    picker2.execute()
-    picker3.execute()
+    carrier1.execute()
     tractor.execute()
-
     rate.sleep()
