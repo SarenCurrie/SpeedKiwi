@@ -273,8 +273,6 @@ class Robot(object):
                 if self._action_queue:
                     action = self._action_queue[0]
                     action.start(self)
-                    # if self.slave:
-                    #     self.slave.mimic()
                 else:
                     action = self.NO_ACTION
         action.during(self)

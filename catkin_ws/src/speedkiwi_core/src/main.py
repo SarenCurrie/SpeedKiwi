@@ -18,7 +18,7 @@ tractor = Tractor('robot_3', 2, 0.9, -20, 43, 0)
 binbot1 = Bin('robot_4', 3, 0.5, -8.75, -38, pi/2)
 binbot2 = Bin('robot_5', 3, 0.5, -1.75, -38, pi/2)
 binbot3 = Bin('robot_6', 3, 0.5, 1.75, -38, pi/2)
-binbot4 = Bin('robot_7', 3, 0.5, 8.75, -38, pi/2)
+binbot4 = Bin('robot_7', 3, 0.5, 5.25, -38, pi/2)
 
 picker1 = PickerRobot('robot_8', 3, 0.5, -8.75, -41, 0)
 picker2 = PickerRobot('robot_9', 3, 0.5, 1, -41, 0)

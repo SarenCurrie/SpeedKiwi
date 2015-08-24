@@ -22,7 +22,7 @@ class PickerRobot(Robot):
         self.maxY = boundaries["max_y"]
         self.minX = boundaries["min_x"]
         self.minY = boundaries["min_y"]
-        
+        self.has_bin = False
         self.type = type(self).__name__
 
         # Unique variables for picker robots
@@ -39,10 +39,10 @@ class PickerRobot(Robot):
             self.current_bin_x = data.x
             self.current_bin_y = data.y
             # rospy.loginfo(len(self.picker_dict))
-            if self.is_closest():  # and not self.slave and not data.is_carried:
+            if self.is_closest() and not self.has_bin:  # and not self.slave and not data.is_carried:
 
                 empty_response_pub = rospy.Publisher('empty_response_topic', empty_response, queue_size=1)
-
+                self.has_bin = True
                 self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
                 rospy.loginfo("P Robot: " + self.robot_id + "    " + "Bin closest: " + data.bin_id)
                 msg = empty_response()
@@ -62,7 +62,7 @@ class PickerRobot(Robot):
         def initiate_picking(data):
             if data.picker_id == self.robot_id:
                 pickerx = robot_storage.getRobotWithId(data.picker_id)
-                self.add_action(NavigateAction(pickerx.position["x"], 35))
+                #self.add_action(NavigateAction(pickerx.position["x"], 35))
 
         rospy.Subscriber("bin_status_topic", bin_status, callback)
 
@@ -123,7 +123,7 @@ class PickerRobot(Robot):
                             rospy.loginfo("I wasn't the closest =")
                             return False
 
-        rospy.loginfo(self.robot_id + "was the closest!!!!!!!!!! %.1f" % self.current_bin_x)
+        rospy.loginfo(self.robot_id + "was the closest! %.1f" % self.current_bin_x)
         return True
 
     def check_full(self):
