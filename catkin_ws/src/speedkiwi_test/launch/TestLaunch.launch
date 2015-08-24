@@ -15,6 +15,7 @@
 <test name="status_test" test-name="test_status" pkg="speedkiwi_test" type="test_status.py" />
 <test name="animal_test" test-name="test_animal" pkg="speedkiwi_test" type="test_animal.py" />
 <test name="educated_person_test" test-name="test_educated_person" pkg="speedkiwi_test" type="test_educated_person.py" />
+<test name="person_test" test-name="test_person" pkg="speedkiwi_test" type="test_person.py" />
 
 <!--<node name="console" pkg="rqt_console" type="rqt_console"/>-->
 
