@@ -1,9 +1,9 @@
-# This files holds the 4 points of the corners of the walls - configures when the world changes.
-# Min x
--25
+# This files holds the 4 points of the corners of the orchard - configures when the world changes.
 # Max x
-25
-# Min y
--50
+-51.5
 # Max y
-50
+51.5
+# Min x
+-28.0
+# Min y
+28.0

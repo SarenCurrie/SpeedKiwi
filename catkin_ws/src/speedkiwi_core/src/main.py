@@ -6,8 +6,11 @@ from actions import MoveAction, RotateAction, NavigateAction, Figure8Action, Mov
 import robot_storage
 from math import pi
 
+
+
 rospy.init_node('main')
 
+# Please for the love of God do not move these around - they get built at run time
 animal = Animal('robot_0', 2, 0.5, 19, -45, 0)
 
 person1 = Person('robot_1', 2, 0.5, 0, 40, 0)

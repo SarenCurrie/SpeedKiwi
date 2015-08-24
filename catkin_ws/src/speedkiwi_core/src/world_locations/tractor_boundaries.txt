@@ -1,9 +1,0 @@
-# Perimeter of the world (Used for MoveToRandomPointAction)
-# Min x
--25
-# Max x
-25
-# Min y
--50
-# Max y
-50
