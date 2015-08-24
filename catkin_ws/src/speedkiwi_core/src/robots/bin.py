@@ -63,7 +63,8 @@ class Bin(Robot):
         # rospy.loginfo(str(self.robot_id) + str(self.should_face) + "GOOD")
 
         if self.should_face:
-            if self.rotate_to_angle(self.should_face):
+            if self.master.rotate_to_angle(self.should_face):
+                self.master.add_slave(self)  # Set the bin to mimic
                 self.bin_latch.publish(self.empty_response_msg)
                 self.should_face = None
         if self.is_publishing:  # This boolean is initally True
@@ -91,7 +92,6 @@ class Bin(Robot):
 
     def latch(self, robot):
         self.master = robot
-        robot.add_slave(self)
         robot.stop()
-        self.should_face = robot.position['theta']
+        self.should_face = self.position['theta']
         rospy.loginfo('SHOULD FACE' + str(self.should_face))

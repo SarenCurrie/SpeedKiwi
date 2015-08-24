@@ -175,13 +175,13 @@ class Robot(object):
         theta = self.position['theta']
         if target == pi or target == -pi:
             return self.rotate_to_west()
-        if (theta < (target+.0001) and theta > (target-.0001)):
+        if (theta < (target+.00005) and theta > (target-.00005)):
             self.stop_rotate()
             return True
         elif (theta < (target+.003) and theta > target):
-            self.set_angular_velocity(-self.angular_top_speed/500)
+            self.set_angular_velocity(-self.angular_top_speed/1000)
         elif (theta > (target-.003) and theta < target):
-            self.set_angular_velocity(self.angular_top_speed/500)
+            self.set_angular_velocity(self.angular_top_speed/1000)
         elif (theta < (target+.03) and theta > target):
             self.set_angular_velocity(-self.angular_top_speed/100)
         elif (theta > (target-.03) and theta < target):
@@ -279,8 +279,8 @@ class Robot(object):
 
         publisher = rospy.Publisher('/' + self.robot_id + '/cmd_vel', Twist, queue_size=100)
         publisher.publish(self.velocity)
-        if self.slave:
-            self.slave.execute()
+        # if self.slave:
+        #     self.slave.execute()
 
     def execute_callback(self):
         """To be overridden in extending classes to define behaviours for each robot."""
