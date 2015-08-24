@@ -8,7 +8,7 @@ class NavigateAction(Action):
     Example Action
     """
 
-    ROTATE_COUNTER_THRESHOLD = 75
+    ROTATE_COUNTER_THRESHOLD = 25
 
     def __init__(self, x, y):
         self.x_target = x
