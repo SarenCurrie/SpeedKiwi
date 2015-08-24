@@ -1,5 +1,6 @@
 from robots import Robot
 from actions import NavigateAction, MoveAction, RotateAction
+from world_locations import locations
 import rospy
 import os
 
@@ -9,16 +10,11 @@ class Tractor(Robot):
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
         Robot.__init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset)
 
-        path = os.path.dirname(__file__)
-        path = os.path.join(path, "../world_locations/")
-        with open(path + "world_perimeter.txt", 'r') as file:
-            data = file.readlines()
-        self.min_x = int(data[2])
-        self.max_x = int(data[4])
-        self.min_y = int(data[6])
-        self.max_y = int(data[8])
-
-        file.close()
+        boundaries = locations.get_tractor_boundaries()
+        self.min_x = boundaries["min_x"]
+        self.max_x = boundaries["max_x"]
+        self.min_y = boundaries["min_y"]
+        self.max_y = boundaries["max_y"]
 
         self.was_blocked = False
         self.old_queue = []
