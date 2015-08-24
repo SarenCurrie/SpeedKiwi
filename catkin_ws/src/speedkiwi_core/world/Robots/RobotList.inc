@@ -15,5 +15,5 @@ PickerRobot( pose [ -8.75 -41 0.000 0.000 ] name "pickerRobot1" color "pink" )
 PickerRobot( pose [ 1 -41 0.000 0.000 ] name "pickerRobot2" color "pink" )
 PickerRobot( pose [ 5 -43 0.000 0.000 ] name "pickerRobot3" color "pink" )
 
-CarrierRobot( pose [ 25 -35 0.000 0.000 ] name "carrierRobot1" color "cyan")
+CarrierRobot( pose [ -8.5 -37 0.000 0.000 ] name "carrierRobot1" color "cyan")
 CarrierRobot( pose [ 25 -40 0.000 0.000 ] name "carrierRobot2" color "cyan")
