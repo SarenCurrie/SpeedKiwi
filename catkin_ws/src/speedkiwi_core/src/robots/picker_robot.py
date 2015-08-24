@@ -3,6 +3,7 @@ import rospy
 import os
 from speedkiwi_msgs.msg import bin_status, empty_response, robot_status
 from actions import NavigateAction
+from world_locations import locations
 import robot_storage
 import random
 from std_msgs.msg import String
@@ -13,19 +14,14 @@ class PickerRobot(Robot):
     """Robot that picks kiwifruit and puts it in queue"""
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
         Robot.__init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset)
-        #Define orchard edge coordinates
-        dir = os.path.dirname(__file__)
-        path = os.path.join(dir,"../world_locations/")
-        with open(path + "orchard.txt", 'r') as file:
-            #read orchard location file
-            data = file.readlines()
 
         #define max/min coordinates for orchard space
-        self.maxX = float(data[1]) 
-        self.maxY = float(data[2])
-        self.minX = float(data[3])
-        self.minY = float(data[4])
-        file.close()
+        boundaries = locations.get_orchard_boundaries()
+        self.maxX = boundaries["max_x"] 
+        self.maxY = boundaries["max_y"]
+        self.minX = boundaries["min_x"]
+        self.minY = boundaries["min_y"]
+        
         self.type = type(self).__name__
 
         # Unique variables for picker robots
