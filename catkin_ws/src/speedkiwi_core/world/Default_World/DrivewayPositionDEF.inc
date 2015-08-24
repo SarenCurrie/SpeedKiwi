@@ -4,8 +4,8 @@
 # 120/6 = 70+50/6      20 - 60 = -40
 
 # Therefore the x pos of the road needs to be Width/2 + Driveway/4
-# 70/2 35.5 + 1.5
+# 70/2 35.5 + 3
 
 Driveway(
-  pose [37.000 -40.000 0.000 0.000]
+  pose [39.000 -40.000 0.000 0.000]
 )

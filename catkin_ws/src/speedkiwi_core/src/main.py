@@ -11,24 +11,24 @@ from math import pi
 rospy.init_node('main')
 
 # Please for the love of God do not move these around - they get built at run time
-animal = Animal('robot_0', 2, 0.5, 19, -45, 0)
+animal = Animal('robot_0', 2, 0.5, 20.5, 0, 0)
 
-person1 = Person('robot_1', 2, 0.5, 0, 40, 0)
-person2 = EducatedPerson('robot_2', 2, 0.5, 27, -48, 0)
+person1 = Person('robot_1', 2, 0.5, 0, 45, 0)
+person2 = EducatedPerson('robot_2', 2, 0.5, -20.5, 0, 0)
 
-tractor = Tractor('robot_3', 2, 0.9, -20, 43, 0)
+tractor = Tractor('robot_3', 2, 0.9, -20.5, 45, 0)
 
 binbot1 = Bin('robot_4', 3, 0.5, -8.75, -38, pi/2)
 binbot2 = Bin('robot_5', 3, 0.5, -1.75, -38, pi/2)
 binbot3 = Bin('robot_6', 3, 0.5, 1.75, -38, pi/2)
-binbot4 = Bin('robot_7', 3, 0.5, 8.75, -38, pi/2)
+binbot4 = Bin('robot_7', 3, 0.5, 5.25, -38, pi/2)
 
-picker1 = PickerRobot('robot_8', 3, 0.5, -8.75, -41, 0)
-picker2 = PickerRobot('robot_9', 3, 0.5, 1, -41, 0)
-picker3 = PickerRobot('robot_10', 3, 0.5, 5, -43, 0)
+picker1 = PickerRobot('robot_8', 3, 0.5, -8.75, -42.5, 0)
+picker2 = PickerRobot('robot_9', 3, 0.5, 1, -42.5, 0)
+picker3 = PickerRobot('robot_10', 3, 0.5, 7, -42.5, 0)
 
-robot = Robot('robot_11', 3, 0.5, -8.5, -37, 0)  # Will be carrier #1
-robot1 = DifferentRobot('robot_12', 2, 0.5, 0, 0, 0)  # Will be carrier #2
+carrier1 = CarrierRobot('robot_11', 3, 0.5, 35.5, -25, 0)
+carrier2 = CarrierRobot('robot_12', 3, 0.5, 41.5, -35, 0)
 
 robot_storage.addRobot(animal, "robot_0")
 robot_storage.addRobot(person1, "robot_1")
@@ -42,7 +42,7 @@ robot_storage.addRobot(picker1, "robot_8")
 robot_storage.addRobot(picker2, "robot_9")
 robot_storage.addRobot(picker3, "robot_10")
 robot_storage.addRobot(carrier1, "robot_11")
-robot_storage.addRobot(robot1, "robot_12")
+robot_storage.addRobot(carrier2, "robot_12")
 
 rate = rospy.Rate(10)
 
@@ -59,6 +59,7 @@ while not rospy.is_shutdown():
     binbot2.execute()
     binbot3.execute()
     binbot4.execute()
-    carrier1.execute()
-    tractor.execute()
+  #  carrier1.execute()
+  #  carrier2.execute()
+    
     rate.sleep()
