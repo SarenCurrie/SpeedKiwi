@@ -18,13 +18,14 @@ class CarrierRobot(Robot):
         self.carrier_dict = dict()
         self.current_bin_x = 0
         self.current_bin_y = 0
+        self.going_towards = None
 
-        def callback(self):
+        def callback(data):
             self.current_bin_x = data.x
             self.current_bin_y = data.y
 
-            if self.is_closest() and not self.slave and not data.is_carried:
-
+            if self.is_closest() and not self.slave and not data.is_carried and data.is_empty and not self.going_towards:
+                rospy.loginfo("Coming towards bin " + data.bin_id + " at " + str(data.x) + ", " + str(data.y))
                 full_response_pub = rospy.Publisher('full_response_topic', full_response, queue_size=10)
 
                 self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
@@ -34,17 +35,16 @@ class CarrierRobot(Robot):
                 msg.bin_id = data.bin_id
 
                 full_response_pub.publish(msg)
+                self.going_towards = data.bin_id
 
         def carrierLocations(data):
-
-            # rospy.loginfo("Data: %s - Self: %s", data.robot_type, "CarrierRobot")
-
+            #rospy.loginfo("Data: %s - Self: %s", data.robot_type, "CarrierRobot")
             if data.robot_type == "CarrierRobot":
                 if not data.robot_id == self.robot_id:
                     self.carrier_dict[data.robot_id] = data
 
-        rospy.Subscriber("bin_status_topic", bin_status, callback)
 
+        rospy.Subscriber("bin_status_topic", bin_status, callback)
         rospy.Subscriber("statuses", robot_status, carrierLocations)
 
     def execute_callback(self):
@@ -57,7 +57,6 @@ class CarrierRobot(Robot):
         if self.current_bin_x == self.position['x'] and self.current_bin_y == self.position['y']:
             full_response_pub = rospy.Publisher('full_response_topic', String, queue_size=10)
 
-            full_response_pub.publish("Latch")
 
     def is_closest(self):
         """Check if this carrier is the closest to the specified bin."""

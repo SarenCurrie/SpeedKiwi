@@ -8,7 +8,7 @@ class NavigateAction(Action):
     Example Action
     """
 
-    ROTATE_COUNTER_THRESHOLD = 75
+    ROTATE_COUNTER_THRESHOLD = 25
 
     def __init__(self, x, y):
         self.x_target = x
@@ -74,4 +74,3 @@ class NavigateAction(Action):
         y_diff = self.y_target - current_y
 
         self.angle = math.atan2(y_diff, x_diff)
-        rospy.loginfo("Checking direction")
