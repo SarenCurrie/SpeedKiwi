@@ -208,9 +208,37 @@ file.close()
  #+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+
 
 
-# Generate world wall corner points
+# --------------- Generate world wall corner points --------------- #
+# Read the file
+with open(locations_path + "wall_corners.txt", 'r') as file:
+    # Read the model file
+    data = file.readlines()
+
+data[2] = 
+data[4] = 
+data[6] = 
+data[8] = 
+
+# Write to the file
+with open(locations_path + "wall_corners.txt", 'w') as file:
+    file.writelines(data)
+
+file.close()
 
 
+# --------------- Generate world orchard corner points --------------- #
+# Read the file
+with open(locations_path + "orchard_corners.txt", 'r') as file:
+    # Read the model file
+    data = file.readlines()
 
+data[2] = 
+data[4] = 
+data[6] = 
+data[8] = 
 
-# Generate world orchard corner points
+# Write to the file
+with open(locations_path + "orchard_corners.txt", 'w') as file:
+    file.writelines(data)
+
+file.close()
