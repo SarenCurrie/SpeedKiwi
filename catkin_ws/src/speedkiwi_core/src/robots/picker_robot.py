@@ -117,7 +117,7 @@ class PickerRobot(Robot):
         for p in robot_list:
             if robot_list[p].type == "PickerRobot":
                 if not robot_list[p].robot_id == self.robot_id:
-                    # rospy.loginfo("I'm picker robot: " + robot_list[p].robot_id + "My Distance from bin %.1f is: %.1f" % (self.current_bin_x, dist(robot_list[p].position['x'], robot_list[p].position['y'])))
+                    # rospy.loginfo("I'm picker robot: " + robot_list[p].robot_id + "My Distance from bin %.1f is: %.1f" % (self.current_bin_x, dist(robot_list[p].position['x'], robot_list[p].position['y']))) # hi picker robot: " + robot_list[p].robot_id, I'm Dad!
 
                     if dist(self.position['x'], self.position['y']) > dist(robot_list[p].position['x'], robot_list[p].position['y']):
                         # rospy.loginfo(robot_list[p].robot_id + "Wasn't the closest to %.1f" % self.current_bin_x)
