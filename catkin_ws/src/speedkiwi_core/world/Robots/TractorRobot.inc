@@ -3,7 +3,7 @@ include "Robots/Sensor.inc"
 define TractorRobot position 
 ( 
   #properties as name value pairs
-  size [4 3 2.3.0] 
+  size [4 3 2.3] 
   drive "diff" 
 
   block( # cab
@@ -103,6 +103,6 @@ define TractorRobot position
     color "yellow"
   )
 
-    Sensor(pose [0.5 1 -1.4 -20]) #left sensor
-    Sensor(pose [0.5 -1 -1.4 20]) #right sensor
+    Sensor(pose [0.5 1 -2 -20]) #left sensor
+    Sensor(pose [0.5 -1 -2 20]) #right sensor
 ) 
