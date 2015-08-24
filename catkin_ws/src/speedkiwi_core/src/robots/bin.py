@@ -23,15 +23,16 @@ class Bin(Robot):
         self.bin_latch = rospy.Publisher('latched_to_picker', empty_response, queue_size=1)
 
         def id_response(data):
+            rospy.loginfo("SDAFDFDSFDSAFDSAFDSAFDSAFDSAFSADFADSFSADF")
             if data.bin_id == self.robot_id:
+
                 self.is_publishing = False
                 self.designated_picker = data.picker_id
+                rospy.loginfo(self.designated_picker + "SDAFDFDSFDSAFDSAFDSAFDSAFDSAFSADFADSFSADF")
                 # rospy.loginfo(self.robot_id + "    " + data.picker_id)
             # self.is_carried = True
 
-        def mimic_now(data):
-
-            # rospy.loginfo(self.robot_id)
+        def mimic_now(data):              
 
             if not self.should_face and data.robot_id == self.designated_picker and not self.master:
                 if (data.x-0.3) <= self.position['x'] <= (data.x+0.3):
@@ -46,8 +47,8 @@ class Bin(Robot):
 
         # Suscribe to topic to recieve response from pickers.
         rospy.Subscriber("empty_response_topic", empty_response, id_response)
-
         rospy.Subscriber("statuses", robot_status, mimic_now)
+        
 
     def execute_callback(self):
         """Logic for Bin"""

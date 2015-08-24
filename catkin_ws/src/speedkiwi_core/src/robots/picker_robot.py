@@ -38,18 +38,20 @@ class PickerRobot(Robot):
             rospy.loginfo("Bin call: " + data.bin_id + " %.1f       %.1f" % (data.x, data.y))
             self.current_bin_x = data.x
             self.current_bin_y = data.y
+            
             # rospy.loginfo(len(self.picker_dict))
             if self.is_closest() and not self.has_bin:  # and not self.slave and not data.is_carried:
-
-                empty_response_pub = rospy.Publisher('empty_response_topic', empty_response, queue_size=1)
+                rospy.loginfo("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                empty_response_pub = rospy.Publisher('empty_response_topic', empty_response, queue_size=10)
                 self.has_bin = True
                 self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
                 rospy.loginfo("P Robot: " + self.robot_id + "    " + "Bin closest: " + data.bin_id)
                 msg = empty_response()
                 msg.picker_id = self.robot_id
                 msg.bin_id = data.bin_id
-
+                rospy.loginfo(self.robot_id + msg.picker_id + msg.bin_id + data.bin_id)
                 empty_response_pub.publish(msg)
+                rospy.loginfo("??????????????????////???????????????????")
 
         # def picker_locations(data):
         #
@@ -62,7 +64,7 @@ class PickerRobot(Robot):
         def initiate_picking(data):
             if data.picker_id == self.robot_id:
                 pickerx = robot_storage.getRobotWithId(data.picker_id)
-                #self.add_action(NavigateAction(pickerx.position["x"], 35))
+                self.add_action(NavigateAction(pickerx.position["x"], 35))
 
         rospy.Subscriber("bin_status_topic", bin_status, callback)
 
@@ -83,10 +85,10 @@ class PickerRobot(Robot):
         else:
             self.current_speed = self.top_speed
 
-        if self.current_bin_x == self.position['x'] and self.current_bin_y == self.position['y']:
-            empty_response_pub = rospy.Publisher('empty_response_topic', String, queue_size=1)
+        #if self.current_bin_x == self.position['x'] and self.current_bin_y == self.position['y']:
+        #    empty_response_pub = rospy.Publisher('empty_response_topic', String, queue_size=1)
 
-            empty_response_pub.publish("Latch")
+        #    empty_response_pub.publish("Latch")
 
     def do_picking(self):
         """Execute picking behaviour"""

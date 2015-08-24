@@ -11,7 +11,7 @@
 
 <node name="console" pkg="rqt_console" type="rqt_console"/>
 <node name="main" pkg="speedkiwi_core" type="main.py"/>
-<node name="webservice" pkg="speedkiwi_debug_service" type="webservice.py"/>
+<!-- <node name="webservice" pkg="speedkiwi_debug_service" type="webservice.py"/> -->
 
 
 
