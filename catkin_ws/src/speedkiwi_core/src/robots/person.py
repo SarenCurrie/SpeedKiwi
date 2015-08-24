@@ -1,5 +1,6 @@
 from robots import Robot
 from actions import NavigateAction
+from world_locations import locations
 import rospy
 import random
 import os
@@ -10,19 +11,13 @@ class Person(Robot):
     """Class for people of simulation"""
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
         Robot.__init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset)
-        self.direction = "east"
         self.counter = 0
 
-        path = os.path.dirname(__file__)
-        path = os.path.join(path, "../world_locations/")
-        with open(path + "world_perimeter.txt", 'r') as file:
-            data = file.readlines()
-        self.min_x = int(data[2])
-        self.max_x = int(data[4])
-        self.min_y = int(data[6])
-        self.max_y = int(data[8])
-
-        file.close()
+        boundaries = locations.get_orchard_boundaries()
+        self.min_x = int(boundaries["min_x"])
+        self.max_x = int(boundaries["max_x"])
+        self.min_y = int(boundaries["min_y"])
+        self.max_y = int(boundaries["max_y"])
 
     def execute_callback(self):
         """Movement logic for person"""
