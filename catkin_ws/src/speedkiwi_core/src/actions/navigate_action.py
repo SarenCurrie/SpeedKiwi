@@ -20,14 +20,18 @@ class NavigateAction(Action):
         self.current_rotation = None
         self.rotate_counter = self.ROTATE_COUNTER_THRESHOLD
         self.angle = None
+        self.has_started = False
 
     def start(self, robot):
+        self.has_started = True
         self.x_start = robot.get_position()['x']
         self.y_start = robot.get_position()['y']
         self.check_direction(robot)
         rospy.loginfo(self.to_string() + " " + str(robot.robot_id))
 
     def during(self, robot):
+        if not self.has_started:
+            self.start(robot)
         if robot.is_blocked():
             self.angle = None
             self.rotate_counter = 0

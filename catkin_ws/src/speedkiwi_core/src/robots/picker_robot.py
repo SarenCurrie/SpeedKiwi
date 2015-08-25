@@ -1,7 +1,7 @@
 from robots import Robot
 import rospy
 import os
-from speedkiwi_msgs.msg import bin_status, empty_response, robot_status
+from speedkiwi_msgs.msg import bin_status, empty_response, robot_status, full_response
 from actions import NavigateAction
 from world_locations import locations
 import robot_storage
@@ -18,7 +18,7 @@ class PickerRobot(Robot):
 
         #define max/min coordinates for orchard space
         boundaries = locations.get_orchard_boundaries()
-        self.maxX = boundaries["max_x"] 
+        self.maxX = boundaries["max_x"]
         self.maxY = boundaries["max_y"]
         self.minX = boundaries["min_x"]
         self.minY = boundaries["min_y"]
@@ -33,8 +33,10 @@ class PickerRobot(Robot):
         self.fruit_count = 0
         self.max_fruit = 100
 
+        self.has_finished = False
+
         empty_response_pub = rospy.Publisher('empty_response_topic', empty_response, queue_size=10)
-        
+
         def callback(data):
             # Data used to calculate if it's the closest to the bin
             rospy.loginfo("Bin call: " + data.bin_id + " %.1f       %.1f" % (data.x, data.y))
@@ -96,6 +98,8 @@ class PickerRobot(Robot):
         """Execute picking behaviour"""
         # rospy.loginfo(self.robot_id + " is picking!")
         if self.check_full() == True:
+            if not self.has_finished:
+                self.finish_picking()
             return
 
         randint = random.randint(1, 10)
@@ -104,6 +108,12 @@ class PickerRobot(Robot):
             rospy.loginfo(self.robot_id + " has picked " + str(self.fruit_count) + " kiwifruit!")
             if self.check_full():
                 rospy.loginfo(self.robot_id + " is full")
+
+    def finish_picking(self):
+        self.has_finished = True
+        if self._action_queue:
+            self._action_queue.pop()
+        self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
 
     def is_closest(self):
         """Check if this picker is the closest to the specified bin."""

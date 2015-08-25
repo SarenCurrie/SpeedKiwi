@@ -32,12 +32,10 @@ class Bin(Robot):
                 # rospy.loginfo(self.robot_id + "    " + data.picker_id)
             # self.is_carried = True
 
-        def mimic_now(data):              
-
+        def mimic_now(data):
             if not self.should_face and data.robot_id == self.designated_picker and not self.master:
                 if (data.x-0.5) <= self.position['x'] <= (data.x+0.5):
                     if (data.y-0.5) <= self.position['y'] <= (data.y+0.5):
-
                         picker = robot_storage.getRobotWithId(data.robot_id)
                         # rospy.loginfo(data.robot_id)
                         self.latch(picker)
