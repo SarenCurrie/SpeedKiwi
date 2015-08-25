@@ -124,7 +124,9 @@ def bin(bin_id):
 @app.route("/log")
 def log():
     if messages:
-        return make_response(dumps(messages))
+        res = make_response(dumps(messages))
+        res.headers['Content-Type'] = 'application/json'
+        return res
     else:
         return jsonify(ROS_ERROR)
 
