@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
 import rospy
-import json
+from json import dumps
+from rosgraph_msgs.msg import Log
 from speedkiwi_msgs.msg import robot_status, bin_status
-from flask import Flask, jsonify
+from flask import Flask, jsonify, make_response
+
 app = Flask(__name__, static_folder='static', static_url_path='')
 
 rospy.init_node('webservice')
@@ -40,6 +42,41 @@ def bin_status_handler(data):
 rospy.Subscriber("bin_status_topic", bin_status, bin_status_handler)
 
 bin_statuses = {}
+
+
+def log_handler(data):
+    level = ''
+
+    if data.level == data.DEBUG:
+        level = 'DEBUG'
+    elif data.level == data.INFO:
+        level = 'INFO'
+    elif data.level == data.WARN:
+        level = 'WARNING'
+    elif data.level == data.ERROR:
+        level = 'ERROR'
+    elif data.level == data.FATAL:
+        level = 'FATAL'
+    else:
+        level = 'WTF'
+
+    messages.append({
+        'level': level,
+        'node': data.name,
+        'message': data.msg,
+        'source': {
+            'file': data.file,
+            'function': data.function,
+            'line': data.line
+        }
+    })
+
+    if len(messages) > 1000:
+        messages.pop(0)
+
+messages = []
+
+rospy.Subscriber('rosout_agg', Log, log_handler)
 
 ROS_ERROR = {
     'status': 'error',
@@ -80,6 +117,14 @@ def bins():
 def bin(bin_id):
     if bin_statuses and bin_id in bin_statuses:
         return jsonify(bin_statuses[bin_id])
+    else:
+        return jsonify(ROS_ERROR)
+
+
+@app.route("/log")
+def log():
+    if messages:
+        return make_response(dumps(messages))
     else:
         return jsonify(ROS_ERROR)
 
