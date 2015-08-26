@@ -16,12 +16,6 @@ class TestPicker(unittest.TestCase):
         rospy.init_node('test_picker')
         self.picker = PickerRobot('robot_0', 2, 0.9, -20, 43, 0)
 
-    def test_init(self):
-        """Checks if subscribed information has been received."""
-        self.assertIsNot(self.picker.odometry, None)
-        self.assertIsNot(self.picker.leftLaser, None)
-        self.assertIsNot(self.picker.rightLaser, None)
-
     def test_picker_count(self):
         """Test that the kiwifruit count increments when in orchard"""
         self.picker.position['x'] = 0

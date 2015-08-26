@@ -12,8 +12,10 @@ PKG = 'speedkiwi_test'
 class TestRobot(unittest.TestCase):
 
     def setUp(self):
-        rospy.init_node('test_move_action')
+        rospy.init_node('test_robot')
         self.robot = Robot('robot_0', 1, 0.5, 1, 1, pi / 2)
+        for i in range(0, 20):
+            self.robot.execute()
 
     def test_init(self):
         """Checks if subscribed information has been received."""
