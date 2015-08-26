@@ -16,13 +16,14 @@ class TestPerson(unittest.TestCase):
         self.boundaries = locations.get_orchard_boundaries()
 
     def test_init(self):
-        """Checks if attributes are set correctly after init."""
+        """Checks if attributes are set correctly after init.
+        Values are based on world_locations files."""
         person = self.person
         self.assertEquals(person.counter, 0)
-        self.assertEquals(person.min_x, int(self.boundaries["min_x"]))
-        self.assertEquals(person.max_x, int(self.boundaries["max_x"]))
-        self.assertEquals(person.min_y, int(self.boundaries["min_y"]))
-        self.assertEquals(person.max_y, int(self.boundaries["max_y"]))
+        self.assertEquals(person.min_x, -35)
+        self.assertEquals(person.max_x, 35)
+        self.assertEquals(person.min_y, -60)
+        self.assertEquals(person.max_y, 60)
 
     def test_execute_callback(self):
         """Checks to see if action queue has action and
