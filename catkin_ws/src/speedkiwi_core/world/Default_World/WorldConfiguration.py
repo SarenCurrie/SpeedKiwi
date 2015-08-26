@@ -41,6 +41,22 @@ with open(locations_path + "orchard_corners.txt", 'w') as file:
 
 file.close()
 
+# --------------- Generate bin points --------------- #
+# Read the file
+with open(locations_path + "bin_locations.txt", 'r') as file:
+    # Read the location file
+    data = file.readlines()
+    data[2] = "41.5\n"
+    data[4] = "-45\n"
+    data[6] = "35.5\n"
+    data[8] = "-55\n"
+
+# Write to the file
+with open(locations_path + "bin_locations.txt", 'w') as file:
+    file.writelines(data)
+
+file.close()
+
 
 # --------------- Set default robot positions in main() --------------- #
 

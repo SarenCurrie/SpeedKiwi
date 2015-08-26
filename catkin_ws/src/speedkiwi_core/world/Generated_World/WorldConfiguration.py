@@ -244,6 +244,25 @@ with open(locations_path + "orchard_corners.txt", 'w') as file:
 file.close()
 
 
+# --------------- Generate bin points --------------- #
+# Read the file
+with open(locations_path + "bin_locations.txt", 'r') as file:
+    # Read the location file
+    data = file.readlines()
+    data[2] = "%.1f\n" % ((float(rowLength) + 50)/2+6)
+    data[4] = "%.1f\n" % ((float(colLength)+50)/6-(float(colLength)+50)/2-0.75*(float(colLength)+50)/3)
+    data[6] = "%.1f\n" % ((float(rowLength) + 50)/2)
+    data[8] = "%.1f\n" % ((float(colLength)+50)/6-(float(colLength)+50)/2-0.25*(float(colLength)+50)/3)
+
+# Write to the file
+with open(locations_path + "bin_locations.txt", 'w') as file:
+    file.writelines(data)
+
+file.close()
+
+
+
+
 
 # --------------- Set configured robot positions in main() --------------- #
 

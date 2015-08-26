@@ -29,7 +29,6 @@ elif [[ $REPLY =~ ^[0]$ ]]; then
 	chmod +x src/speedkiwi_test/src/test_status.py
 	chmod +x src/speedkiwi_test/src/test_robot.py
 	rostest speedkiwi_test TestLaunch.launch
-
 	break;
 fi
 done
