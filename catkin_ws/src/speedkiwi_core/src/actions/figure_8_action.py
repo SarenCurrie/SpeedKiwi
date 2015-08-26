@@ -15,6 +15,7 @@ class Figure8Action(Action):
     """
 
     def __init__(self):
+        # Initialize variable
         self.is_rotating = True
 
     def start(self, robot):
@@ -58,10 +59,13 @@ class Figure8Action(Action):
         self.is_rotating = False
 
     def is_finished(self, robot):
+        # Is finished if not rotating.
         return not self.is_rotating
 
     def finish(self, robot):
+        # Stop if finished.
         robot.stop()
 
     def to_string(self):
+        # String representation of Figure 8 Action.
         return "Figure of eight"
