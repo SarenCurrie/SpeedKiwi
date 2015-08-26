@@ -8,7 +8,6 @@ import random
 from std_msgs.msg import String
 import math
 
-
 class CarrierRobot(Robot):
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
         Robot.__init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset)
@@ -19,7 +18,6 @@ class CarrierRobot(Robot):
         self.current_bin_x = 0
         self.current_bin_y = 0
         self.going_towards = None
-        self.counter = 0
 
         full_response_pub = rospy.Publisher('full_response_topic', full_response, queue_size=10)
 

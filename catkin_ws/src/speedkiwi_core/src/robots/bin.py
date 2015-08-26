@@ -51,7 +51,6 @@ class Bin(Robot):
                         self.empty_response_msg.robot_id = data.robot_id
                         self.empty_response_msg.bin_id = self.robot_id
 
-                        
                         msg = empty_response()
                         msg.robot_id = data.robot_id
                         msg.bin_id = self.robot_id
@@ -69,7 +68,6 @@ class Bin(Robot):
                         self.empty_response_msg.robot_id = data.robot_id
                         self.empty_response_msg.bin_id = self.robot_id
 
-                        
                         msg = full_response()
                         msg.robot_id = data.robot_id
                         msg.bin_id = self.robot_id
