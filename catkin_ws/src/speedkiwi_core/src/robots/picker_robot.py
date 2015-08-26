@@ -2,7 +2,7 @@ from robots import Robot
 import rospy
 import os
 from speedkiwi_msgs.msg import bin_status, empty_response, robot_status, full_response
-from actions import NavigateAction
+from actions import NavigateAction, NavigatePickAction
 from world_locations import locations
 import robot_storage
 import random
@@ -11,6 +11,8 @@ import math
 
 
 class PickerRobot(Robot):
+
+    MAX_FRUIT = 50
 
     """Robot that picks kiwifruit and puts it in queue"""
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
@@ -31,7 +33,6 @@ class PickerRobot(Robot):
         self.current_bin_y = 0
 
         self.fruit_count = 0
-        self.max_fruit = 100
 
         self.has_finished = False
 
@@ -68,7 +69,7 @@ class PickerRobot(Robot):
         def initiate_picking(data):
             if data.picker_id == self.robot_id:
                 pickerx = robot_storage.getRobotWithId(data.picker_id)
-                self.add_action(NavigateAction(pickerx.position["x"], 35))
+                self.add_action(NavigatePickAction(pickerx.position["x"], self.maxY + 5))
 
         rospy.Subscriber("bin_status_topic", bin_status, callback)
 
@@ -85,7 +86,7 @@ class PickerRobot(Robot):
         if ((self.minX <= currentX <= self.maxX) and (self.minY <= currentY <= self.maxY)):
             inOrchard = True
             self.do_picking()
-            self.current_speed = 0.25  # slow down to picking speed
+            self.current_speed = 2  # slow down to picking speed
         else:
             self.current_speed = self.top_speed
 
@@ -111,8 +112,8 @@ class PickerRobot(Robot):
 
     def finish_picking(self):
         self.has_finished = True
-        if self._action_queue:
-            self._action_queue.pop()
+        self.add_action(NavigateAction(self.minX - 5, self.maxY + 5))
+        self.add_action(NavigateAction(self.minX - 5, self.minY - 5))
         self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
 
     def is_closest(self):
@@ -142,7 +143,7 @@ class PickerRobot(Robot):
         return True
 
     def check_full(self):
-        if self.fruit_count >= self.max_fruit:
+        if self.fruit_count >= self.MAX_FRUIT:
             return True
         return False
 

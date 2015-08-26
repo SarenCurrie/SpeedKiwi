@@ -21,10 +21,10 @@ dir = os.path.dirname(__file__)
 path = os.path.join(dir,"../world_locations/")
 with open(path + "wall_corners.txt", 'r') as file:
     data = file.readlines()
-wall_boundaries["min_x"]  = int(data[2])
-wall_boundaries["max_x"]  = int(data[4])
-wall_boundaries["min_y"]  = int(data[6])
-wall_boundaries["max_y"]  = int(data[8])
+wall_boundaries["min_x"] = int(data[2])
+wall_boundaries["max_x"] = int(data[4])
+wall_boundaries["min_y"] = int(data[6])
+wall_boundaries["max_y"] = int(data[8])
 file.close()
 
 def get_orchard_boundaries():
@@ -32,6 +32,3 @@ def get_orchard_boundaries():
 
 def get_tractor_boundaries():
 	return wall_boundaries
-
-
-	
