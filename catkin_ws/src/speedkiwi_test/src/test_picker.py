@@ -29,15 +29,15 @@ class TestPicker(unittest.TestCase):
 
     def test_picker_picking_speed(self):
         """Check the picker slows down to its picking speed when in orchard"""
-        self.picker.current_speed = 1
+        self.picker.current_speed = 4
         self.picker.position['x'] = 0
         self.picker.position['y'] = 0 #origin is in orchard
         self.picker.execute_callback()
-        self.assertEqual(self.picker.current_speed,self.picker.pick_speed)
+        self.assertEqual(self.picker.current_speed, 1) # Designated pick speed
 
     def test_picker_normal_speed(self):
         """Check the picker sets a normal speed when it's outside orchard"""
-        self.picker.current_speed = self.picker.pick_speed
+        self.picker.current_speed = 0.1
         self.picker.position['x'] = 9000
         self.picker.position['y'] = 9000 #position out of orchard
         self.picker.execute_callback()

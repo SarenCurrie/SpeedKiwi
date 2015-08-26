@@ -1,2 +1,2 @@
-string carrier_id
+string robot_id
 string bin_id

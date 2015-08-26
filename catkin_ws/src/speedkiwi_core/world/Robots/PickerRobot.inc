@@ -3,7 +3,7 @@ include "Robots/Sensor.inc"
 define PickerRobot position 
 ( 
   #properties as name value pairs
-  size [2.5 1.5 1.0] 
+  size [2.0 1.5 1.0]
   drive "diff" 
   obstacle_return 1
   

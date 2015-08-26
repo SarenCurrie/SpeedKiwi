@@ -215,7 +215,7 @@ class Robot(object):
 
     def is_blocked(self):
         """is this robot able to move forward"""
-        block_range = 2.5
+        block_range = 3
         if self.leftLaser:
             for range in self.leftLaser.ranges:
                 if range < block_range:
@@ -287,4 +287,5 @@ class Robot(object):
         pass
 
     def add_slave(self, bin_robot):
+        """Add bin as a slave to mimic this robot."""
         self.slave = bin_robot
