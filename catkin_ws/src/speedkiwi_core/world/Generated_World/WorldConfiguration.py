@@ -247,31 +247,64 @@ file.close()
 
 # --------------- Set configured robot positions in main() --------------- #
 
-Read the file
+# Read the file
 with open("src/speedkiwi_core/src/main.py", 'r') as file:
     # Read the main file
     data = file.readlines()
-    data[13] = "animal = Animal('robot_0', 2, 0.5, 19, -45, 0)\n"
+    data[13] = "animal = Animal('robot_0', 2, 0.5, %.1f, 0, 0)\n" % (xOffSet+10)
 
-    data[15] = "person1 = Person('robot_1', 2, 0.5, 0, 40, 0)\n"
-    data[16] = "person2 = EducatedPerson('robot_2', 2, 0.5, 27, -48, 0)\n"
+    data[15] = "person1 = Person('robot_1', 2, 0.5, 0, %.1f, 0)\n" % (yOffSet+10)
+    data[16] = "person2 = EducatedPerson('robot_2', 2, 0.5, %.1f, 0, 0)\n" % (-xOffSet-10)
 
-    data[18] = "tractor = Tractor('robot_3', 2, 0.9, -20, 43, 0)\n"
+    data[18] = "tractor = Tractor('robot_3', 2, 0.9, %.1f, %.1f, 0)\n" % (-xOffSet-25+10, yOffSet+25-10)
 
-    data[20] = "binbot1 = Bin('robot_4', 3, 0.5, -8.75, -38, pi/2)\n"
-    data[21] = "binbot2 = Bin('robot_5', 3, 0.5, -1.75, -38, pi/2)\n"
-    data[22] = "binbot3 = Bin('robot_6', 3, 0.5, 1.75, -38, pi/2)\n"
-    data[23] = "binbot4 = Bin('robot_7', 3, 0.5, 8.75, -38, pi/2)\n"
+    data[20] = "binbot1 = Bin('robot_4', 3, 0.5, %.1f, %.1f, pi/2)\n" % (0.5*float(rowWidth)-xOffSet,-yOffSet-4)
+    data[21] = "binbot2 = Bin('robot_5', 3, 0.5, %.1f, %.1f, pi/2)\n" % (1.5*float(rowWidth)-xOffSet,-yOffSet-4)
+    data[22] = "binbot3 = Bin('robot_6', 3, 0.5, %.1f, %.1f, pi/2)\n" % (2.5*float(rowWidth)-xOffSet,-yOffSet-4)
+    data[23] = "binbot4 = Bin('robot_7', 3, 0.5, %.1f, %.1f, pi/2)\n" % (3.5*float(rowWidth)-xOffSet,-yOffSet-4)
 
-    data[25] = "picker1 = PickerRobot('robot_8', 3, 0.5, -8.75, -41, 0)\n"
-    data[26] = "picker2 = PickerRobot('robot_9', 3, 0.5, 1, -41, 0)\n"
-    data[27] = "picker3 = PickerRobot('robot_10', 3, 0.5, 5, -43, 0)\n"
+    data[25] = "picker1 = PickerRobot('robot_8', 3, 0.5, %.1f, %.1f, 0)\n" % (0.5*float(rowWidth)-xOffSet,-yOffSet-9)
+    data[26] = "picker2 = PickerRobot('robot_9', 3, 0.5, %.1f, %.1f, 0)\n" % (2.6*float(rowWidth)-xOffSet,-yOffSet-9)
+    data[27] = "picker3 = PickerRobot('robot_10', 3, 0.5, %.1f, %.1f, 0)\n" % (4.7*float(rowWidth)-xOffSet,-yOffSet-9)
 
-    data[29] = "carrier1 = CarrierRobot('robot_11', 3, 0.5, -8.5, -37, 0)\n"
-    data[30] = "carrier2 = CarrierRobot('robot_12', 2, 0.5, 0, 0, 0)\n"
+    data[29] = "carrier1 = CarrierRobot('robot_11', 3, 0.5, %.1f, %.1f, 0)\n" % ((float(rowLength) + 50)/2,(float(colLength)+50)/6-(float(colLength)+50)/2-0.75*(float(colLength)+50)/3)
+    data[30] = "carrier2 = CarrierRobot('robot_12', 2, 0.5, %.1f, %.1f, 0)\n" % ((float(rowLength) + 50)/2+6,(float(colLength)+50)/6-(float(colLength)+50)/2-0.25*(float(colLength)+50)/3)
 
     # Write to the file
 with open("src/speedkiwi_core/src/main.py", 'w') as file:
+    file.writelines(data)
+
+file.close()
+
+
+# --------------- Set configured robot positions in RobotListGEN --------------- #
+
+# Read the file
+with open("src/speedkiwi_core/world/Robots/RobotListGEN.inc", 'r') as file:
+    # Read the main file
+    data = file.readlines()
+
+    data[1] = "AnimalRobot( pose [ %.1f 0.000 0.000 0.000 ] name \"animal\" color \"yellow\")\n" % (xOffSet+10)
+
+    data[3] = "PersonRobot( pose [ 0.000 %.1f 0.000 0.000 ] name \"uneducatedPerson\")\n" % (yOffSet+10)
+    data[4] = "PersonRobot( pose [ %.1f 0.000 0.000 0.000 ] name \"educatedPerson\")\n" % (-xOffSet-10)
+
+    data[6] = "TractorRobot( pose [ %.1f %.1f 0.000 0.000 ] name \"tractorRobot\")\n" % (-xOffSet-25+10, yOffSet+25-10)
+
+    data[8] = "BinRobot( pose [ %.1f %.1f 0.150 90.000 ] name \"bin1\")\n" % (0.5*float(rowWidth)-xOffSet,-yOffSet-4)
+    data[9] = "BinRobot( pose [ %.1f %.1f 0.150 90.000 ] name \"bin2\")\n" % (1.5*float(rowWidth)-xOffSet,-yOffSet-4)
+    data[10] = "BinRobot( pose [ %.1f %.1f 0.150 90.000 ] name \"bin3\")\n" % (2.5*float(rowWidth)-xOffSet,-yOffSet-4)
+    data[11] = "BinRobot( pose [ %.1f %.1f 0.150 90.000 ] name \"bin4\")\n" % (3.5*float(rowWidth)-xOffSet,-yOffSet-4)
+
+    data[13] = "PickerRobot( pose [ %.1f %.1f 0.000 0.000 ] name \"pickerRobot1\")\n" % (0.5*float(rowWidth)-xOffSet,-yOffSet-9)
+    data[14] = "PickerRobot( pose [ %.1f %.1f 0.000 0.000 ] name \"pickerRobot2\")\n" % (2.6*float(rowWidth)-xOffSet,-yOffSet-9)
+    data[15] = "PickerRobot( pose [ %.1f %.1f 0.000 0.000 ] name \"pickerRobot3\")\n" % (4.7*float(rowWidth)-xOffSet,-yOffSet-9)
+
+    data[17] = "CarrierRobot( pose [ %.1f %.1f 0.000 0.000 ] name \"carrierRobot1\")\n" % ((float(rowLength) + 50)/2,(float(colLength)+50)/6-(float(colLength)+50)/2 + 0.375*(float(colLength)+50)/3)
+    data[18] = "CarrierRobot( pose [ %.1f %.1f 0.000 0.000 ] name \"carrierRobot2\")\n" % ((float(rowLength) + 50)/2+6,(float(colLength)+50)/6-(float(colLength)+50)/2 + 0.125*(float(colLength)+50)/3)
+
+        # Write to the file
+with open("src/speedkiwi_core/world/Robots/RobotListGEN.inc", 'w') as file:
     file.writelines(data)
 
 file.close()

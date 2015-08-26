@@ -1,6 +1,6 @@
 define Driveway model
 (
-  size [12 20.7 0.01]
+  size [12 23.7 0.01]
   obstacle_return 0
   gui_move 0
 
