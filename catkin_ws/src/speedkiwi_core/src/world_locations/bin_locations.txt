@@ -2,11 +2,11 @@
 # Max x
 41.5
 # Max y
--45
+-45.0
 # Min x
 35.5
 # Min y
--55
+-55.0
 
 (minX, maxY)		(maxX, maxY)
 +------------------+

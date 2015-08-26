@@ -1,6 +1,6 @@
 define Floormap model
 (
-  size [94.0 91.0 0.001]
+  size [91.0 140.0 0.001]
   obstacle_return 0
   gui_move 0
 

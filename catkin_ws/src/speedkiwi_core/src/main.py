@@ -13,22 +13,22 @@ rospy.init_node('main')
 # Please for the love of God do not move these around - they get built at run time
 animal = Animal('robot_0', 2, 0.5, 20.5, 0, 0)
 
-person1 = Person('robot_1', 2, 0.5, 0, 45, 0)
+person1 = Person('robot_1', 2, 0.5, 0, 45.0, 0)
 person2 = EducatedPerson('robot_2', 2, 0.5, -20.5, 0, 0)
 
-tractor = Tractor('robot_3', 2, 0.9, -20.5, 45, 0)
+tractor = Tractor('robot_3', 2, 0.9, -25.5, 50.0, 0)
 
-binbot1 = Bin('robot_4', 3, 0.5, -8.75, -39, pi/2)
-binbot2 = Bin('robot_5', 3, 0.5, -1.75, -39, pi/2)
-binbot3 = Bin('robot_6', 3, 0.5, 1.75, -39, pi/2)
-binbot4 = Bin('robot_7', 3, 0.5, 5.25, -39, pi/2)
+binbot1 = Bin('robot_4', 3, 0.5, -8.8, -39.0, pi/2)
+binbot2 = Bin('robot_5', 3, 0.5, -5.2, -39.0, pi/2)
+binbot3 = Bin('robot_6', 3, 0.5, -1.8, -39.0, pi/2)
+binbot4 = Bin('robot_7', 3, 0.5, 1.8, -39.0, pi/2)
 
-picker1 = PickerRobot('robot_8', 3, 0.5, -8.75, -44, 0)
-picker2 = PickerRobot('robot_9', 3, 0.5, 1, -44, 0)
-picker3 = PickerRobot('robot_10', 3, 0.5, 7, -44, 0)
+picker1 = PickerRobot('robot_8', 3, 0.5, -8.8, -44.0, 0)
+picker2 = PickerRobot('robot_9', 3, 0.5, -1.4, -44.0, 0)
+picker3 = PickerRobot('robot_10', 3, 0.5, 5.9, -44.0, 0)
 
-carrier1 = CarrierRobot('robot_11', 3, 0.5, 35.5, -25, 0)
-carrier2 = CarrierRobot('robot_12', 2, 0.5, 41.5, -35, 0)
+carrier1 = CarrierRobot('robot_11', 3, 0.5, 35.5, -25.0, 0)
+carrier2 = CarrierRobot('robot_12', 2, 0.5, 41.5, -35.0, 0)
 
 robot_storage.addRobot(animal, "robot_0")
 robot_storage.addRobot(person1, "robot_1")

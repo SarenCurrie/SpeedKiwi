@@ -250,9 +250,9 @@ with open(locations_path + "bin_locations.txt", 'r') as file:
     # Read the location file
     data = file.readlines()
     data[2] = "%.1f\n" % ((float(rowLength) + 50)/2+6)
-    data[4] = "%.1f\n" % ((float(colLength)+50)/6-(float(colLength)+50)/2-0.75*(float(colLength)+50)/3)
+    data[4] = "%.1f\n" % ((float(colLength)+50)/6-(float(colLength)+50)/2-0.125*(float(colLength)+50)/3)
     data[6] = "%.1f\n" % ((float(rowLength) + 50)/2)
-    data[8] = "%.1f\n" % ((float(colLength)+50)/6-(float(colLength)+50)/2-0.25*(float(colLength)+50)/3)
+    data[8] = "%.1f\n" % ((float(colLength)+50)/6-(float(colLength)+50)/2-0.375*(float(colLength)+50)/3)
 
 # Write to the file
 with open(locations_path + "bin_locations.txt", 'w') as file:
@@ -286,8 +286,8 @@ with open("src/speedkiwi_core/src/main.py", 'r') as file:
     data[26] = "picker2 = PickerRobot('robot_9', 3, 0.5, %.1f, %.1f, 0)\n" % (2.6*float(rowWidth)-xOffSet,-yOffSet-9)
     data[27] = "picker3 = PickerRobot('robot_10', 3, 0.5, %.1f, %.1f, 0)\n" % (4.7*float(rowWidth)-xOffSet,-yOffSet-9)
 
-    data[29] = "carrier1 = CarrierRobot('robot_11', 3, 0.5, %.1f, %.1f, 0)\n" % ((float(rowLength) + 50)/2,(float(colLength)+50)/6-(float(colLength)+50)/2-0.75*(float(colLength)+50)/3)
-    data[30] = "carrier2 = CarrierRobot('robot_12', 2, 0.5, %.1f, %.1f, 0)\n" % ((float(rowLength) + 50)/2+6,(float(colLength)+50)/6-(float(colLength)+50)/2-0.25*(float(colLength)+50)/3)
+    data[29] = "carrier1 = CarrierRobot('robot_11', 3, 0.5, %.1f, %.1f, 0)\n" % ((float(rowLength) + 50)/2,(float(colLength)+50)/6-(float(colLength)+50)/2+0.375*(float(colLength)+50)/3)
+    data[30] = "carrier2 = CarrierRobot('robot_12', 2, 0.5, %.1f, %.1f, 0)\n" % ((float(rowLength) + 50)/2+6,(float(colLength)+50)/6-(float(colLength)+50)/2+0.125*(float(colLength)+50)/3)
 
     # Write to the file
 with open("src/speedkiwi_core/src/main.py", 'w') as file:
@@ -319,8 +319,8 @@ with open("src/speedkiwi_core/world/Robots/RobotListGEN.inc", 'r') as file:
     data[14] = "PickerRobot( pose [ %.1f %.1f 0.000 0.000 ] name \"pickerRobot2\")\n" % (2.6*float(rowWidth)-xOffSet,-yOffSet-9)
     data[15] = "PickerRobot( pose [ %.1f %.1f 0.000 0.000 ] name \"pickerRobot3\")\n" % (4.7*float(rowWidth)-xOffSet,-yOffSet-9)
 
-    data[17] = "CarrierRobot( pose [ %.1f %.1f 0.000 0.000 ] name \"carrierRobot1\")\n" % ((float(rowLength) + 50)/2,(float(colLength)+50)/6-(float(colLength)+50)/2 + 0.375*(float(colLength)+50)/3)
-    data[18] = "CarrierRobot( pose [ %.1f %.1f 0.000 0.000 ] name \"carrierRobot2\")\n" % ((float(rowLength) + 50)/2+6,(float(colLength)+50)/6-(float(colLength)+50)/2 + 0.125*(float(colLength)+50)/3)
+    data[17] = "CarrierRobot( pose [ %.1f %.1f 0.000 0.000 ] name \"carrierRobot1\")\n" % ((float(rowLength) + 50)/2,(float(colLength)+50)/6-(float(colLength)+50)/2+0.375*(float(colLength)+50)/3)
+    data[18] = "CarrierRobot( pose [ %.1f %.1f 0.000 0.000 ] name \"carrierRobot2\")\n" % ((float(rowLength) + 50)/2+6,(float(colLength)+50)/6-(float(colLength)+50)/2+0.125*(float(colLength)+50)/3)
 
         # Write to the file
 with open("src/speedkiwi_core/world/Robots/RobotListGEN.inc", 'w') as file:
