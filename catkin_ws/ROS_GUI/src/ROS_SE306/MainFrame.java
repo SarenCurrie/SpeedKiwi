@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,7 +19,7 @@ import javax.swing.JPanel;
  * @author Chester and Karen from Speedkiwi
  */
 
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame{
 
 	// Holds the singleton instance.
 	private static MainFrame _mainFrameInstance = null;
@@ -44,7 +46,7 @@ public class MainFrame extends JFrame {
 
 	// Singleton constructor.
 	protected MainFrame(){
-		
+
 		_features = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		_features.setPreferredSize(new Dimension(640, 360));
 		_features.setBackground(Color.DARK_GRAY);
@@ -73,11 +75,68 @@ public class MainFrame extends JFrame {
 		_bigButtons.add(_testButton, BorderLayout.CENTER);
 
 
+		// Run the default world
+		_defaultButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					
+					//TODO
+					// KAREN, these COMMANDS WONT RUN!
+					
+					
+					runBashCommand("python src/speedkiwi_core/world/Default_World/WorldConfiguration.py");
+					runBashCommand("roslaunch speedkiwi_core DefaultLaunch.launch");	
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+		});
+
+		// Run the configured world
+		_customButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					runBashCommand("python src/speedkiwi_core/world/Generated_World/WorldConfiguration.py");
+					runBashCommand("roslaunch speedkiwi_core GeneratedLaunch.launch");	
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+		});
+
+		// Run the tests
+		_testButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					runBashCommand("python src/speedkiwi_core/world/Default_World/WorldConfiguration.py");
+					runBashCommand("roslaunch speedkiwi_core DefaultLaunch.launch");	
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+		});
+
 		// Completing the Mainframe setup.
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setVisible(true);
 		pack();
+	}
+
+
+	static Process runBashCommand(String cmd) throws Exception{
+		ProcessBuilder s = new ProcessBuilder("/bin/bash", "-c",cmd);
+		Process sProcess=s.start();
+		return sProcess;
 	}
 
 }
