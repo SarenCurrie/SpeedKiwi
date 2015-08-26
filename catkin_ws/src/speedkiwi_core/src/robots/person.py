@@ -26,7 +26,7 @@ class Person(Robot):
             self.counter = 0
 
         if self.counter % 100 == 0:
-            rospy.loginfo("Counter:" + str(self.counter))
+            # rospy.loginfo("Counter:" + str(self.counter))
 
             if self._action_queue:
                 self._action_queue[0].finish(self)
@@ -36,6 +36,6 @@ class Person(Robot):
             y_target = random.randint(self.min_y, self.max_y)
 
             self.add_action(NavigateAction(x_target, y_target))
-            rospy.loginfo("Goal " + str(x_target) + "," + str(y_target))
+            rospy.loginfo("Uneducate person is going towards: " + str(x_target) + ", " + str(y_target))
 
         self.counter += 1

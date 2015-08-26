@@ -26,7 +26,7 @@ class Tractor(Robot):
         if self.is_blocked():
             if not self.was_blocked:
                 self.was_blocked = True
-                rospy.loginfo(str(self._action_queue[0].to_string()))
+                rospy.loginfo("Tractor is: " + str(self._action_queue[0].to_string()))
                 self.old_queue = self._action_queue
                 self._action_queue = []
                 self.stop()
