@@ -41,15 +41,15 @@ class TestTractor(unittest.TestCase):
     def test_orchard_get_coordinates(self):
         """Test the boundary values obtained from file are floats
         NOTE: This is based on default world file. If configured world is run last this will fail"""
-        boundaries = locations.get_tractor_boundaries()
+        boundaries = locations.get_wall_boundaries()
         self.tractor.min_x = boundaries["min_x"]
         self.tractor.max_x = boundaries["max_x"]
         self.tractor.min_y = boundaries["min_y"]
         self.tractor.max_y = boundaries["max_y"]
-        self.assertEqual(self.tractor.min_x, -25)
-        self.assertEqual(self.tractor.min_y, -50)
-        self.assertEqual(self.tractor.max_x, 25)
-        self.assertEqual(self.tractor.max_y, 50)
+        self.assertEqual(self.tractor.min_x, -35)
+        self.assertEqual(self.tractor.min_y, -60)
+        self.assertEqual(self.tractor.max_x, 35)
+        self.assertEqual(self.tractor.max_y, 60)
 
 
 if __name__ == '__main__':
