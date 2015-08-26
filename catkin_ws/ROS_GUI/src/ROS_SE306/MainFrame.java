@@ -10,7 +10,12 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SpringLayout;
+
+import layout.SpringUtilities;
 
 
 /**
@@ -52,9 +57,27 @@ public class MainFrame extends JFrame{
 		_features.setBackground(Color.DARK_GRAY);
 		add(_features, BorderLayout.NORTH);
 
-		_topFeatures = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+		String[] labels = {"Tree height: ", "Row width: ", "Number of rows: ", "Column Length: ", "Post Spacing: "};
+		int numPairs = labels.length;
+		
+		_topFeatures = new JPanel(new SpringLayout());
 		_topFeatures.setPreferredSize(new Dimension(640,260));
 		_topFeatures.setBackground(Color.LIGHT_GRAY);
+		
+		for (int i = 0; i < numPairs; i++) {
+		    JLabel l = new JLabel(labels[i], JLabel.TRAILING);
+		    _topFeatures.add(l);
+		    JTextField textField = new JTextField(10);
+		    l.setLabelFor(textField);
+		    _topFeatures.add(textField);
+		}
+
+		//Lay out the panel.
+		SpringUtilities.makeCompactGrid(_topFeatures,
+		                                numPairs, 2, //rows, cols
+		                                6, 6,        //initX, initY
+		                                6, 6);       //xPad, yPad
+		
 		_features.add(_topFeatures, BorderLayout.NORTH);
 
 		// A panel containing the three buttons: Default, Configure and Test
@@ -83,10 +106,14 @@ public class MainFrame extends JFrame{
 					
 					//TODO
 					// KAREN, these COMMANDS WONT RUN!
+					String cwd = System.getProperty("user.dir");
+					String upperFolder = cwd.substring(0, cwd.lastIndexOf("/"));
+					System.out.println(upperFolder);
+					//System.setProperty("user.dir", upperFolder);
 					
-					
-					runBashCommand("python src/speedkiwi_core/world/Default_World/WorldConfiguration.py");
-					runBashCommand("roslaunch speedkiwi_core DefaultLaunch.launch");	
+					//runBashCommand("source devel/setup.bash");
+					//runPython("src/speedkiwi_core/world/Default_World/WorldConfiguration.py");
+					//runBashCommand("roslaunch speedkiwi_core DefaultLaunch.launch");	
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -129,6 +156,7 @@ public class MainFrame extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setVisible(true);
+		this.setTitle("World Configuration Settings");
 		pack();
 	}
 
@@ -138,5 +166,12 @@ public class MainFrame extends JFrame{
 		Process sProcess=s.start();
 		return sProcess;
 	}
+	
+	static Process runPython(String fileName) throws Exception {
+		ProcessBuilder pb = new ProcessBuilder("python", fileName);
+		Process process = pb.start();
+		return process;
+	}
 
 }
+
