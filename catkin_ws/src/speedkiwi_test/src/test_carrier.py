@@ -10,7 +10,7 @@ from math import pi
 PKG = 'speedkiwi_test'
 
 
-class TestPicker(unittest.TestCase):
+class TestCarrier(unittest.TestCase):
 
     def setUp(self):
         rospy.init_node('test_picker')
