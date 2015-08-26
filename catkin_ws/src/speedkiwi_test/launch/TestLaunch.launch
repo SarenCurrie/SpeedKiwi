@@ -15,6 +15,11 @@
 <test name="status_test" test-name="test_status" pkg="speedkiwi_test" type="test_status.py" />
 <test name="tractor_test" test-name="test_tractor" pkg="speedkiwi_test" type="test_tractor.py" />
 <test name="robot_storage_test" test-name="test_robot_storage" pkg="speedkiwi_test" type="test_robot_storage.py" />
+<test name="animal_test" test-name="test_animal" pkg="speedkiwi_test" type="test_animal.py" />
+<test name="educated_person_test" test-name="test_educated_person" pkg="speedkiwi_test" type="test_educated_person.py" />
+<test name="person_test" test-name="test_person" pkg="speedkiwi_test" type="test_person.py" />
+<!--<test name="locations_test" test-name="test_locations" pkg="speedkiwi_test" type="test_locations.py" />-->
+
 <!--<node name="console" pkg="rqt_console" type="rqt_console"/>-->
 
 
