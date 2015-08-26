@@ -11,7 +11,7 @@ class NavigateAction(Action):
     ROTATE_COUNTER_THRESHOLD = 33
 
     def __init__(self, x, y):
-        # Initialize variables
+        """ Initialize variables """
         self.x_target = x
         self.y_target = y
         self.x_start = 0
@@ -24,7 +24,7 @@ class NavigateAction(Action):
         self.has_started = False
 
     def start(self, robot):
-        # Get robot's x, y coordinates
+        """ Get robot's x, y coordinates """
         self.has_started = True
         self.x_start = robot.get_position()['x']
         self.y_start = robot.get_position()['y']
@@ -32,7 +32,7 @@ class NavigateAction(Action):
         rospy.loginfo(str(robot.robot_id) + " is " + self.to_string())
 
     def during(self, robot):
-        # Collision avoidance logic.
+        """ Collision avoidance logic. """
         if not self.has_started:
             self.start(robot)
         if robot.is_blocked():
@@ -62,21 +62,22 @@ class NavigateAction(Action):
         self.y_correct = (abs(y_diff) < 0.5)
 
     def is_finished(self, robot):
-        # If at destination, robot is finished.
+        """ If at destination, robot is finished. """
         if self.x_correct and self.y_correct:
             return True
         else:
             return False
 
     def finish(self, robot):
-        # Stop if finished.
+        """ Stop if finished. """
         robot.stop()
 
     def to_string(self):
-        # String representation of NavigateAction
+        """ String representation of NavigateAction """
         return "navigating to position x:" + str(self.x_target) + " y:" + str(self.y_target)
 
     def check_direction(self, robot):
+        """ Checks current direction of robot """
         self.rotate_counter = 0
 
         current_x = robot.get_position()['x']

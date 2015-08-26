@@ -9,18 +9,18 @@ class RotateAction(Action):
     """
 
     def __init__(self, rotation, angle=None):
-        # Initialize variables
+        """ Initialize variables """
         self.is_rotating = False
         self.current_rotation = rotation
         self.target_angle = angle
 
     def start(self, robot):
-        # Start rotation
+        """ Start rotation """
         self.is_rotating = True
         rospy.loginfo(str(robot.robot_id) + ": " + self.to_string())
 
     def during(self, robot):
-        # Use one of the rotation methods depending on the rotation selected.
+        """ Use one of the rotation methods depending on the rotation selected. """
         finished = False
         if self.current_rotation == "rotate_to_west":
             finished = robot.rotate_to_west()
@@ -36,15 +36,15 @@ class RotateAction(Action):
             self.is_rotating = False
 
     def is_finished(self, robot):
-        # Is finished if not rotating.
+        """ Is finished if not rotating. """
         return not self.is_rotating
 
     def finish(self, robot):
-        # Stop when finished.
+        """ Stop when finished. """
         robot.stop()
 
     def to_string(self):
-        # String representation of RotateAction.
+        """ String representation of RotateAction. """
         if self.current_rotation == "rotate_to_angle":
             return "rotating to angle " + str(self.target_angle)
         else:

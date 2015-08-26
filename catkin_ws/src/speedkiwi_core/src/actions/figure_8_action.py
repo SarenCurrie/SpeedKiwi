@@ -15,10 +15,11 @@ class Figure8Action(Action):
     """
 
     def __init__(self):
-        # Initialize variable
+        """ Initialize variable """
         self.is_rotating = True
 
     def start(self, robot):
+        """ Add figure 8 movements """
         # rospy.loginfo("Figure 8 Action" + " - " + str(robot.robot_id))
         robot.add_action(RotateAction("rotate_to_east"))
         robot.add_action(MoveAction(5))
@@ -59,13 +60,13 @@ class Figure8Action(Action):
         self.is_rotating = False
 
     def is_finished(self, robot):
-        # Is finished if not rotating.
+        """ Is finished if not rotating. """
         return not self.is_rotating
 
     def finish(self, robot):
-        # Stop if finished.
+        """ Stop if finished. """
         robot.stop()
 
     def to_string(self):
-        # String representation of Figure 8 Action.
+        """ String representation of Figure 8 Action. """
         return "Figure of eight"

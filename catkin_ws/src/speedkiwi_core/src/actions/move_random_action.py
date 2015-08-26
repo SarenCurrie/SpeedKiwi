@@ -10,16 +10,16 @@ class MoveRandomAction(Action):
     """
 
     def __init__(self, d):
-        # Initialize variable
+        """ Initialize variable """
         self.duration = d
         self.counter = 0
 
     def start(self, robot):
-        # Log start of action
+        """ Log start of action """
         rospy.loginfo("Moving randomly" + " - " + str(robot.robot_id))
 
     def during(self, robot):
-        # Robot moves forward and rotates randomly, and rotates when it detects collision.
+        """ Robot moves forward and rotates randomly, and rotates when it detects collision. """
         self.counter += 1
         randint = random.randint(1, 5)
 
@@ -29,16 +29,16 @@ class MoveRandomAction(Action):
             robot.start_rotate()
 
     def is_finished(self, robot):
-        # If the counter
+        """ If the counter greater than duration, robot is finished"""
         if self.counter > self.duration:
             return True
         else:
             return False
 
     def finish(self, robot):
-        # Stop when finished
+        """ Stop when finished """
         robot.stop()
 
     def to_string(self):
-        # String representation of MoveRandomAction
+        """ String representation of MoveRandomAction """
         return "Moving randomly"
