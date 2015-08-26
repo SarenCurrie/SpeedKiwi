@@ -55,11 +55,11 @@ while not rospy.is_shutdown():
     picker1.execute()
     picker2.execute()
     picker3.execute()
+    carrier1.execute()
+    carrier2.execute()
     binbot1.execute()
     binbot2.execute()
     binbot3.execute()
     binbot4.execute()
-  #  carrier1.execute()
-  #  carrier2.execute()
-    
+
     rate.sleep()
