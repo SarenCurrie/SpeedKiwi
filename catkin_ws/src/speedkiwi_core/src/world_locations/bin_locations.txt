@@ -1,0 +1,22 @@
+# These are the positions for all of the bins.
+# Max x
+41.5
+# Max y
+-45
+# Min x
+35.5
+# Min y
+-55
+
+(minX, maxY)		(maxX, maxY)
++------------------+
+|                  |
+|                  |
+|                  |
+|                  |
+|                  |
+|                  |
+|                  |
+|                  |
++------------------+
+(minX, minY)		(maxX, minY)

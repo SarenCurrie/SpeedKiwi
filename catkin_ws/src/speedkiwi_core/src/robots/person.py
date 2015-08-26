@@ -13,7 +13,7 @@ class Person(Robot):
         Robot.__init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset)
         self.counter = 0
 
-        boundaries = locations.get_orchard_boundaries()
+        boundaries = locations.get_wall_boundaries()
         self.min_x = int(boundaries["min_x"])
         self.max_x = int(boundaries["max_x"])
         self.min_y = int(boundaries["min_y"])

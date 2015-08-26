@@ -10,7 +10,7 @@ class Tractor(Robot):
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
         Robot.__init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset)
 
-        boundaries = locations.get_tractor_boundaries()
+        boundaries = locations.get_wall_boundaries()
         self.min_x = boundaries["min_x"]
         self.max_x = boundaries["max_x"]
         self.min_y = boundaries["min_y"]

@@ -15,19 +15,20 @@ do
 read -p "Select and press Enter: " REPLY
 
 if [[ $REPLY =~ ^[Dd]$ ]]; then
+	python src/speedkiwi_core/world/Default_World/WorldConfiguration.py
 	roslaunch speedkiwi_core DefaultLaunch.launch
 	break;
 elif [[ $REPLY =~ ^[Cc]$ ]]; then
 	python src/speedkiwi_core/world/Generated_World/WorldConfiguration.py
 	roslaunch speedkiwi_core GeneratedLaunch.launch
 	break;
-elif [[ $REPLY =~ ^[Tt]$ ]]; then
+elif [[ $REPLY =~ ^[0]$ ]]; then
+	python src/speedkiwi_core/world/Default_World/WorldConfiguration.py
 	chmod +x src/speedkiwi_test/src/test_move_action.py
 	chmod +x src/speedkiwi_test/src/test_navigate_action.py
 	chmod +x src/speedkiwi_test/src/test_status.py
 	chmod +x src/speedkiwi_test/src/test_robot.py
 	rostest speedkiwi_test TestLaunch.launch
-
 	break;
 fi
 done
