@@ -20,15 +20,16 @@ class CarrierRobot(Robot):
         self.current_bin_y = 0
         self.has_bin = False
         self.counter = 0
+        self.going_towards = None
 
-        full_response_pub = rospy.Publisher('full_response_topic', full_response, queue_size=10)
+        empty_response_pub = rospy.Publisher('empty_response_topic', empty_response, queue_size=10)
 
         def callback(data):
             if not data.is_empty:
                 self.current_bin_x = data.x
                 self.current_bin_y = data.y
 
-                if self.is_closest() and not self.has_bin:
+                if self.is_closest() and not self.has_bin and not self.going_towards:
                     rospy.loginfo("Carrier bot coming towards bin " + data.bin_id + " at " + str(self.current_bin_x) + ", " + str(self.current_bin_y))
 
                     self.has_bin = True
@@ -38,7 +39,7 @@ class CarrierRobot(Robot):
                     msg.robot_id = self.robot_id
                     msg.bin_id = data.bin_id
 
-                    full_response_pub.publish(msg)
+                    empty_response_pub.publish(msg)
                     self.going_towards = data.bin_id
 
         def bin_carrying(data):
