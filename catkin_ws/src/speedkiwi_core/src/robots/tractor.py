@@ -10,12 +10,14 @@ class Tractor(Robot):
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
         Robot.__init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset)
 
+        # Set boundaries
         boundaries = locations.get_wall_boundaries()
         self.min_x = boundaries["min_x"]
         self.max_x = boundaries["max_x"]
         self.min_y = boundaries["min_y"]
         self.max_y = boundaries["max_y"]
 
+        # Instance variables
         self.was_blocked = False
         self.old_queue = []
 
@@ -26,7 +28,7 @@ class Tractor(Robot):
         if self.is_blocked():
             if not self.was_blocked:
                 self.was_blocked = True
-                rospy.loginfo("Tractor is: " + str(self._action_queue[0].to_string()))
+                # rospy.loginfo("Tractor is: " + str(self._action_queue[0].to_string()))
                 self.old_queue = self._action_queue
                 self._action_queue = []
                 self.stop()
@@ -35,7 +37,9 @@ class Tractor(Robot):
             self.was_blocked = False
             self._action_queue = self.old_queue
 
+        # If the queue is emptied, assume its finished all 4 actions.
         elif len(self._action_queue) == 0:
+            # Refill queue with 4 new actions.
             self.add_action(NavigateAction(self.min_x+self.d, self.min_y+self.d))
             self.add_action(NavigateAction(self.max_x-self.d, self.min_y+self.d))
             self.add_action(NavigateAction(self.max_x-self.d, self.max_y-self.d))

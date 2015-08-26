@@ -287,4 +287,5 @@ class Robot(object):
         pass
 
     def add_slave(self, bin_robot):
+        """Add bin as a slave to mimic this robot."""
         self.slave = bin_robot

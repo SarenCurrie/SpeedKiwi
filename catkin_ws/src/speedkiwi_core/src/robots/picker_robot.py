@@ -25,6 +25,7 @@ class PickerRobot(Robot):
         self.has_bin = False
         self.type = type(self).__name__
         self.pick_speed = 0.25
+
         # Unique variables for picker robots
         # self.picker_dict = dict()
         self.current_bin_x = 0
@@ -36,6 +37,7 @@ class PickerRobot(Robot):
         empty_response_pub = rospy.Publisher('empty_response_topic', empty_response, queue_size=10)
         
         def callback(data):
+            """Execute method in response to "bin_status" message."""
             # Data used to calculate if it's the closest to the bin
             rospy.loginfo("Bin call: " + data.bin_id + " %.1f       %.1f" % (data.x, data.y))
             self.current_bin_x = data.x
@@ -43,7 +45,7 @@ class PickerRobot(Robot):
             
             # rospy.loginfo(len(self.picker_dict))
             if self.is_closest() and not self.has_bin:  # and not self.slave and not data.is_carried:
-                rospy.loginfo("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                # rospy.loginfo("!!")
                 
                 self.has_bin = True
                 self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
@@ -53,7 +55,7 @@ class PickerRobot(Robot):
                 msg.bin_id = data.bin_id
                 rospy.loginfo(self.robot_id + msg.picker_id + msg.bin_id + data.bin_id)
                 empty_response_pub.publish(msg)
-                rospy.loginfo("??????????????????////???????????????????")
+                #rospy.loginfo("??")
 
         # def picker_locations(data):
         #
@@ -109,6 +111,7 @@ class PickerRobot(Robot):
         """Check if this picker is the closest to the specified bin."""
 
         def dist(x, y):
+            """Calculate distance from this robot to the current bin."""
             d = math.sqrt((float(x)-float(self.current_bin_x))**2 + (float(y)-float(self.current_bin_y))**2)
             # rospy.loginfo("Returning distance: %d", d)
             return d
@@ -132,9 +135,11 @@ class PickerRobot(Robot):
         return True
 
     def check_full(self):
+        """Check if bin should be full."""
         if self.fruit_count >= self.max_fruit:
             return True
         return False
 
     def empty_bin(self):
+        """Reset fruit count to zero."""
         self.fruit_count = 0
