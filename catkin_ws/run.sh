@@ -23,6 +23,7 @@ elif [[ $REPLY =~ ^[Cc]$ ]]; then
 	roslaunch speedkiwi_core GeneratedLaunch.launch
 	break;
 elif [[ $REPLY =~ ^[0]$ ]]; then
+	python src/speedkiwi_core/world/Default_World/WorldConfiguration.py
 	chmod +x src/speedkiwi_test/src/test_move_action.py
 	chmod +x src/speedkiwi_test/src/test_navigate_action.py
 	chmod +x src/speedkiwi_test/src/test_status.py

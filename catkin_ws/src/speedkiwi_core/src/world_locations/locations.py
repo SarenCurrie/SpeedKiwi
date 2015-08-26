@@ -3,6 +3,7 @@ import os
 orchard_boundaries = dict()
 wall_boundaries = dict()
 row_locations = []
+bin_locations = []
 
 # define max/min coordinates for orchard space
 dir = os.path.dirname(__file__)
@@ -26,6 +27,24 @@ wall_boundaries["max_x"]  = float(data[4])
 wall_boundaries["min_y"]  = float(data[6])
 wall_boundaries["max_y"]  = float(data[8])
 file.close()
+
+# define bin locations
+dir = os.path.dirname(__file__)
+path = os.path.join(dir,"../world_locations/")
+with open(path + "bin_locations.txt", 'r') as file:
+    data = file.readlines()
+# This is top left
+bin_locations["1"]  = float(data[2])
+# This is top right
+bin_locations["2"]  = float(data[4])
+# This is bottom left
+bin_locations["3"]  = float(data[6])
+# This is bottom right
+bin_locations["4"]  = float(data[8])
+file.close()
+
+def get_bin_locations():
+	return bin_locations
 
 def get_orchard_boundaries():
 	return orchard_boundaries
