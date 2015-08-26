@@ -39,7 +39,7 @@ class PickerRobot(Robot):
         empty_response_pub = rospy.Publisher('empty_response_topic', empty_response, queue_size=10)
 
         def callback(data):
-            if(data.is_empty):
+            if data.is_empty:
                 # Data used to calculate if it's the closest to the bin
                 rospy.loginfo("Bin call: " + data.bin_id + " %.1f       %.1f" % (data.x, data.y))
                 self.current_bin_x = data.x
@@ -57,14 +57,6 @@ class PickerRobot(Robot):
                     rospy.loginfo(self.robot_id + msg.robot_id + msg.bin_id + data.bin_id)
                     empty_response_pub.publish(msg)
                     rospy.loginfo("??????????????????////???????????????????")
-
-        # def picker_locations(data):
-        #
-        #     rospy.loginfo("Data: %s - Self: %s", data.robot_type, "PickerRobot")
-        #
-        #     if data.robot_type == "PickerRobot":
-        #         if not data.robot_id == self.robot_id:
-        #             self.picker_dict[data.robot_id] = data
 
         def initiate_picking(data):
             if data.robot_id == self.robot_id:

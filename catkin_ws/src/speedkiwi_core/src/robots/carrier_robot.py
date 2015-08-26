@@ -1,7 +1,7 @@
 from robots import Robot
 import rospy
 import os
-from speedkiwi_msgs.msg import bin_status, full_response, robot_status
+from speedkiwi_msgs.msg import bin_status, empty_response, full_response, robot_status
 from actions import NavigateAction
 import robot_storage
 import random
@@ -18,34 +18,36 @@ class CarrierRobot(Robot):
         self.carrier_dict = dict()
         self.current_bin_x = 0
         self.current_bin_y = 0
-        self.going_towards = None
+        self.has_bin = False
         self.counter = 0
 
         full_response_pub = rospy.Publisher('full_response_topic', full_response, queue_size=10)
 
         def callback(data):
-            self.current_bin_x = data.x
-            self.current_bin_y = data.y
+            if not data.is_empty:
+                self.current_bin_x = data.x
+                self.current_bin_y = data.y
 
-            if self.is_closest() and not self.slave and not data.is_carried and not data.is_empty and not self.going_towards:
-                rospy.loginfo("Carrier bot coming towards bin " + data.bin_id + " at " + str(self.current_bin_x) + ", " + str(self.current_bin_y))
-                
-                self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
+                if self.is_closest() and not self.has_bin:
+                    rospy.loginfo("Carrier bot coming towards bin " + data.bin_id + " at " + str(self.current_bin_x) + ", " + str(self.current_bin_y))
 
-                msg = full_response()
-                msg.robot_id = self.robot_id
-                msg.bin_id = data.bin_id
+                    self.has_bin = True
+                    self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
+                    rospy.loginfo("P Robot: " + self.robot_id + "    " + "Bin closest: " + data.bin_id)
+                    msg = empty_response()
+                    msg.robot_id = self.robot_id
+                    msg.bin_id = data.bin_id
 
-                full_response_pub.publish(msg)
-                self.going_towards = data.bin_id
+                    full_response_pub.publish(msg)
+                    self.going_towards = data.bin_id
 
         def bin_carrying(data):
             if data.robot_id == self.robot_id:
-                rospy.loginfo("going up to 35 after carrying bin")
+                rospy.loginfo("carrier " + self.robot_id + " going up to driveway")
                 carrierx = robot_storage.getRobotWithId(data.robot_id)
-                self.add_action(NavigateAction(carrierx.position["x"], 35))
+                self.add_action(NavigateAction(27, -40))
 
-        rospy.Subscriber("latched_to_carrier", full_response, bin_carrying)        
+        rospy.Subscriber("latched_to_picker", empty_response, bin_carrying)        
 
         rospy.Subscriber("bin_status_topic", bin_status, callback)
 
@@ -56,14 +58,12 @@ class CarrierRobot(Robot):
 
         self.current_speed = self.top_speed
 
-        if self.current_bin_x == self.position['x'] and self.current_bin_y == self.position['y']:
-            full_response_pub = rospy.Publisher('full_response_topic', String, queue_size=10)
-
     def is_closest(self):
         """Check if this carrier is the closest to the specified bin."""
+
         def dist(x, y):
             d = math.sqrt((float(x)-float(self.current_bin_x))**2 + (float(y)-float(self.current_bin_y))**2)
-            rospy.loginfo("Returning Distance: %d", d)
+            # rospy.loginfo("Returning distance: %d", d)
             return d
 
         robot_list = robot_storage.get_robot_list()
@@ -71,16 +71,14 @@ class CarrierRobot(Robot):
         for p in robot_list:
             if robot_list[p].type == "CarrierRobot":
                 if not robot_list[p].robot_id == self.robot_id:
-                    rospy.loginfo("I'm carrier robot: " + robot_list[p].robot_id + "My Distance from bin %.1f is: %.1f" % (self.current_bin_x, dist(robot_list[p].position['x'], robot_list[p].position['y'])))
-
                     if dist(self.position['x'], self.position['y']) > dist(robot_list[p].position['x'], robot_list[p].position['y']):
-                        rospy.loginfo(robot_list[p].robot_id + "Wasn't the closest to %.1f" % self.current_bin_x)
+                        # rospy.loginfo(robot_list[p].robot_id + "Wasn't the closest to %.1f" % self.current_bin_x)
                         return False
                     elif dist(self.position['x'], self.position['y']) == dist(robot_list[p].position['x'], robot_list[p].position['y']):
                         if int(self.robot_id[6:]) > int(robot_list[p].robot_id[6:]):
-                            rospy.loginfo("I wasn't the closest =")
+                            # rospy.loginfo("I wasn't the closest =")
                             return False
 
-        rospy.loginfo(self.robot_id + "was the closest!!!!!!!!!! %.1f" % self.current_bin_x)
+        # rospy.loginfo(self.robot_id + "was the closest! %.1f" % self.current_bin_x)
         return True
 

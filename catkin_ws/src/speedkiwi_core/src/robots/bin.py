@@ -22,7 +22,7 @@ class Bin(Robot):
         self.should_face = None
         self.empty_response_msg = empty_response()
         self.bin_latch = rospy.Publisher('latched_to_picker', empty_response, queue_size=1)
-        self.bin_full_latch = rospy.Publisher('latched_to_carrier', full_response, queue_size=1)
+        # self.bin_full_latch = rospy.Publisher('latched_to_carrier', full_response, queue_size=1)
 
         def id_response(data):
             # rospy.loginfo("SDAFDFDSFDSAFDSAFDSAFDSAFDSAFSADFADSFSADF")
@@ -40,39 +40,23 @@ class Bin(Robot):
 
         def mimic_now(data):
             if not self.should_face and data.robot_id == self.designated_picker and not self.master:
-                if (data.x-0.5) <= self.position['x'] <= (data.x+0.5):
-                    if (data.y-0.5) <= self.position['y'] <= (data.y+0.5):
+                if (data.x - 0.5) <= self.position['x'] <= (data.x + 0.5):
+                    if (data.y - 0.5) <= self.position['y'] <= (data.y + 0.5):
                         picker = robot_storage.getRobotWithId(data.robot_id)
                         # rospy.loginfo(data.robot_id)
                         self.latch(picker)
-
                         self.empty_response_msg.robot_id = data.robot_id
                         self.empty_response_msg.bin_id = self.robot_id
-
-                        
-                        msg = empty_response()
-                        msg.robot_id = data.robot_id
-                        msg.bin_id = self.robot_id
-                        self.bin_latch.publish(msg)
 
 
             if not self.should_face and data.robot_id == self.designated_carrier and not self.master:
-                if (data.x-0.5) <= self.position['x'] <= (data.x+0.5):
-                    if (data.y-0.5) <= self.position['y'] <= (data.y+0.5):
-
+                if (data.x - 0.5) <= self.position['x'] <= (data.x + 0.5):
+                    if (data.y - 0.5) <= self.position['y'] <= (data.y + 0.5):
                         carrier = robot_storage.getRobotWithId(data.robot_id)
                         # rospy.loginfo(data.robot_id)
                         self.latch(carrier)
-
                         self.empty_response_msg.robot_id = data.robot_id
                         self.empty_response_msg.bin_id = self.robot_id
-
-                        
-                        msg = full_response()
-                        msg.robot_id = data.robot_id
-                        msg.bin_id = self.robot_id
-                        self.bin_full_latch.publish(msg)
-
 
         # Suscribe to topic to recieve response from pickers.
         rospy.Subscriber("empty_response_topic", empty_response, id_response)
@@ -121,6 +105,7 @@ class Bin(Robot):
 
     def unlatch(self):
         self.is_carried = False
+        self.designated_picker = None
         rospy.loginfo('Bin ' + self.robot_id + 'is being unlatched from ' + self.master.robot_id)
         self.master.slave = None
         self.master = None
