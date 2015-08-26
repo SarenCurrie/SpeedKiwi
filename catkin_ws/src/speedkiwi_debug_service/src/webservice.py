@@ -22,7 +22,7 @@ def robot_status_handler(data):
         'y': data.y,
         'theta': data.theta,
         'action': data.current_action,
-        'isBlocked': data.is_blocked,
+        'isBlocked': data.is_blocked
     }
 
 rospy.Subscriber("statuses", robot_status, robot_status_handler)
@@ -36,7 +36,8 @@ def bin_status_handler(data):
     bin_statuses[bin_id] = {
         'x': data.x,
         'y': data.y,
-        'isCarried': data.is_carried
+        'isCarried': data.is_carried,
+        'isEmpty': data.is_empty
     }
 
 rospy.Subscriber("bin_status_topic", bin_status, bin_status_handler)

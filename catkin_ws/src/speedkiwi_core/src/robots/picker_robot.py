@@ -2,7 +2,7 @@ from robots import Robot
 import rospy
 import os
 from speedkiwi_msgs.msg import bin_status, empty_response, robot_status, full_response
-from actions import NavigateAction, NavigatePickAction
+from actions import NavigateAction, NavigatePickAction, UnlatchAction
 from world_locations import locations
 import robot_storage
 import random
@@ -39,24 +39,25 @@ class PickerRobot(Robot):
         empty_response_pub = rospy.Publisher('empty_response_topic', empty_response, queue_size=10)
 
         def callback(data):
-            # Data used to calculate if it's the closest to the bin
-            rospy.loginfo("Bin call: " + data.bin_id + " %.1f       %.1f" % (data.x, data.y))
-            self.current_bin_x = data.x
-            self.current_bin_y = data.y
+            if(data.is_empty):
+                # Data used to calculate if it's the closest to the bin
+                rospy.loginfo("Bin call: " + data.bin_id + " %.1f       %.1f" % (data.x, data.y))
+                self.current_bin_x = data.x
+                self.current_bin_y = data.y
             
-            # rospy.loginfo(len(self.picker_dict))
-            if self.is_closest() and not self.has_bin:  # and not self.slave and not data.is_carried:
-                rospy.loginfo("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                # rospy.loginfo(len(self.picker_dict))
+                if self.is_closest() and not self.has_bin:  # and not self.slave and not data.is_carried:
+                    rospy.loginfo("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
                 
-                self.has_bin = True
-                self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
-                rospy.loginfo("P Robot: " + self.robot_id + "    " + "Bin closest: " + data.bin_id)
-                msg = empty_response()
-                msg.picker_id = self.robot_id
-                msg.bin_id = data.bin_id
-                rospy.loginfo(self.robot_id + msg.picker_id + msg.bin_id + data.bin_id)
-                empty_response_pub.publish(msg)
-                rospy.loginfo("??????????????????////???????????????????")
+                    self.has_bin = True
+                    self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
+                    rospy.loginfo("P Robot: " + self.robot_id + "    " + "Bin closest: " + data.bin_id)
+                    msg = empty_response()
+                    msg.picker_id = self.robot_id
+                    msg.bin_id = data.bin_id
+                    rospy.loginfo(self.robot_id + msg.picker_id + msg.bin_id + data.bin_id)
+                    empty_response_pub.publish(msg)
+                    rospy.loginfo("??????????????????////???????????????????")
 
         # def picker_locations(data):
         #
@@ -69,6 +70,8 @@ class PickerRobot(Robot):
         def initiate_picking(data):
             if data.picker_id == self.robot_id:
                 pickerx = robot_storage.getRobotWithId(data.picker_id)
+                self.x_start = self.position['x']
+                self.y_start = self.position['y']
                 self.add_action(NavigatePickAction(pickerx.position["x"], self.maxY + 5))
 
         rospy.Subscriber("bin_status_topic", bin_status, callback)
@@ -86,7 +89,7 @@ class PickerRobot(Robot):
         if ((self.minX <= currentX <= self.maxX) and (self.minY <= currentY <= self.maxY)):
             inOrchard = True
             self.do_picking()
-            self.current_speed = 2  # slow down to picking speed
+            self.current_speed = 1  # slow down to picking speed
         else:
             self.current_speed = self.top_speed
 
@@ -112,9 +115,12 @@ class PickerRobot(Robot):
 
     def finish_picking(self):
         self.has_finished = True
+        self.slave.is_empty = True
         self.add_action(NavigateAction(self.minX - 5, self.maxY + 5))
         self.add_action(NavigateAction(self.minX - 5, self.minY - 5))
-        self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
+        self.add_action(NavigateAction(self.x_start, self.y_start))  # Go to bin's starting position
+        self.add_action(UnlatchAction(self.slave))  # Drop bin
+        self.add_action(NavigateAction(self.x_offset, self.y_offset))  # Return to starting position
 
     def is_closest(self):
         """Check if this picker is the closest to the specified bin."""

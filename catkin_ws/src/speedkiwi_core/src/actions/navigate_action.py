@@ -8,7 +8,7 @@ class NavigateAction(Action):
     Example Action
     """
 
-    ROTATE_COUNTER_THRESHOLD = 25
+    ROTATE_COUNTER_THRESHOLD = 33
 
     def __init__(self, x, y):
         self.x_target = x
@@ -85,7 +85,7 @@ class NavigatePickAction(Action):
     Navigate Action with alternative collision avoidance logic.
     Will wait instead of rotate to avoid crashing."""
 
-    ROTATE_COUNTER_THRESHOLD = 25
+    ROTATE_COUNTER_THRESHOLD = 33
 
     def __init__(self, x, y):
         self.x_target = x

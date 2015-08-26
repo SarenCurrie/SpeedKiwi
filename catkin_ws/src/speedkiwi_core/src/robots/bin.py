@@ -81,7 +81,15 @@ class Bin(Robot):
             bin_pub.publish(msg)
 
     def latch(self, robot):
+        self.is_carried = True
         self.master = robot
         robot.stop()
         self.should_face = self.position['theta']
         rospy.loginfo('SHOULD FACE' + str(self.should_face))
+
+    def unlatch(self):
+        self.is_carried = False
+        rospy.loginfo('Bin ' + self.robot_id + 'is being unlatched from ' + self.master.robot_id)
+        self.master.slave = None
+        self.master = None
+        self.stop()

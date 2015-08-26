@@ -20,9 +20,9 @@ binbot2 = Bin('robot_5', 3, 0.5, -1.75, -38, pi/2)
 binbot3 = Bin('robot_6', 3, 0.5, 1.75, -38, pi/2)
 binbot4 = Bin('robot_7', 3, 0.5, 5.25, -38, pi/2)
 
-picker1 = PickerRobot('robot_8', 3, 0.5, -8.75, -41, 0)
-picker2 = PickerRobot('robot_9', 3, 0.5, 1, -41, 0)
-picker3 = PickerRobot('robot_10', 3, 0.5, 5, -43, 0)
+picker1 = PickerRobot('robot_8', 1.5, 0.5, -8.75, -41, 0)
+picker2 = PickerRobot('robot_9', 1.5, 0.5, 1, -41, 0)
+picker3 = PickerRobot('robot_10', 1.5, 0.5, 5, -43, 0)
 
 carrier1 = CarrierRobot('robot_11', 3, 0.5, -8.5, -37, 0) #Will be carrier #1
 robot1 = DifferentRobot('robot_12', 2, 0.5, 0, 0, 0) #Will be carrier #2
