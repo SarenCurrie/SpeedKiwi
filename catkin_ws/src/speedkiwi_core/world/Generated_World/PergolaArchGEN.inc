@@ -1,6 +1,6 @@
 define PergolaArch model
 (
-  size [0.3 5.0 0.4]
+  size [0.3 8.0 0.4]
   obstacle_return 0
   gui_move 0
 

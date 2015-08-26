@@ -6,26 +6,29 @@ from actions import MoveAction, RotateAction, NavigateAction, Figure8Action, Mov
 import robot_storage
 from math import pi
 
+
+
 rospy.init_node('main')
 
-animal = Animal('robot_0', 2, 0.5, 19, -45, 0)
+# Please for the love of God do not move these around - they get built at run time
+animal = Animal('robot_0', 2, 0.5, 20.5, 0, 0)
 
-person1 = Person('robot_1', 2, 0.5, 0, 40, 0)
-person2 = EducatedPerson('robot_2', 2, 0.5, 27, -48, 0)
+person1 = Person('robot_1', 2, 0.5, 0, 45, 0)
+person2 = EducatedPerson('robot_2', 2, 0.5, -20.5, 0, 0)
 
-tractor = Tractor('robot_3', 2, 0.5, -20, 43, 0)
+tractor = Tractor('robot_3', 2, 0.9, -20.5, 45, 0)
 
-binbot1 = Bin('robot_4', 3, 0.5, -8.75, -38, pi/2)
-binbot2 = Bin('robot_5', 3, 0.5, -1.75, -38, pi/2)
-binbot3 = Bin('robot_6', 3, 0.5, 1.75, -38, pi/2)
-binbot4 = Bin('robot_7', 3, 0.5, 5.25, -38, pi/2)
+binbot1 = Bin('robot_4', 3, 0.5, -8.75, -39, pi/2)
+binbot2 = Bin('robot_5', 3, 0.5, -1.75, -39, pi/2)
+binbot3 = Bin('robot_6', 3, 0.5, 1.75, -39, pi/2)
+binbot4 = Bin('robot_7', 3, 0.5, 5.25, -39, pi/2)
 
-picker1 = PickerRobot('robot_8', 1.5, 0.5, -8.75, -41, 0)
-picker2 = PickerRobot('robot_9', 1.5, 0.5, 1, -41, 0)
-picker3 = PickerRobot('robot_10', 1.5, 0.5, 5, -43, 0)
+picker1 = PickerRobot('robot_8', 1.5, 0.5, -8.75, -44, 0)
+picker2 = PickerRobot('robot_9', 1.5, 0.5, 1, -44, 0)
+picker3 = PickerRobot('robot_10', 1.5, 0.5, 7, -44, 0)
 
-carrier1 = CarrierRobot('robot_11', 3, 0.5, 20, -37, 0) #Will be carrier #1
-carrier2 = CarrierRobot('robot_12', 3, 0.5, 30, -37, 0) #Will be carrier #2
+carrier1 = CarrierRobot('robot_11', 1.5, 0.5, 35.5, -25, 0)
+carrier2 = CarrierRobot('robot_12', 1.5, 0.5, 41.5, -35, 0)
 
 robot_storage.addRobot(animal, "robot_0")
 robot_storage.addRobot(person1, "robot_1")
@@ -52,11 +55,11 @@ while not rospy.is_shutdown():
     # picker1.execute()
     # picker2.execute()
     # picker3.execute()
+    carrier1.execute()
+    carrier2.execute()
     binbot1.execute()
     binbot2.execute()
     binbot3.execute()
     binbot4.execute()
-    carrier1.execute()
-    carrier2.execute()
 
     rate.sleep()

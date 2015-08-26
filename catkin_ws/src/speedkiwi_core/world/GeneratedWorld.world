@@ -23,7 +23,7 @@ include "Robots/AnimalRobot.inc"
 include "Robots/BinRobot.inc"
 include "Robots/TractorRobot.inc"
 # Must include RobotList.inc last
-include "Robots/RobotList.inc" 
+include "Robots/RobotListGEN.inc" 
 
 # Simulation Property: Number of milliseconds per update step 
 interval_sim 100
@@ -33,3 +33,27 @@ resolution 0.02
 
 # Size of the world in meters
 size [150 150] 
+
+window
+( 
+  #size of the window in pixels
+  size [512 768]
+  center [0 -20]
+  rotate [0.000 0.000]
+  scale 7
+  show_data 1
+  show_flags 1
+  show_blocks 1
+  show_clock 1
+  show_footprints 0
+  show_grid 0
+  show_trailarrows 0
+  show_trailrise 0
+  show_trailfast 0
+  show_occupancy 0
+  show_tree 0
+  pcam_on 0
+  screenshots 0
+  show_ranger 1
+  show_ranger_beams 1
+)

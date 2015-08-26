@@ -1,5 +1,0 @@
-# top x, top y, bottom x, bottom y
-10.5
-35
--10.5
--35
