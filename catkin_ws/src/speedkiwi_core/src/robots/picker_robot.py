@@ -24,7 +24,7 @@ class PickerRobot(Robot):
         self.minY = boundaries["min_y"]
         self.has_bin = False
         self.type = type(self).__name__
-
+        self.pick_speed = 0.25
         # Unique variables for picker robots
         # self.picker_dict = dict()
         self.current_bin_x = 0
@@ -83,7 +83,7 @@ class PickerRobot(Robot):
         if ((self.minX <= currentX <= self.maxX) and (self.minY <= currentY <= self.maxY)):
             inOrchard = True
             self.do_picking()
-            self.current_speed = 0.25  # slow down to picking speed
+            self.current_speed = self.pick_speed  # slow down to picking speed
         else:
             self.current_speed = self.top_speed
 
@@ -98,8 +98,8 @@ class PickerRobot(Robot):
         if self.check_full() == True:
             return
 
-        randint = random.randint(1, 10)
-        if randint == 1:
+        self.randint = random.randint(1, 10)
+        if self.randint == 1:
             self.fruit_count += 1
             rospy.loginfo(self.robot_id + " has picked " + str(self.fruit_count) + " kiwifruit!")
             if self.check_full():
