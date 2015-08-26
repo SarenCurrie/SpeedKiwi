@@ -7,6 +7,8 @@ The best SE 306 2015 - Project 1
 ```
 git clone https://github.com/SarenCurrie/SpeedKiwi.git
 cd SpeedKiwi/catkin_ws
+sudo apt-get install python-pip
+./install.sh
 catkin_make
 ```
 
@@ -18,6 +20,16 @@ catkin_make
 # C to run the (C)onfigured world (https://github.com/SarenCurrie/SpeedKiwi/wiki/Configured-World) 
 # T to run (T)ests.
 ```
+
+## Controlling a person
+With the project already running execute this command in a seperate terminal tab
+```
+python src/speedkiwi_core/src/person_controller.py 
+```
+
+## Debugging dashboard
+With the project running open http://127.0.0.1:1337 in your browser
+
 
 ## Trouble Shooting
 ```
