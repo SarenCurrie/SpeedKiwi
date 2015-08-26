@@ -83,7 +83,7 @@ class Robot(object):
 
         # Wait for odometry data
         while self.odometry is None:
-            rospy.loginfo("Waiting for odometry information")
+            # rospy.loginfo("Waiting for odometry information")
             pass
 
         self.position = self.get_position()
@@ -219,12 +219,12 @@ class Robot(object):
         if self.leftLaser:
             for range in self.leftLaser.ranges:
                 if range < block_range:
-                    rospy.logdebug(str(range))
+                    # rospy.logdebug(str(range))
                     return True
         if self.rightLaser:
             for range in self.rightLaser.ranges:
                 if range < block_range:
-                    rospy.logdebug(str(range))
+                    # rospy.logdebug(str(range))
                     return True
         return False
 

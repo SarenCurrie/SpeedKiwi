@@ -28,6 +28,8 @@ class UnlatchAction(Action):
 
     def finish(self, robot):
         robot.stop()
+        if robot.has_bin:
+            robot.has_bin = False
         self.bin.is_publishing = True
 
     def to_string(self):

@@ -10,7 +10,7 @@ class Tractor(Robot):
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
         Robot.__init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset)
 
-        boundaries = locations.get_tractor_boundaries()
+        boundaries = locations.get_wall_boundaries()
         self.min_x = boundaries["min_x"]
         self.max_x = boundaries["max_x"]
         self.min_y = boundaries["min_y"]
@@ -26,7 +26,7 @@ class Tractor(Robot):
         if self.is_blocked():
             if not self.was_blocked:
                 self.was_blocked = True
-                rospy.loginfo(str(self._action_queue[0].to_string()))
+                rospy.loginfo("Tractor is: " + str(self._action_queue[0].to_string()))
                 self.old_queue = self._action_queue
                 self._action_queue = []
                 self.stop()

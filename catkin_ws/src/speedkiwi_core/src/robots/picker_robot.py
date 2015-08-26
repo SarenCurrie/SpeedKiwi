@@ -12,7 +12,8 @@ import math
 
 class PickerRobot(Robot):
 
-    MAX_FRUIT = 50
+    MAX_FRUIT = 5
+    PICK_SPEED = 1
 
     """Robot that picks kiwifruit and puts it in queue"""
     def __init__(self, robot_id, top_speed, angular_top_speed, x_offset, y_offset, theta_offset):
@@ -26,7 +27,6 @@ class PickerRobot(Robot):
         self.minY = boundaries["min_y"]
         self.has_bin = False
         self.type = type(self).__name__
-
         # Unique variables for picker robots
         # self.picker_dict = dict()
         self.current_bin_x = 0
@@ -47,16 +47,18 @@ class PickerRobot(Robot):
             
                 # rospy.loginfo(len(self.picker_dict))
                 if self.is_closest() and not self.has_bin:  # and not self.slave and not data.is_carried:
-                    rospy.loginfo("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-                    self.has_bin = True
-                    self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
-                    rospy.loginfo("P Robot: " + self.robot_id + "    " + "Bin closest: " + data.bin_id)
-                    msg = empty_response()
-                    msg.robot_id = self.robot_id
-                    msg.bin_id = data.bin_id
-                    rospy.loginfo(self.robot_id + msg.robot_id + msg.bin_id + data.bin_id)
-                    empty_response_pub.publish(msg)
-                    rospy.loginfo("??????????????????////???????????????????")
+                    self.has_finished = False
+                    current_bin = robot_storage.getRobotWithId(data.bin_id)
+                    if current_bin.designated_picker == None:
+                        self.has_bin = True
+                        self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
+                        rospy.loginfo("P Robot: " + self.robot_id + "    " + "Bin closest: " + data.bin_id)
+                        msg = empty_response()
+                        msg.robot_id = self.robot_id
+                        msg.bin_id = data.bin_id
+                        rospy.loginfo(self.robot_id + msg.robot_id + msg.bin_id + data.bin_id)
+                        empty_response_pub.publish(msg)
+                        rospy.loginfo("??????????????????////???????????????????")
 
         def initiate_picking(data):
             if data.robot_id == self.robot_id:
@@ -80,7 +82,7 @@ class PickerRobot(Robot):
         if ((self.minX <= currentX <= self.maxX) and (self.minY <= currentY <= self.maxY)):
             inOrchard = True
             self.do_picking()
-            self.current_speed = 1  # slow down to picking speed
+            self.current_speed = self.PICK_SPEED  # slow down to picking speed
         else:
             self.current_speed = self.top_speed
 
@@ -97,8 +99,8 @@ class PickerRobot(Robot):
                 self.finish_picking()
             return
 
-        randint = random.randint(1, 10)
-        if randint == 1:
+        self.randint = random.randint(1, 10)
+        if self.randint == 1:
             self.fruit_count += 1
             rospy.loginfo(self.robot_id + " has picked " + str(self.fruit_count) + " kiwifruit!")
             if self.check_full():
@@ -106,7 +108,7 @@ class PickerRobot(Robot):
 
     def finish_picking(self):
         self.has_finished = True
-        self.slave.is_empty = True
+        self.slave.is_empty = False
         self.add_action(NavigateAction(self.minX - 5, self.maxY + 5))
         self.add_action(NavigateAction(self.minX - 5, self.minY - 5))
         self.add_action(NavigateAction(self.x_start, self.y_start))  # Go to bin's starting position
@@ -124,7 +126,7 @@ class PickerRobot(Robot):
         robot_list = robot_storage.get_robot_list()
 
         for p in robot_list:
-            if robot_list[p].type == "PickerRobot":
+            if robot_list[p].type == "PickerRobot" and not robot_list[p].has_bin:
                 if not robot_list[p].robot_id == self.robot_id:
                     # rospy.loginfo("I'm picker robot: " + robot_list[p].robot_id + "My Distance from bin %.1f is: %.1f" % (self.current_bin_x, dist(robot_list[p].position['x'], robot_list[p].position['y']))) # hi picker robot: " + robot_list[p].robot_id, I'm Dad!
 

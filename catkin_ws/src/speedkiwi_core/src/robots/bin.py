@@ -104,7 +104,9 @@ class Bin(Robot):
 
     def unlatch(self):
         self.is_carried = False
+        self.is_publishing = True
         self.designated_picker = None
+        self.designated_carrier = None
         rospy.loginfo('Bin ' + self.robot_id + 'is being unlatched from ' + self.master.robot_id)
         self.master.slave = None
         self.master = None

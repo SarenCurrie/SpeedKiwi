@@ -2,7 +2,8 @@ from robots import Robot
 import rospy
 import os
 from speedkiwi_msgs.msg import bin_status, empty_response, full_response, robot_status
-from actions import NavigateAction
+from actions import NavigateAction, UnlatchAction
+from world_locations import bin_locations
 import robot_storage
 import random
 from std_msgs.msg import String
@@ -35,22 +36,28 @@ class CarrierRobot(Robot):
                     self.going_towards = data.bin_id
                     current_bin.designated_carrier = self.robot_id
                     rospy.loginfo("Carrier bot coming towards bin " + data.bin_id + " at " + str(self.current_bin_x) + ", " + str(self.current_bin_y))
-
                     self.has_bin = True
                     self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
                     rospy.loginfo("P Robot: " + self.robot_id + "    " + "Bin closest: " + data.bin_id)
                     msg = empty_response()
                     msg.robot_id = self.robot_id
                     msg.bin_id = data.bin_id
-
                     empty_response_pub.publish(msg)
-                    
 
         def bin_carrying(data):
             if data.robot_id == self.robot_id:
                 rospy.loginfo("carrier " + self.robot_id + " going up to driveway")
                 carrierx = robot_storage.getRobotWithId(data.robot_id)
-                self.add_action(NavigateAction(27, -40))
+                for i in range(0,3):
+                    if not bin_locations[i]['occupied']:
+                        bin_locations[i]['occupied'] = True
+                        self.add_action(NavigateAction(bin_locations[i]['x'], bin_locations[i]['y']))
+                        self.add_action(UnlatchAction(self.slave))
+                        break
+                    if i is 3:
+                        # Locations should never be all full, but who knows?
+                        bin_locations[i]['occupied'] = True
+                        self.add_action(NavigateAction(bin_locations[i]['x'], bin_locations[i]['y']))
 
         rospy.Subscriber("latched_to_picker", empty_response, bin_carrying)        
 
