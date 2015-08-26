@@ -27,11 +27,8 @@ class PickerRobot(Robot):
         self.minY = boundaries["min_y"]
         self.has_bin = False
         self.type = type(self).__name__
-<<<<<<< HEAD
         self.pick_speed = 0.25
 
-=======
->>>>>>> 5fa3d3bc3e3356fb8d76d6442463999766e1bba6
         # Unique variables for picker robots
         # self.picker_dict = dict()
         self.current_bin_x = 0
@@ -44,35 +41,7 @@ class PickerRobot(Robot):
         empty_response_pub = rospy.Publisher('empty_response_topic', empty_response, queue_size=10)
 
         def callback(data):
-<<<<<<< HEAD
             """Execute method in response to "bin_status" message."""
-            # Data used to calculate if it's the closest to the bin
-            rospy.loginfo("Bin call: " + data.bin_id + " %.1f       %.1f" % (data.x, data.y))
-            self.current_bin_x = data.x
-            self.current_bin_y = data.y
-            
-            # rospy.loginfo(len(self.picker_dict))
-            if self.is_closest() and not self.has_bin:  # and not self.slave and not data.is_carried:
-                # rospy.loginfo("!!")
-                
-                self.has_bin = True
-                self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
-                rospy.loginfo("P Robot: " + self.robot_id + "    " + "Bin closest: " + data.bin_id)
-                msg = empty_response()
-                msg.picker_id = self.robot_id
-                msg.bin_id = data.bin_id
-                rospy.loginfo(self.robot_id + msg.picker_id + msg.bin_id + data.bin_id)
-                empty_response_pub.publish(msg)
-                #rospy.loginfo("??")
-
-        # def picker_locations(data):
-        #
-        #     rospy.loginfo("Data: %s - Self: %s", data.robot_type, "PickerRobot")
-        #
-        #     if data.robot_type == "PickerRobot":
-        #         if not data.robot_id == self.robot_id:
-        #             self.picker_dict[data.robot_id] = data
-=======
             if data.is_empty:
                 # Data used to calculate if it's the closest to the bin
                 rospy.loginfo("Bin call: " + data.bin_id + " %.1f       %.1f" % (data.x, data.y))
@@ -93,7 +62,6 @@ class PickerRobot(Robot):
                         rospy.loginfo(self.robot_id + msg.robot_id + msg.bin_id + data.bin_id)
                         empty_response_pub.publish(msg)
                         rospy.loginfo("??????????????????////???????????????????")
->>>>>>> 5fa3d3bc3e3356fb8d76d6442463999766e1bba6
 
         def initiate_picking(data):
             if data.robot_id == self.robot_id:
@@ -178,12 +146,8 @@ class PickerRobot(Robot):
         return True
 
     def check_full(self):
-<<<<<<< HEAD
         """Check if bin should be full."""
-        if self.fruit_count >= self.max_fruit:
-=======
         if self.fruit_count >= self.MAX_FRUIT:
->>>>>>> 5fa3d3bc3e3356fb8d76d6442463999766e1bba6
             return True
         return False
 
