@@ -47,6 +47,7 @@ class PickerRobot(Robot):
             
                 # rospy.loginfo(len(self.picker_dict))
                 if self.is_closest() and not self.has_bin:  # and not self.slave and not data.is_carried:
+                    self.has_finished = False
                     current_bin = robot_storage.getRobotWithId(data.bin_id)
                     if current_bin.designated_picker == None:
                         self.has_bin = True

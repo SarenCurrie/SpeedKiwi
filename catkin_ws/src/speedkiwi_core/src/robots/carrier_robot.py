@@ -2,7 +2,7 @@ from robots import Robot
 import rospy
 import os
 from speedkiwi_msgs.msg import bin_status, empty_response, full_response, robot_status
-from actions import NavigateAction
+from actions import NavigateAction, UnlatchAction
 from world_locations import bin_locations
 import robot_storage
 import random
@@ -53,6 +53,7 @@ class CarrierRobot(Robot):
                     if not bin_locations[i]['occupied']:
                         bin_locations[i]['occupied'] = True
                         self.add_action(NavigateAction(bin_locations[i]['x'], bin_locations[i]['y']))
+                        self.add_action(UnlatchAction(self.slave))
                         break
                     if i is 3:
                         # Locations should never be all full, but who knows?

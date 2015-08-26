@@ -1,12 +1,12 @@
 define Floormap model
 (
-  size [91.0 140.0 0.001]
+  size [90 140 0.001]
   obstacle_return 0
   gui_move 0
 
   block
   (
-    color "lawn green"
+    color "medium sea green"
     points [4]
     point[0] [0 0]
     point[1] [0 1]
