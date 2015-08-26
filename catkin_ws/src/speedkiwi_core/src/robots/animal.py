@@ -36,7 +36,7 @@ class Animal(Robot):
             if distance >= 1:
                 return
             else:
-                rospy.loginfo("Dog has arrived in the kennel")
+                rospy.loginfo("The dog has arrived in the kennel")
                 self.retreat = False
         # rospy.loginfo("dict size: " + str(len(self.robot_dict)) + " index: " + str(self.dict_index) + " targeting: " + str(self.currently_targeting))
         if (self.currently_targeting is False and bool(self.robot_dict)):
@@ -51,11 +51,11 @@ class Animal(Robot):
 
         if (self.dict_index >= 0 and self.get_distance_from_target() <= 4):
             if bool(self._action_queue):
-                rospy.loginfo("The dog goes bark")
+                rospy.loginfo("The dog barks")
                 self._action_queue[0].finish(self)
                 self._action_queue.pop()
             self.add_action(NavigateAction(self.x_offset, self.y_offset))
-            rospy.loginfo("Dog navigating back to kennel")
+            rospy.loginfo("The dog is running back to kennel")
             self.retreat = True
             self.currently_targeting = False
 

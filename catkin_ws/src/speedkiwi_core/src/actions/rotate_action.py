@@ -15,7 +15,7 @@ class RotateAction(Action):
 
     def start(self, robot):
         self.is_rotating = True
-        rospy.loginfo(self.to_string() + " - " + str(robot.robot_id))
+        rospy.loginfo(str(robot.robot_id) + ": " + self.to_string())
 
     def during(self, robot):
         finished = False
@@ -40,6 +40,6 @@ class RotateAction(Action):
 
     def to_string(self):
         if self.current_rotation == "rotate_to_angle":
-            return self.current_rotation + " " + str(self.target_angle)
+            return "rotating to angle " + str(self.target_angle)
         else:
             return str(self.current_rotation)

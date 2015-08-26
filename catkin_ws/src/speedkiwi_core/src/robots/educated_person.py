@@ -18,18 +18,18 @@ class EducatedPerson(Robot):
         # rospy.loginfo("Move: %s", str(data.data))
         msg = str(data.data)
         if msg == 'up':
-            rospy.loginfo("Move up")
+            rospy.loginfo("Educated person is moving up")
             self.current_speed = self.top_speed
             self.forward()
         elif msg == 'down':
-            rospy.loginfo("Move down")
+            rospy.loginfo("Educated person is moving down")
             self.current_speed = -self.current_speed
             self.forward()
         elif msg == 'left':
-            rospy.loginfo("Move left")
+            rospy.loginfo("Educated person is moving left")
             self.stop()
             self.start_rotate()
         elif msg == 'right':
-            rospy.loginfo("Move right")
+            rospy.loginfo("Educated person is moving right")
             self.stop()
             self.start_rotate_opposite()

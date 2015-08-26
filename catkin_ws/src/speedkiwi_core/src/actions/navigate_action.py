@@ -5,7 +5,7 @@ import rospy
 
 class NavigateAction(Action):
     """
-    Example Action
+    The NavigateAction class can be used to tell a Robot to move to a specific location. The robot will then travel towards that location using a wall following algorithm to avoid any obstacles.
     """
 
     ROTATE_COUNTER_THRESHOLD = 25
@@ -25,7 +25,7 @@ class NavigateAction(Action):
         self.x_start = robot.get_position()['x']
         self.y_start = robot.get_position()['y']
         self.check_direction(robot)
-        rospy.loginfo(self.to_string() + " " + str(robot.robot_id))
+        rospy.loginfo(str(robot.robot_id) + " is " + self.to_string())
 
     def during(self, robot):
         if robot.is_blocked():
@@ -62,7 +62,7 @@ class NavigateAction(Action):
         robot.stop()
 
     def to_string(self):
-        return "Navigating to position x:" + str(self.x_target) + " y:" + str(self.y_target)
+        return "navigating to position x:" + str(self.x_target) + " y:" + str(self.y_target)
 
     def check_direction(self, robot):
         self.rotate_counter = 0
