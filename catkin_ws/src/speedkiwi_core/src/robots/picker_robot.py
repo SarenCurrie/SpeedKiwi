@@ -48,14 +48,13 @@ class PickerRobot(Robot):
                 # rospy.loginfo(len(self.picker_dict))
                 if self.is_closest() and not self.has_bin:  # and not self.slave and not data.is_carried:
                     rospy.loginfo("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-                
                     self.has_bin = True
                     self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
                     rospy.loginfo("P Robot: " + self.robot_id + "    " + "Bin closest: " + data.bin_id)
                     msg = empty_response()
-                    msg.picker_id = self.robot_id
+                    msg.robot_id = self.robot_id
                     msg.bin_id = data.bin_id
-                    rospy.loginfo(self.robot_id + msg.picker_id + msg.bin_id + data.bin_id)
+                    rospy.loginfo(self.robot_id + msg.robot_id + msg.bin_id + data.bin_id)
                     empty_response_pub.publish(msg)
                     rospy.loginfo("??????????????????////???????????????????")
 
@@ -68,8 +67,8 @@ class PickerRobot(Robot):
         #             self.picker_dict[data.robot_id] = data
 
         def initiate_picking(data):
-            if data.picker_id == self.robot_id:
-                pickerx = robot_storage.getRobotWithId(data.picker_id)
+            if data.robot_id == self.robot_id:
+                pickerx = robot_storage.getRobotWithId(data.robot_id)
                 self.x_start = self.position['x']
                 self.y_start = self.position['y']
                 self.add_action(NavigatePickAction(pickerx.position["x"], self.maxY + 5))
