@@ -38,6 +38,20 @@ class TestTractor(unittest.TestCase):
         self.assertFalse(self.tractor.was_blocked)
         self.assertEqual(self.tractor._action_queue,self.tractor.old_queue)
 
+    def test_orchard_get_coordinates(self):
+        """Test the boundary values obtained from file are floats
+        NOTE: This is based on default world file. If configured world is run last this will fail"""
+        boundaries = locations.get_tractor_boundaries()
+        self.tractor.min_x = boundaries["min_x"]
+        self.tractor.max_x = boundaries["max_x"]
+        self.tractor.min_y = boundaries["min_y"]
+        self.tractor.max_y = boundaries["max_y"]
+        self.assertEqual(self.tractor.min_x, -25)
+        self.assertEqual(self.tractor.min_y, -50)
+        self.assertEqual(self.tractor.max_x, 25)
+        self.assertEqual(self.tractor.max_y, 50)
+
+
 if __name__ == '__main__':
     import rostest
     rostest.rosrun(PKG, 'test_tractor', TestTractor, sys.argv)
