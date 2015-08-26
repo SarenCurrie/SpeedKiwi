@@ -14,7 +14,7 @@ class Bin(Robot):
         # Unique booleans for Bin instance
         self.slow_down_counter = 0
         self.is_publishing = True
-        self.is_empty = False
+        self.is_empty = True
         self.is_carried = False
         self.designated_picker = None
         self.designated_carrier = None
@@ -105,7 +105,9 @@ class Bin(Robot):
 
     def unlatch(self):
         self.is_carried = False
+        self.is_publishing = True
         self.designated_picker = None
+        self.designated_carrier = None
         rospy.loginfo('Bin ' + self.robot_id + 'is being unlatched from ' + self.master.robot_id)
         self.master.slave = None
         self.master = None

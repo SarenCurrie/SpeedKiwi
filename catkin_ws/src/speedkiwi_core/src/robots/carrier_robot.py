@@ -30,18 +30,20 @@ class CarrierRobot(Robot):
                 self.current_bin_x = data.x
                 self.current_bin_y = data.y
 
-                if self.is_closest() and not self.has_bin and not self.going_towards:
-                    rospy.loginfo("Carrier bot coming towards bin " + data.bin_id + " at " + str(self.current_bin_x) + ", " + str(self.current_bin_y))
+                if self.is_closest() and not self.has_bin:  # and not self.slave and not data.is_carried:
+                    current_bin = robot_storage.getRobotWithId(data.bin_id)
+                    if current_bin.designated_carrier == None:
+                        rospy.loginfo("Carrier bot coming towards bin " + data.bin_id + " at " + str(self.current_bin_x) + ", " + str(self.current_bin_y))
 
-                    self.has_bin = True
-                    self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
-                    rospy.loginfo("P Robot: " + self.robot_id + "    " + "Bin closest: " + data.bin_id)
-                    msg = empty_response()
-                    msg.robot_id = self.robot_id
-                    msg.bin_id = data.bin_id
+                        self.has_bin = True
+                        self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
+                        rospy.loginfo("P Robot: " + self.robot_id + "    " + "Bin closest: " + data.bin_id)
+                        msg = empty_response()
+                        msg.robot_id = self.robot_id
+                        msg.bin_id = data.bin_id
 
-                    empty_response_pub.publish(msg)
-                    self.going_towards = data.bin_id
+                        empty_response_pub.publish(msg)
+                        self.going_towards = data.bin_id
 
         def bin_carrying(data):
             if data.robot_id == self.robot_id:
@@ -79,7 +81,7 @@ class CarrierRobot(Robot):
         robot_list = robot_storage.get_robot_list()
 
         for p in robot_list:
-            if robot_list[p].type == "CarrierRobot":
+            if robot_list[p].type == "CarrierRobot" and not robot_list[p].has_bin:
                 if not robot_list[p].robot_id == self.robot_id:
                     if dist(self.position['x'], self.position['y']) > dist(robot_list[p].position['x'], robot_list[p].position['y']):
                         # rospy.loginfo(robot_list[p].robot_id + "Wasn't the closest to %.1f" % self.current_bin_x)
