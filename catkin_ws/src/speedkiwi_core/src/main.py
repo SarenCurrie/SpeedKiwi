@@ -7,10 +7,11 @@ import robot_storage
 from math import pi
 
 
-
+"""Main file for initializing and executing the robots of the orchard simulator."""
 rospy.init_node('main')
 
-# Please for the love of God do not move these around - they get built at run time
+# Construction of robots.
+# NOTE: PLEASE for the love of GOD do not move these around - they get built at run time.
 animal = Animal('robot_0', 2, 0.5, 20.5, 0, 0)
 
 person1 = Person('robot_1', 2, 0.5, 0, 45, 0)
@@ -30,6 +31,7 @@ picker3 = PickerRobot('robot_10', 3, 0.5, 7, -44, 0)
 carrier1 = CarrierRobot('robot_11', 3, 0.5, 35.5, -25, 0)
 carrier2 = CarrierRobot('robot_12', 2, 0.5, 41.5, -35, 0)
 
+# Add all robots to robot_storage.
 robot_storage.addRobot(animal, "robot_0")
 robot_storage.addRobot(person1, "robot_1")
 robot_storage.addRobot(person2, "robot_2")
@@ -46,6 +48,7 @@ robot_storage.addRobot(carrier2, "robot_12")
 
 rate = rospy.Rate(10)
 
+# Continually execute robots in execution loop.
 while not rospy.is_shutdown():
 
     animal.execute()

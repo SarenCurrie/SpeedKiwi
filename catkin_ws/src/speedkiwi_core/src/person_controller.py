@@ -6,7 +6,8 @@ import curses
 
 
 def main():
-    """Publishes a movement command based on arrow key input.
+    """
+    Publishes a movement command based on arrow key input.
     Used for the EducatedPerson class.
 
     Credits to:
@@ -16,13 +17,13 @@ def main():
     rospy.init_node('person_controller', anonymous=True)
     cmd_publisher = rospy.Publisher('move_command', String, queue_size=10)
 
-    # get the curses screen window
+    # Get the curses screen window
     screen = curses.initscr()
-    # turn off input echoing
+    # Turn off input echoing
     curses.noecho()
-    # respond to keys immediately (don't wait for enter)
+    # Respond to keys immediately (don't wait for enter)
     curses.cbreak()
-    # map arrow keys to special values
+    # Map arrow keys to special values
     screen.keypad(True)
 
     try:
@@ -49,7 +50,7 @@ def main():
             if cmd == 'up' or cmd == 'down' or cmd == 'left' or cmd == 'right':
                 cmd_publisher.publish(cmd)
     finally:
-        # shut down cleanly
+        # Shut down cleanly
         curses.nocbreak()
         screen.keypad(0)
         curses.echo()
