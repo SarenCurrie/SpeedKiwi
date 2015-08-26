@@ -3,6 +3,7 @@ import rospy
 import os
 from speedkiwi_msgs.msg import bin_status, empty_response, full_response, robot_status
 from actions import NavigateAction
+from world_locations import bin_locations
 import robot_storage
 import random
 from std_msgs.msg import String
@@ -46,7 +47,15 @@ class CarrierRobot(Robot):
             if data.robot_id == self.robot_id:
                 rospy.loginfo("carrier " + self.robot_id + " going up to driveway")
                 carrierx = robot_storage.getRobotWithId(data.robot_id)
-                self.add_action(NavigateAction(27, -40))
+                for i in range(0,3):
+                    if not bin_locations[i]['occupied']:
+                        bin_locations[i]['occupied'] = True
+                        self.add_action(NavigateAction(bin_locations[i]['x'], bin_locations[i]['y']))
+                        break
+                    if i is 3:
+                        # Locations should never be all full, but who knows?
+                        bin_locations[i]['occupied'] = True
+                        self.add_action(NavigateAction(bin_locations[i]['x'], bin_locations[i]['y']))
 
         rospy.Subscriber("latched_to_picker", empty_response, bin_carrying)        
 

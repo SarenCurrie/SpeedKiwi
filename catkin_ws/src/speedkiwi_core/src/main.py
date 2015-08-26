@@ -23,12 +23,12 @@ binbot2 = Bin('robot_5', 3, 0.5, -1.75, -39, pi/2)
 binbot3 = Bin('robot_6', 3, 0.5, 1.75, -39, pi/2)
 binbot4 = Bin('robot_7', 3, 0.5, 5.25, -39, pi/2)
 
-picker1 = PickerRobot('robot_8', 1.5, 0.5, -8.75, -44, 0)
-picker2 = PickerRobot('robot_9', 1.5, 0.5, 1, -44, 0)
-picker3 = PickerRobot('robot_10', 1.5, 0.5, 7, -44, 0)
+picker1 = PickerRobot('robot_8', 3, 0.5, -8.75, -44, 0)
+picker2 = PickerRobot('robot_9', 3, 0.5, 1, -44, 0)
+picker3 = PickerRobot('robot_10', 3, 0.5, 7, -44, 0)
 
-carrier1 = CarrierRobot('robot_11', 1.5, 0.5, 35.5, -25, 0)
-carrier2 = CarrierRobot('robot_12', 1.5, 0.5, 41.5, -35, 0)
+carrier1 = CarrierRobot('robot_11', 3, 0.5, 35.5, -25, 0)
+carrier2 = CarrierRobot('robot_12', 2, 0.5, 41.5, -35, 0)
 
 robot_storage.addRobot(animal, "robot_0")
 robot_storage.addRobot(person1, "robot_1")
