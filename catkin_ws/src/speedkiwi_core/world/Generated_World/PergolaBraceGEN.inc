@@ -1,6 +1,6 @@
 define PergolaBrace model
 (
-  size [ 21.0 0.3 0.3 ]
+  size [ 70.0 0.3 0.3 ]
   obstacle_return 0
   gui_move 0
   block
