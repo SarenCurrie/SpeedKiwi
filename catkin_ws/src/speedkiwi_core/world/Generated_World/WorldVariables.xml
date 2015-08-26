@@ -1,18 +1,18 @@
 <Configurations>
 	<!-- How tall the tree posts will be in meters --> 
-	<Configure name="TreeHeight">1.8</Configure>
+	<Configure name="TreeHeight">6</Configure>
 
 	<!-- The separation distance between each row -->
-	<Configure name="RowWidth">5</Configure>
+	<Configure name="RowWidth">8</Configure>
 
 	<!-- The number of rows -->
-	<Configure name="RowNumber">8</Configure>
+	<Configure name="RowNumber">4</Configure>
 
 	<!-- The length of each row -->
-	<Configure name="ColumnLength">60</Configure>
+	<Configure name="ColumnLength">21</Configure>
 
 	<!-- The separation between each post in the row -->
-	<Configure name="PostSpacing">8</Configure>
+	<Configure name="PostSpacing">3</Configure>
 </Configurations>
 
 
