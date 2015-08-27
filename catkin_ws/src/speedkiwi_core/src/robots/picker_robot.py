@@ -27,7 +27,6 @@ class PickerRobot(Robot):
         self.minY = boundaries["min_y"]
         self.has_bin = False
         self.type = type(self).__name__
-        self.pick_speed = 0.25
 
         # Unique variables for picker robots
         # self.picker_dict = dict()
