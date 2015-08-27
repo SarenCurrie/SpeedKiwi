@@ -107,6 +107,7 @@ public class MainFrame extends JFrame{
 					//TODO
 					// KAREN, these COMMANDS WONT RUN!
 					String cwd = System.getProperty("user.dir");
+					System.out.println(cwd);
 					String upperFolder = cwd.substring(0, cwd.lastIndexOf("/"));
 					System.out.println(upperFolder);
 					//System.setProperty("user.dir", upperFolder);
@@ -127,8 +128,9 @@ public class MainFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					runBashCommand("python src/speedkiwi_core/world/Generated_World/WorldConfiguration.py");
-					runBashCommand("roslaunch speedkiwi_core GeneratedLaunch.launch");	
+					CreateXMLFileJava.GenerateXML();
+					//runBashCommand("python src/speedkiwi_core/world/Generated_World/WorldConfiguration.py");
+					//runBashCommand("roslaunch speedkiwi_core GeneratedLaunch.launch");	
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
