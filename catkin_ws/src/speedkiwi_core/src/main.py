@@ -6,7 +6,7 @@ from actions import MoveAction, RotateAction, NavigateAction, Figure8Action, Mov
 import robot_storage
 from math import pi
 
-
+"""Main file for initializing and executing the robots of the orchard simulator."""
 rospy.init_node('main')
 
 
