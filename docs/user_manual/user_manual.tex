@@ -167,17 +167,17 @@ Now your ready to run the project, explained in the following section.
 \end{enumerate}
 
 \section{Usage}
-Everything is run with one file. It is recommended to run default if it is your first time.
+Everything can be run from the Launch GUI.
 
-\begin{verbatim}
-./run.sh
-# Then type: 
-# D to run the (D)efault world
-# C to run the (C)onfigured world (https://github.com/SarenCurrie/SpeedKiwi/wiki/Configured-World) 
-# T to run (T)ests.
-\end{verbatim}
+% \begin{verbatim}
+% ./run.sh
+% # Then type: 
+% # D to run the (D)efault world
+% # C to run the (C)onfigured world (https://github.com/SarenCurrie/SpeedKiwi/wiki/Configured-World) 
+% # T to run (T)ests.
+% \end{verbatim}
 
-The run script is located in SpeedKiwi/catkin\_ws. If you just completed the install steps you will already be in the correct place otherwise you must first navigate to this directory.
+To start the launch gui, run SpeedKiwi.jar
 
 When you run the simulator (either default or custom) two windows will pop up. One stage window displaying all the robots moving through the orchard and another with the ROS console containing logging messages that can be used in debugging.
 It is also possible to open a debugging window in a web browser, see the debugging section for more information.
@@ -194,25 +194,22 @@ In the default world there are
 \item An animal
 \item A Tractor
 \item An uneducated person (visitor)
-\item An educated person who can be controlled via the keyboard (go to controlling person section for more info)
+\item An educated person who can be controlled via the keyboard (go to controlling EducatedPerson section for more info)
 \end{itemize}
 
 \subsection{Configured World}
 
 The orchard layout can be customized to test the robots in different environments.
-This is done by editing values in the xml file called worldVariables.xml and then running the project with configured world.
-This xml file is located in the directory SpeedKiwi/catkin\_ws/src/speedkiwi\_core/world/Generated\_World
+This is done by editing values in the launch gui and pressing the configured button.
 
-In this file there is a configure tag for each of the customisable properties. To make a change simply edit the value within the appropriate tag.
-
-Simply change
-\begin{verbatim}
-<Configure name="RowNumber">8</Configure>
-\end{verbatim}
-To
-\begin{verbatim}
-<Configure name="RowNumber">14</Configure>
-\end{verbatim}
+% Simply change
+% \begin{verbatim}
+% <Configure name="RowNumber">8</Configure>
+% \end{verbatim}
+% To
+% \begin{verbatim}
+% <Configure name="RowNumber">14</Configure>
+% \end{verbatim}
 
 The configurable properties are:
 \begin{itemize}
@@ -238,7 +235,9 @@ The configurable properties are:
 
 \section{Testing}
 
-The test can be run from the run script instead of launching the simulation. The tests will run and provide feedback on the results, a list of each test and whether it passed or failed as well as a summery at the bottom.
+The projects unit tests can also also be run from the launch gui. Just press the Run Tests button, a slight delay will occur and then test results will appear inside a terminal.
+
+\section{Controlling EducatedPerson}
 
 The Speed Kiwi simulator contains an educated person which can be controlled by the user with the arrow keys.
 To control the person you must first have the simulator running, in either default or configured.
