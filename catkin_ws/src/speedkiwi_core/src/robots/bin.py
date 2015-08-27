@@ -14,7 +14,7 @@ class Bin(Robot):
         # Unique booleans for Bin instance
         self.slow_down_counter = 0
         self.is_publishing = True
-        self.is_empty = True
+        self.is_empty = 3
         self.is_carried = False
         self.designated_picker = None
         self.designated_carrier = None
@@ -42,8 +42,8 @@ class Bin(Robot):
         def mimic_now(data):              
             """Execute method in response to a robot_status message"""
             if not self.should_face and data.robot_id == self.designated_picker and not self.master:
-                if (data.x - 0.5) <= self.position['x'] <= (data.x + 0.5):
-                    if (data.y - 0.5) <= self.position['y'] <= (data.y + 0.5):
+                if (data.x - 0.4) <= self.position['x'] <= (data.x + 0.4):
+                    if (data.y - 0.4) <= self.position['y'] <= (data.y + 0.4):
                         picker = robot_storage.getRobotWithId(data.robot_id)
                         # rospy.loginfo(data.robot_id)
                         self.latch(picker)
@@ -52,8 +52,8 @@ class Bin(Robot):
 
 
             if not self.should_face and data.robot_id == self.designated_carrier and not self.master:
-                if (data.x - 0.5) <= self.position['x'] <= (data.x + 0.5):
-                    if (data.y - 0.5) <= self.position['y'] <= (data.y + 0.5):
+                if (data.x - 0.4) <= self.position['x'] <= (data.x + 0.4):
+                    if (data.y - 0.4) <= self.position['y'] <= (data.y + 0.4):
                         carrier = robot_storage.getRobotWithId(data.robot_id)
                         # rospy.loginfo(data.robot_id)
                         self.latch(carrier)

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Configurations>
-    <Configure name="TreeHeight">1</Configure>
-    <Configure name="RowWidth">2</Configure>
-    <Configure name="RowNumber">3</Configure>
-    <Configure name="ColumnLength">4</Configure>
+    <Configure name="TreeHeight">1.8</Configure>
+    <Configure name="RowWidth">3.5</Configure>
+    <Configure name="RowNumber">7</Configure>
+    <Configure name="ColumnLength">70</Configure>
     <Configure name="PostSpacing">5</Configure>
 </Configurations>

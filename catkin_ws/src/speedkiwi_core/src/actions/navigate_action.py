@@ -58,8 +58,8 @@ class NavigateAction(Action):
         x_diff = self.x_target - current_x
         y_diff = self.y_target - current_y
 
-        self.x_correct = (abs(x_diff) < 0.5)
-        self.y_correct = (abs(y_diff) < 0.5)
+        self.x_correct = (abs(x_diff) < 0.4)
+        self.y_correct = (abs(y_diff) < 0.4)
 
     def is_finished(self, robot):
         """ If at destination, robot is finished. """
@@ -139,8 +139,8 @@ class NavigatePickAction(Action):
         x_diff = self.x_target - current_x
         y_diff = self.y_target - current_y
 
-        self.x_correct = (abs(x_diff) < 0.5)
-        self.y_correct = (abs(y_diff) < 0.5)
+        self.x_correct = (abs(x_diff) < 0.4)
+        self.y_correct = (abs(y_diff) < 0.4)
 
     def is_finished(self, robot):
         if self.x_correct and self.y_correct:
