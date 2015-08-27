@@ -39,3 +39,7 @@ catkin_ws/devel/
 
 # Generated Files
 #*GEN.inc
+
+catkin_ws/ROS_GUI/.settings/
+catkin_ws/ROS_GUI/.classpath
+catkin_ws/ROS_GUI/.project
