@@ -30,20 +30,19 @@ class CarrierRobot(Robot):
                 self.current_bin_x = data.x
                 self.current_bin_y = data.y
 
-                if self.is_closest() and not self.has_bin:  # and not self.slave and not data.is_carried:
-                    current_bin = robot_storage.getRobotWithId(data.bin_id)
-                    if current_bin.designated_carrier == None:
-                        rospy.loginfo("Carrier bot coming towards bin " + data.bin_id + " at " + str(self.current_bin_x) + ", " + str(self.current_bin_y))
+                current_bin = robot_storage.getRobotWithId(data.bin_id)
 
-                        self.has_bin = True
-                        self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
-                        rospy.loginfo("P Robot: " + self.robot_id + "    " + "Bin closest: " + data.bin_id)
-                        msg = empty_response()
-                        msg.robot_id = self.robot_id
-                        msg.bin_id = data.bin_id
-
-                        empty_response_pub.publish(msg)
-                        self.going_towards = data.bin_id
+                if self.is_closest() and not self.has_bin and not current_bin.designated_carrier:
+                    self.going_towards = data.bin_id
+                    current_bin.designated_carrier = self.robot_id
+                    rospy.loginfo("Carrier bot coming towards bin " + data.bin_id + " at " + str(self.current_bin_x) + ", " + str(self.current_bin_y))
+                    self.has_bin = True
+                    self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
+                    rospy.loginfo("P Robot: " + self.robot_id + "    " + "Bin closest: " + data.bin_id)
+                    msg = empty_response()
+                    msg.robot_id = self.robot_id
+                    msg.bin_id = data.bin_id
+                    empty_response_pub.publish(msg)
 
         def bin_carrying(data):
             if data.robot_id == self.robot_id:
