@@ -27,6 +27,8 @@ class PickerRobot(Robot):
         self.minY = boundaries["min_y"]
         self.has_bin = False
         self.type = type(self).__name__
+        self.pick_speed = 0.25
+
         # Unique variables for picker robots
         # self.picker_dict = dict()
         self.current_bin_x = 0
@@ -39,6 +41,7 @@ class PickerRobot(Robot):
         empty_response_pub = rospy.Publisher('empty_response_topic', empty_response, queue_size=10)
 
         def callback(data):
+            """Execute method in response to "bin_status" message."""
             if data.is_empty:
                 # Data used to calculate if it's the closest to the bin
                 rospy.loginfo("Bin call: " + data.bin_id + " %.1f       %.1f" % (data.x, data.y))
@@ -119,6 +122,7 @@ class PickerRobot(Robot):
         """Check if this picker is the closest to the specified bin."""
 
         def dist(x, y):
+            """Calculate distance from this robot to the current bin."""
             d = math.sqrt((float(x)-float(self.current_bin_x))**2 + (float(y)-float(self.current_bin_y))**2)
             # rospy.loginfo("Returning distance: %d", d)
             return d
@@ -142,9 +146,11 @@ class PickerRobot(Robot):
         return True
 
     def check_full(self):
+        """Check if bin should be full."""
         if self.fruit_count >= self.MAX_FRUIT:
             return True
         return False
 
     def empty_bin(self):
+        """Reset fruit count to zero."""
         self.fruit_count = 0

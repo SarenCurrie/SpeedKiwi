@@ -25,6 +25,7 @@ class Bin(Robot):
         # self.bin_full_latch = rospy.Publisher('latched_to_carrier', full_response, queue_size=1)
 
         def id_response(data):
+            """Execute method in response to an empty_response message."""
             # rospy.loginfo("SDAFDFDSFDSAFDSAFDSAFDSAFDSAFSADFADSFSADF")
             if data.bin_id == self.robot_id:
 
@@ -38,7 +39,8 @@ class Bin(Robot):
                 # rospy.loginfo(self.robot_id + "    " + data.robot_id)
             # self.is_carried = True
 
-        def mimic_now(data):
+        def mimic_now(data):              
+            """Execute method in response to a robot_status message"""
             if not self.should_face and data.robot_id == self.designated_picker and not self.master:
                 if (data.x - 0.5) <= self.position['x'] <= (data.x + 0.5):
                     if (data.y - 0.5) <= self.position['y'] <= (data.y + 0.5):
@@ -97,6 +99,7 @@ class Bin(Robot):
             bin_pub.publish(msg)
 
     def latch(self, robot):
+        """Latch bin onto specified robot."""
         self.is_carried = True
         self.master = robot
         robot.stop()

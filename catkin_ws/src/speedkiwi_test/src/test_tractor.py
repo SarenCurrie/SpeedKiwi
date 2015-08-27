@@ -15,6 +15,8 @@ class TestTractor(unittest.TestCase):
     def setUp(self):
         rospy.init_node('test_tractor')
         self.tractor = Tractor('robot_0', 2, 0.9, -20, 43, 0)
+        for i in range(0, 20):
+            self.tractor.execute()
 
     def test_init(self):
         """Checks if subscribed information has been received."""
