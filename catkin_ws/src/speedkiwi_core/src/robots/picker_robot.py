@@ -44,22 +44,19 @@ class PickerRobot(Robot):
             """Execute method in response to "bin_status" message."""
             if data.is_empty:
                 # Data used to calculate if it's the closest to the bin
-                rospy.loginfo("Bin call: " + data.bin_id + " %.1f       %.1f" % (data.x, data.y))
                 self.current_bin_x = data.x
                 self.current_bin_y = data.y
             
-                # rospy.loginfo(len(self.picker_dict))
                 if self.is_closest() and not self.has_bin:  # and not self.slave and not data.is_carried:
                     self.has_finished = False
                     current_bin = robot_storage.getRobotWithId(data.bin_id)
                     if current_bin.designated_picker == None:
                         self.has_bin = True
                         self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
-                        #rospy.loginfo("P Robot: " + self.robot_id + "    " + "Bin closest: " + data.bin_id)
+                        rospy.loginfo("This Robot: " + self.robot_id + "    Closest bin: " + data.bin_id)
                         msg = empty_response()
                         msg.robot_id = self.robot_id
                         msg.bin_id = data.bin_id
-                        #rospy.loginfo(self.robot_id + msg.robot_id + msg.bin_id + data.bin_id)
                         empty_response_pub.publish(msg)
 
         def initiate_picking(data):
@@ -95,7 +92,6 @@ class PickerRobot(Robot):
 
     def do_picking(self):
         """Execute picking behaviour"""
-        # rospy.loginfo(self.robot_id + " is picking!")
         if self.check_full() == True:
             if not self.has_finished:
                 self.finish_picking()
@@ -123,7 +119,6 @@ class PickerRobot(Robot):
         def dist(x, y):
             """Calculate distance from this robot to the current bin."""
             d = math.sqrt((float(x)-float(self.current_bin_x))**2 + (float(y)-float(self.current_bin_y))**2)
-            # rospy.loginfo("Returning distance: %d", d)
             return d
 
         robot_list = robot_storage.get_robot_list()
@@ -131,17 +126,13 @@ class PickerRobot(Robot):
         for p in robot_list:
             if robot_list[p].type == "PickerRobot" and not robot_list[p].has_bin:
                 if not robot_list[p].robot_id == self.robot_id:
-                    # rospy.loginfo("I'm picker robot: " + robot_list[p].robot_id + "My Distance from bin %.1f is: %.1f" % (self.current_bin_x, dist(robot_list[p].position['x'], robot_list[p].position['y']))) # hi picker robot: " + robot_list[p].robot_id, I'm Dad!
 
                     if dist(self.position['x'], self.position['y']) > dist(robot_list[p].position['x'], robot_list[p].position['y']):
-                        # rospy.loginfo(robot_list[p].robot_id + "Wasn't the closest to %.1f" % self.current_bin_x)
                         return False
                     elif dist(self.position['x'], self.position['y']) == dist(robot_list[p].position['x'], robot_list[p].position['y']):
                         if int(self.robot_id[6:]) > int(robot_list[p].robot_id[6:]):
-                            # rospy.loginfo("I wasn't the closest =")
                             return False
 
-        # rospy.loginfo(self.robot_id + "was the closest! %.1f" % self.current_bin_x)
         return True
 
     def check_full(self):

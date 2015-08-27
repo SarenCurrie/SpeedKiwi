@@ -26,7 +26,6 @@ class Bin(Robot):
 
         def id_response(data):
             """Execute method in response to an empty_response message."""
-            # rospy.loginfo("SDAFDFDSFDSAFDSAFDSAFDSAFDSAFSADFADSFSADF")
             if data.bin_id == self.robot_id:
 
                 self.is_publishing = False
@@ -36,7 +35,6 @@ class Bin(Robot):
                     self.designated_picker = data.robot_id
                 elif robot.type == "CarrierRobot":
                     self.designated_carrier = data.robot_id
-                # rospy.loginfo(self.robot_id + "    " + data.robot_id)
             # self.is_carried = True
 
         def mimic_now(data):              
@@ -68,7 +66,6 @@ class Bin(Robot):
 
     def execute_callback(self):
         """Logic for Bin"""
-        # rospy.loginfo(str(self.robot_id) + str(self.should_face) + "GOOD")
 
         if self.should_face:
             if self.master.rotate_to_angle(self.should_face):
@@ -76,7 +73,6 @@ class Bin(Robot):
                 self.bin_latch.publish(self.empty_response_msg)
                 self.should_face = None
         if self.is_publishing:  # This boolean is initally True
-            #rospy.loginfo("BIN: " + self.robot_id + "at " + str(self.position["x"]) + ", " + str(self.position["y"]))
             # Publish message bin's details to let pickers know that it can be picked up.
             bin_pub = rospy.Publisher('bin_status_topic', bin_status, queue_size=1)
 
@@ -95,7 +91,6 @@ class Bin(Robot):
 
             msg.x = self.position["x"]
             msg.y = self.position["y"]
-            #rospy.loginfo(msg)
             bin_pub.publish(msg)
 
     def latch(self, robot):
