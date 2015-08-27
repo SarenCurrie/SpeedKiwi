@@ -30,6 +30,7 @@ import layout.SpringUtilities;
  * @author Chester and Karen from Speedkiwi
  */
 
+@SuppressWarnings("serial")
 public class MainFrame extends JFrame{
 
 	// Holds the singleton instance.
@@ -105,7 +106,6 @@ public class MainFrame extends JFrame{
 		_bigButtons.setBackground(Color.LIGHT_GRAY);
 		_features.add(_bigButtons, BorderLayout.SOUTH);
 
-
 		// The buttons on the right.
 		_defaultButton = new JButton("<html><center>Default<br>World</center></html");
 		_customButton = new JButton("<html><center>Custom<br>World</center></html");
@@ -128,7 +128,6 @@ public class MainFrame extends JFrame{
 					System.out.println(execShell(cmd));
 					execShell(cmd);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -151,10 +150,7 @@ public class MainFrame extends JFrame{
 					String cmd = scriptFile + " c 2>&1  ";
 					System.out.println(execShell(cmd));
 					execShell(cmd);
-					//runBashCommand("python src/speedkiwi_core/world/Generated_World/WorldConfiguration.py");
-					//runBashCommand("roslaunch speedkiwi_core GeneratedLaunch.launch");	
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -172,7 +168,6 @@ public class MainFrame extends JFrame{
 					System.out.println(execShell(cmd));
 					execShell(cmd);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -186,7 +181,6 @@ public class MainFrame extends JFrame{
 		this.setTitle("World Configuration Settings");
 		pack();
 	}
-
 
 	public static String execShell(String command) {
 		try {
@@ -204,8 +198,5 @@ public class MainFrame extends JFrame{
 		} catch (Exception e) {
 			return null;
 		}
-
 	}
-
 }
-
