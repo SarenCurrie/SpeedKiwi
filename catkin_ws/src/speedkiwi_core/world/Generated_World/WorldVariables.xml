@@ -3,13 +3,13 @@
 	<Configure name="TreeHeight">1.8</Configure>
 
 	<!-- The separation distance between each row -->
-	<Configure name="RowWidth">3</Configure>
+	<Configure name="RowWidth">3.5</Configure>
 
 	<!-- The number of rows -->
-	<Configure name="RowNumber">5</Configure>
+	<Configure name="RowNumber">7</Configure>
 
 	<!-- The length of each row -->
-	<Configure name="ColumnLength">40</Configure>
+	<Configure name="ColumnLength">70</Configure>
 
 	<!-- The separation between each post in the row -->
 	<Configure name="PostSpacing">5</Configure>

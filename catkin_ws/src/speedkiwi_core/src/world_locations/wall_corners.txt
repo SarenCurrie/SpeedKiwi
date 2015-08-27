@@ -1,9 +1,9 @@
 # This files holds the 4 points of the corners of the orchard - configures when the world changes.
 # Max x
--35
+-32.5
 # Max y
-35
+32.5
 # Min x
--60
+-57.0
 # Min y
-60
+57.0
