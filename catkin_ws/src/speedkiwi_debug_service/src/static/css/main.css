@@ -154,6 +154,11 @@ nav a:hover {
    Author's custom styles
    ========================================================================== */
 
+.title {
+	font-family: 'Lobster', cursive;
+	font-weight: normal;
+}
+
 span.key {
 	font-weight: bold;
 }
