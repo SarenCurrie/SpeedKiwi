@@ -20,10 +20,9 @@
 <test name="person_test" test-name="test_person" pkg="speedkiwi_test" type="test_person.py" />
 <test name="picker_test" test-name="test_picker" pkg="speedkiwi_test" type="test_picker.py" />
 <test name="bin_test" test-name="test_bin" pkg="speedkiwi_test" type="test_bin.py" />
-
+<test name="carrier_test" test-name="test_carrier" pkg="speedkiwi_test" type="test_carrier.py" />
 
 <!--<node name="console" pkg="rqt_console" type="rqt_console"/>-->
-
 
 </launch>
 
