@@ -14,7 +14,7 @@ class Bin(Robot):
         # Unique booleans for Bin instance
         self.slow_down_counter = 0
         self.is_publishing = True
-        self.is_empty = 3
+        self.is_empty = True
         self.is_carried = False
         self.designated_picker = None
         self.designated_carrier = None
