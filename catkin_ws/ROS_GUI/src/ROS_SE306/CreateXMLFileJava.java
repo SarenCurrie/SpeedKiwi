@@ -91,8 +91,7 @@ public class CreateXMLFileJava {
 	
 	public static void setDirectory() {
 		String cwd = System.getProperty("user.dir");
-		String upperFolder = cwd.substring(0, cwd.lastIndexOf("/"));
-		xmlFilePath = upperFolder + "/src/speedkiwi_core/world/Generated_World/WorldVariables.xml";
+		xmlFilePath = cwd + "/src/speedkiwi_core/world/Generated_World/WorldVariables.xml";
 	}
 	
 }
