@@ -76,7 +76,7 @@ class Bin(Robot):
                 self.bin_latch.publish(self.empty_response_msg)
                 self.should_face = None
         if self.is_publishing:  # This boolean is initally True
-            rospy.loginfo("BIN: " + self.robot_id + "at " + str(self.position["x"]) + ", " + str(self.position["y"]))
+            #rospy.loginfo("BIN: " + self.robot_id + "at " + str(self.position["x"]) + ", " + str(self.position["y"]))
             # Publish message bin's details to let pickers know that it can be picked up.
             bin_pub = rospy.Publisher('bin_status_topic', bin_status, queue_size=1)
 
@@ -95,7 +95,7 @@ class Bin(Robot):
 
             msg.x = self.position["x"]
             msg.y = self.position["y"]
-            rospy.loginfo(msg)
+            #rospy.loginfo(msg)
             bin_pub.publish(msg)
 
     def latch(self, robot):
@@ -104,7 +104,7 @@ class Bin(Robot):
         self.master = robot
         robot.stop()
         self.should_face = self.position['theta']
-        rospy.loginfo('SHOULD FACE' + str(self.should_face))
+        rospy.loginfo('Bin ' + str(self.robot_id) + ': robot should face ' + str(self.should_face))
 
     def unlatch(self):
         self.is_carried = False

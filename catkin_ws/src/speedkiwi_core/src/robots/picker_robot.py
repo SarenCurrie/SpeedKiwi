@@ -55,13 +55,12 @@ class PickerRobot(Robot):
                     if current_bin.designated_picker == None:
                         self.has_bin = True
                         self.add_action(NavigateAction(self.current_bin_x, self.current_bin_y))
-                        rospy.loginfo("P Robot: " + self.robot_id + "    " + "Bin closest: " + data.bin_id)
+                        #rospy.loginfo("P Robot: " + self.robot_id + "    " + "Bin closest: " + data.bin_id)
                         msg = empty_response()
                         msg.robot_id = self.robot_id
                         msg.bin_id = data.bin_id
-                        rospy.loginfo(self.robot_id + msg.robot_id + msg.bin_id + data.bin_id)
+                        #rospy.loginfo(self.robot_id + msg.robot_id + msg.bin_id + data.bin_id)
                         empty_response_pub.publish(msg)
-                        rospy.loginfo("??????????????????////???????????????????")
 
         def initiate_picking(data):
             if data.robot_id == self.robot_id:
