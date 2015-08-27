@@ -62,7 +62,6 @@ class Bin(Robot):
 
         # Suscribe to topic to recieve response from pickers.
         rospy.Subscriber("empty_response_topic", empty_response, id_response)
-        rospy.Subscriber("full_response_topic", full_response, id_response)
         rospy.Subscriber("statuses", robot_status, mimic_now)
         
 
