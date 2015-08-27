@@ -14,13 +14,13 @@ class TestCarrier(unittest.TestCase):
 
     def setUp(self):
         rospy.init_node('test_picker')
-        self.picker = CarrierRobot('robot_0', 2, 0.9, -20, 43, 0)
+        self.carrier = CarrierRobot('robot_0', 2, 0.9, -20, 43, 0)
 
-    def test_init(self):
-        """Checks if subscribed information has been received."""
-        self.assertIsNot(self.picker.odometry, None)
-        self.assertIsNot(self.picker.leftLaser, None)
-        self.assertIsNot(self.picker.rightLaser, None)
+    def test_execute_callback_speed(self):
+        """Checks carrier sets speed to top speed in execute_callback"""
+        self.carrier.current_speed = 0
+        self.carrier.execute_callback()
+        self.assertEqual(self.carrier.current_speed, self.carrier.top_speed)
 
 if __name__ == '__main__':
     import rostest

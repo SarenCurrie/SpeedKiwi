@@ -22,6 +22,13 @@ class TestAnimal(unittest.TestCase):
         self.assertEqual(animal.counter, 0)
         self.assertFalse(animal.retreat, False)
 
+    def test_dog_stops_retreating(self):
+        """Check the dog stops retreating when it reaches the kennel"""
+        animal = self.animal
+        animal.retreat = True
+        animal.execute_callback()
+        self.assertFalse(animal.retreat)
+
 if __name__ == '__main__':
     import rostest
     rostest.rosrun(PKG, 'test_animal', TestAnimal, sys.argv)
