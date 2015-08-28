@@ -14,11 +14,9 @@ catkin_make
 
 ## Running
 ```
-./run.sh
-# Then type: 
-# D to run the (D)efault world
-# C to run the (C)onfigured world (https://github.com/SarenCurrie/SpeedKiwi/wiki/Configured-World) 
-# T to run (T)ests.
+# Make sure you're in the catkin_ws
+java -jar SpeedKiwi.jar
+# Then select Default/Configured/Test World from the GUI
 ```
 
 ## Controlling a person
@@ -33,9 +31,10 @@ With the project running open http://127.0.0.1:1337 in your browser
 
 ## Trouble Shooting
 ```
-Is ./run.sh not running?
+Is SpeedKiwi.jar not running?
 
 Make sure that:
-1. "./run.sh" is executable
-2. "src/speedkiwi_core/world/Generated_World/WorldConfiguration.py" is executable
+1. "SpeedKiwi.jar" is executable
+2. "./run.sh" is executable
+3. "src/speedkiwi_core/world/Generated_World/WorldConfiguration.py" is executable
 ```
